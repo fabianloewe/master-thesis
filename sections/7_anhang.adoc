@@ -1,0 +1,21 @@
+[appendix]
+== Tabellen
+
+[format=csv,separator=;,options="header,breakable",caption="Umfängliche Malware-Daten"]
+|===
+include::../notebooks/data/malware-full-data.csv[]
+|===
+
+[%always]
+<<<
+
+[appendix]
+== Abbildungen
+
+[%always]
+<<<
+
+[appendix]
+== Quellcode
+
+

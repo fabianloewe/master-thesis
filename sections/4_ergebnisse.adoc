@@ -1,0 +1,10 @@
+== Ergebnisse
+
+=== Malware-Vorkommnisse im Zusammenhang mit Steganografie
+
+
+=== Übersicht von Attributen steganografischer Bilddaten
+
+=== Prorgamm zum Vergleich zweier Bilder
+
+=== Prototyp zur Attributierung steganografischer Bilddaten

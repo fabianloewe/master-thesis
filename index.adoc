@@ -1,0 +1,109 @@
+:doctype: book
+:imagesdir: assets/images
+//:stylesheet: paper.css
+// Disable generating an update label at the bottom of the doc.
+:last-update-label!:
+// Enable rendering math equations
+:stem:
+// Generate a table of contents at the toc macro
+// Also disabling section numbers for now, as we only start numbering after the toc. See the macros there
+:toc: macro
+:toclevels: 3
+:sectanchors:
+:sectlinks:
+// Disable the title page
+// We will build the title page manually for maximum flexibility
+:notitle:
+:title-page: false
+// Refer to things like "Figure 1" instead of by their name
+:xrefstyle: short
+// Prefetch and inline diagrams with kroki but not in vscode
+ifndef::env-vscode[]
+:kroki-fetch-diagram: true
+:kroki-default-options: inline
+endif::env-vscode[]
+:bibtex-file: library.bib
+:bibtex-order: appearance
+:bibtex-style: ieee
+:bibtex-locale: de-DE
+:bibtex-throw: true
+:stem: asciimath
+:appendix-caption: Anhang
+
+image::logo.svg[role=logo]
+
+[.university.text-center]
+Technische Hochschule Brandenburg
+
+[.faculty.text-center]
+Faculty of Computer Science
+
+[discrete#main-title]
+= Fingerprinting-Merkmale für Bilddaten unter Einfluss von Information Hiding
+
+[.description.text-center]
+Submitted in partial fulfillment of the requirements for the degree of +
+*Master of Science (M.Sc.)*
+
+[.presented-by.text-center]
+by +
+*Fabian Loewe* +
+[small]+Matrikelnummer: 20202415+ +
+
+
+[.other-people]
+First Examiner:: Prof. Dr. Claus Vielhauer
+Second Examiner:: Benedict Michaelis, M.Sc.
+
+[%always]
+<<<
+
+include::sections/0_preface.adoc[]
+
+[%always]
+<<<
+
+toc::[]
+
+[%always]
+<<<
+:sectnums:
+
+include::sections/1_einleitung.adoc[]
+
+[%always]
+<<<
+
+include::sections/2_theoretische-grundlagen.adoc[]
+
+[%always]
+<<<
+
+include::sections/3_methodik.adoc[]
+
+[%always]
+<<<
+
+include::sections/4_ergebnisse.adoc[]
+
+[%always]
+<<<
+
+include::sections/5_zusammenfassung.adoc[]
+
+[%always]
+<<<
+
+include::sections/6_ausblick.adoc[]
+
+[bibliography]
+== Bibliografie
+
+bibliography::[]
+
+[%always]
+<<<
+
+include::sections/7_anhang.adoc[]
+
+[%always]

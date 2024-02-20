@@ -1,0 +1,9 @@
+== Methodik
+
+=== Literaturrecherche zu Malware-Vorkommnissen im Zusammenhang mit Steganografie
+
+=== Literaturrecherche zur Attributierung steganografischer Bilddaten
+
+=== Implementierung eines Programms zum Vergleich zweier Bilder
+
+=== Implementierung eines Prototypen zur Attributierung steganografischer Bilddaten

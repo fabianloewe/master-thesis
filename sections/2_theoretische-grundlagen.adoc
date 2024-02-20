@@ -1,0 +1,9 @@
+== Theoretische Grundlagen
+
+=== Information Hiding
+
+==== Steganografie
+
+==== Watermarking
+
+=== Attributierung
