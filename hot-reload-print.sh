@@ -1,3 +1,4 @@
+#!/bin/sh
 # Based on: https://github.com/kharann/academic-asciidoc-template/blob/main/hot_reload_print.sh
 
 control_c() {

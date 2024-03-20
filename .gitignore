@@ -67,3 +67,4 @@ build-iPhoneSimulator/
 *.pyc
 venv/
 __pycache__/
+/datasets/

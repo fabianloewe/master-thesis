@@ -1,10 +1,285 @@
 == Ergebnisse
 
+Die folgenden Ergebnisse sind jeweils zu einem Abschnitt in <<_methodik,Methodik>> zugeordnet. 
+
+[#ergebnisse_malware]
 === Malware-Vorkommnisse im Zusammenhang mit Steganografie
 
+In der folgenden Tabelle sind die ersten fünf Einträge der zuvor gesammelten Malware-Vorkommnisse zu sehen.
 
-=== Übersicht von Attributen steganografischer Bilddaten
+.Auszug aus Malware-Daten
+[%header%breakable,format=csv,separator=;]
+|===
+include::../assets/tables/malware-samples.csv[]
+|===
 
-=== Prorgamm zum Vergleich zweier Bilder
+****
+Der Ausschnitt aus der vollständigen Tabellen (<<tabellen_malware,siehe Anhang>>) wurden mit den folgenden Schritten erstellt:
 
-=== Prototyp zur Attributierung steganografischer Bilddaten
+.Erstellung des Tabellenauszugs
+. Gesamttabelle nach Werten in der Spalte `Created` absteigend sortieren
+. Zeilen, deren `Name` dem regülären Ausdruck `[\"{}@]` entsprichen, entfernen
+. Spalte `Page Content` entfernen
+. Ersten 5 Ergebnisse auswählen
+****
+
+Der Auszug zeigt fünf Malware-Vorkommnisse, die erstmals im Zeitraum von Juni 2021 bis Januar 2022 registriert wurden.
+Die Malware _Zox_ und _Raindrop_ erfuhren Aktualisierungen im März 2023 und waren zumindest bis zu diesem Zeitpunkt noch aktiv. Jede der gezeigten Malwares wurde für die Ausführung auf dem Betriebssystem Windows entwickelt. Drei Malwares nutzen Bitmap-Bilder, wobei davon eines auch auf JPEG-Bilder zurückgreift, während nur _Zox_ PNG-Bilder verwendet.
+Der gezeigte Auszug ist dabei jedoch voll representativ, wie die nächsten Auswertungen zeigen.
+
+.Anzahl der Malwares pro Stegangraphie-Art
+|===
+|Steganographie-Art|Anzahl der Malwares
+
+| LSB
+| 4
+
+| XOR
+| 2
+
+| End of File
+| 2
+
+| Unknown
+| 29
+|===
+.**TODO**: 
+* Mit aktuellen Daten füllen! 
+* Mit Vorkommen pro Jahr angeben, um Shift zu LSB zu zeigen
+
+.Anzahl der Malwares pro Plattform
+|===
+|Plattform|Anzahl der Malwares
+
+| Windows
+| 27
+
+| Android
+| 1
+
+| macOS
+| 1
+
+| Linux
+| 2
+
+| Unbekannt
+| 16
+|===
+.**TODO**: 
+Mit aktuellen Daten füllen! 
+
+.Anzahl der Malwares pro Cover-Typ
+|===
+|Cover-Typ|Anzahl der Malwares
+
+|JPG
+|5
+
+|PNG
+|10
+
+|BMP
+|4
+
+|GIF
+|0
+
+|TIFF
+|0
+
+|PDF
+|2
+
+|Unbekannt
+|24
+|===
+.**TODO**: 
+Mit aktuellen Daten füllen! 
+
+[#ergebnisse_softwares]
+=== Steganografie- und Wasserzeichen-Software
+
+Die anschließenden Unterabschnitte listen die in der Recherche gefundenen Softwares auf und
+vergleicht diese nach ihren Funktionen in einer Gesamtübersichtstabelle miteinander.
+
+[#ergebnisse_softwares_stego]
+==== Übersicht zu Steganografie-Software
+
+In den folgenden Tabellen werden die Steganografie-Programme vorgestellt.
+Die erste Tabelle zeigt die Tools, die auf Desktop-Plattformen wie Windows, macOS und Linux laufen,
+während die zweite die Apps auf den mobilen Plattformen Android und iOS präsentiert.
+Beide Tabellen folgen dem gleichen Schema. Zunächst wird die Software,
+dann ihre untertützten Plattformen, ihrer Steganografie-Domäne (siehe Theorie), ihre unterstützten Steganografie-Algorithmen und 
+schließlich zugehörige Referenzen benannt.
+
+.Desktop-Tools
+. jsteg cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
+. outguess cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
+. steghide cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
+. stegify
+. f5 cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
+. stegpy cite:[noauthor_dominicbreukerstego-toolkit_nodate]
+. lsbsteg
+. stegolsb
+
+.Desktop-Anwendungen
+|===
+|Name|Plattformen|Domäne|Algorithmen|Referenzen
+
+|jsteg
+|Windows, macOS, Linux
+|Raum
+|LSB
+|cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
+
+|steghide
+|Windows, macOS, Linux
+|Raum
+|LSB
+|cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
+
+|stegpy
+|Windows, macOS, Linux
+|Raum
+|LSB
+|cite:[noauthor_dominicbreukerstego-toolkit_nodate]
+
+|outguess
+|Windows, macOS, Linux
+|Frequenz
+|Outguess
+|cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
+
+|f5
+|Windows, macOS, Linux
+|Frequenz
+|F5
+|cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
+
+|===
+
+.Mobile-Apps
+. PixelKnot
+. Passlok
+. MobiStego
+. PocketStego
+. Steganography-Meznik
+. Pictograph
+
+.Mobile Anwendungen
+|===
+|Name|Plattformen|Domäne|Algorithmen|Referenzen
+
+|PixelKnot
+|Android
+|Frequenz
+|F5
+|cite:[newman_stegoappdb_2019]
+
+|Passlok Privacy
+|Android
+|Frequenz
+|
+|cite:[newman_stegoappdb_2019]
+
+|MobiStego
+|Android
+|Raum
+|LSB
+|cite:[newman_stegoappdb_2019]
+
+|Steganography-Meznik
+|Android
+|Raum
+|LSB
+|cite:[newman_stegoappdb_2019]
+
+|Pictograph
+|iOS
+|Raum
+|LSB
+|cite:[newman_stegoappdb_2019]
+
+|===
+
+[#ergebnisse_softwares_wz]
+==== Übersicht zu Wasserzeichen-Software
+
+Der aktuelle Stand der Forschung zeigt, dass insbesondere die Verwendung von neuronalen Netzen zur Einbettung von Wasserzeichen in Bildern den aktuell höchsten 
+Schutz vor Angriffen in diesem Fachbereich bieten. Da unsichtbare Wasserzeichen im Gegensatz zu Steganografie-Tools oder auch -Malware einen Anwendungsbereich im Umfeld von Medienkonzernen finden und weniger von Endbenutzern verwendet werden, lassen sich vor allem komplexe wissenschaftlich belegte Implementierungen finden. 
+
+. https://github.com/Akshat-14/DWT-DCT-SVD[DwtDcdSvd] cite:[navas_dwt-dct-svd_2008]
+. https://github.com/tancik/StegaStamp[StegaStamp] cite:[tancik_stegastamp_2020]
+. https://github.com/facebookresearch/ssl_watermarking[SSL Watermarking] cite:[fernandez_watermarking_2022]
+. https://github.com/facebookresearch/stable_signature[Stable Signature] cite:[fernandez_stable_2023]
+. https://github.com/YuxinWenRick/tree-ring-watermark[Tree-Ring Watermarks] cite:[wen_tree-ring_2023]
+. https://github.com/ShieldMnt/invisible-watermark[invisible-watermark]
+. https://github.com/rosuH/EasyWatermark[Easy Watermark]
+
+|===
+|Name|Plattformen|Domäne|Algorithmen|Referenzen
+
+|DwtDcdSvd
+|Windows, macOS, Linux
+|Frequenz
+|
+|cite:[navas_dwt-dct-svd_2008]
+
+|StegaStamp
+|Windows, macOS, Linux
+|Frequenz
+|Neuronales Netzwerk
+|cite:[tancik_stegastamp_2020]
+
+|SSL Watermarking
+|Windows, macOS, Linux
+|
+|Neuronales Netzwerk
+|cite:[fernandez_watermarking_2022]
+
+|Stable Signature
+|Windows, macOS, Linux
+|
+|Neuronales Netzwerk
+|cite:[fernandez_stable_2023]
+
+|Tree-Ring Watermarks
+|Windows, macOS, Linux
+|
+|Neuronales Netzwerk
+|cite:[wen_tree-ring_2023]
+
+|Tree-Ring Watermarks
+|Android
+|
+|Neuronales Netzwerk
+|https://github.com/rosuH/EasyWatermark[Easy Watermark]
+
+|===
+
+==== Gesamtübersicht
+
+.TODO:
+* Diagramm der Gesamtübersicht mit:
+** Domäne
+** Kategorie (Desktop, App, WZ)
+
+[#ergebnisse_bilddatensatz]
+=== Verwendeter Bild-Datensatz
+
+Der ausgewählte Datensatz beinhaltet Cover-Stego-Bildpaare der zuvor beschriebenen mobilen Stego-Apps.
+Diese setzen hauptsächlich Steganografie in der Raumdomäne ein, wobei PixelKnot in der Frequenz-Domäne arbeitet.
+Um den Einsatz von Information Hiding durch Malware besser widerzuspiegeln, wurde aus den Cover-Bilder des Datensatzes 
+zudem Stego-Bilder mit den Verfahren der Strukur-Einbettung erstellt.
+
+Die Einstellung des Suchformulars der StegoAppDB wurde wie folgt vorgenommen:
+
+.Einstellung StegoAppDB
+image::stegoappdb-verwendet.png[Einstellung StegoAppDB]
+
+Es wurden lediglich immer das erste Gerät pro Gerätetyp ausgewählt und die manuelle Belichtungsdauer nicht selektiert, da sonst die Größe des Datensatzes um nahezu das Zehnfache angestiegen wäre. (siehe <<appendix_stegoappdb-nicht-verwendet>>) 
+
+=== Prototyp zur Merkmalsanalyse steganografischer Bilddaten
+
+=== Übersicht von Merkmalen steganografischer Bilddaten

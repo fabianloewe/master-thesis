@@ -432,6 +432,121 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge, pre.rouge .w {
+  color: #24292f;
+  background-color: #f6f8fa;
+}
+pre.rouge .k, pre.rouge .kd, pre.rouge .kn, pre.rouge .kp, pre.rouge .kr, pre.rouge .kt, pre.rouge .kv {
+  color: #cf222e;
+}
+pre.rouge .gr {
+  color: #f6f8fa;
+}
+pre.rouge .gd {
+  color: #82071e;
+  background-color: #ffebe9;
+}
+pre.rouge .nb {
+  color: #953800;
+}
+pre.rouge .nc {
+  color: #953800;
+}
+pre.rouge .no {
+  color: #953800;
+}
+pre.rouge .nn {
+  color: #953800;
+}
+pre.rouge .sr {
+  color: #116329;
+}
+pre.rouge .na {
+  color: #116329;
+}
+pre.rouge .nt {
+  color: #116329;
+}
+pre.rouge .gi {
+  color: #116329;
+  background-color: #dafbe1;
+}
+pre.rouge .kc {
+  color: #0550ae;
+}
+pre.rouge .l, pre.rouge .ld, pre.rouge .m, pre.rouge .mb, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mx {
+  color: #0550ae;
+}
+pre.rouge .sb {
+  color: #0550ae;
+}
+pre.rouge .bp {
+  color: #0550ae;
+}
+pre.rouge .ne {
+  color: #0550ae;
+}
+pre.rouge .nl {
+  color: #0550ae;
+}
+pre.rouge .py {
+  color: #0550ae;
+}
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
+  color: #0550ae;
+}
+pre.rouge .o, pre.rouge .ow {
+  color: #0550ae;
+}
+pre.rouge .gh {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .s, pre.rouge .sa, pre.rouge .sc, pre.rouge .dl, pre.rouge .sd, pre.rouge .s2, pre.rouge .se, pre.rouge .sh, pre.rouge .sx, pre.rouge .s1, pre.rouge .ss {
+  color: #0a3069;
+}
+pre.rouge .nd {
+  color: #8250df;
+}
+pre.rouge .nf, pre.rouge .fm {
+  color: #8250df;
+}
+pre.rouge .err {
+  color: #f6f8fa;
+  background-color: #82071e;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cm, pre.rouge .cp, pre.rouge .cpf, pre.rouge .c1, pre.rouge .cs {
+  color: #6e7781;
+}
+pre.rouge .gl {
+  color: #6e7781;
+}
+pre.rouge .gt {
+  color: #6e7781;
+}
+pre.rouge .ni {
+  color: #24292f;
+}
+pre.rouge .si {
+  color: #24292f;
+}
+pre.rouge .ge {
+  color: #24292f;
+  font-style: italic;
+}
+pre.rouge .gs {
+  color: #24292f;
+  font-weight: bold;
+}
+</style>
 </head>
 <body class="book">
 <div id="header">
@@ -479,11 +594,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_abstract"><a class="anchor" href="#_abstract"></a><a class="link" href="#_abstract">Abstract</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In dieser Masterarbeit wird zunächst ein Überblick zum Information Hiding mit Hilfe von Bilddateien verschafft.
+<p>In dieser Masterarbeit wird zunächst ein Überblick zum Information Hiding mithilfe von Bilddateien verschafft.
 Der Fokus wird auf die Verwendung der beschriebenen Techniken im öffentlichen Raum durch Einbettungswerkzeuge und Malware gesetzt.
-Eine Untersuchung aktueller Malware-Vorkommnisse zeigt die Relevanz der Thematik und verschafft einen kategorisierte Übersicht für weitere Untersuchungen.
+Eine Untersuchung aktueller Malware-Vorkommnisse zeigt die Relevanz der Thematik und verschafft eine kategorisierte Übersicht für weitere Untersuchungen.
 Anhand der Funde werden Einbettungswerkzeug, die algorithmisch verwandte Verfahren zu den untersuchten Malwares anwenden, und Forschungsdaten mit Cover- und Stego-Bild-Paaren ausgewählt.
-Die Bildpaaren werden daraufhin mit einem Werkzeug verglichen und aus den Ergebnissen steganografische Merkmale extrahiert, welche Hinweise auf die Anwendung bestimmter Algorithmen,
+Die Bildpaare werden daraufhin mit einem Werkzeug verglichen und aus den Ergebnissen steganografische Merkmale extrahiert, welche Hinweise auf die Anwendung bestimmter Algorithmen,
 Bildverarbeitungsbibliotheken und weitere Informationen liefern.
 Schließlich werden im Ausblick weitere Forschungsrichtungen im Bereich des Information Hiding vorgestellt.</p>
 </div>
@@ -500,6 +615,59 @@ Schließlich werden im Ausblick weitere Forschungsrichtungen im Bereich des Info
 </div>
 <div class="paragraph signature-required">
 <p>Fabian Loewe</p>
+</div>
+<div style="page-break-after: always;"></div>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_abstract">Abstract</a></li>
+<li><a href="#_einleitung">1. Einleitung</a>
+<ul class="sectlevel2">
+<li><a href="#_motivation">1.1. Motivation</a></li>
+<li><a href="#_zielsetzung">1.2. Zielsetzung</a></li>
+<li><a href="#_forschungsfragen_und_hypthoesen">1.3. Forschungsfragen und Hypthoesen</a></li>
+<li><a href="#_aufbau_der_arbeit">1.4. Aufbau der Arbeit</a></li>
+</ul>
+</li>
+<li><a href="#_theoretische_grundlagen">2. Theoretische Grundlagen</a>
+<ul class="sectlevel2">
+<li><a href="#_information_hiding">2.1. Information Hiding</a>
+<ul class="sectlevel3">
+<li><a href="#_steganografie">2.1.1. Steganografie</a></li>
+<li><a href="#_watermarking">2.1.2. Watermarking</a></li>
+</ul>
+</li>
+<li><a href="#_attributierung">2.2. Attributierung</a></li>
+</ul>
+</li>
+<li><a href="#_methodik">3. Methodik</a>
+<ul class="sectlevel2">
+<li><a href="#literaturrecherche_malware">3.1. Literaturrecherche zu Malware-Vorkommnissen im Zusammenhang mit Bild-Steganografie</a>
+<ul class="sectlevel3">
+<li><a href="#_manuelle_recherche">3.1.1. Manuelle Recherche</a></li>
+<li><a href="#_automatisierte_sammlung_aus_datenbanken">3.1.2. Automatisierte Sammlung aus Datenbanken</a></li>
+</ul>
+</li>
+<li><a href="#literaturrecherche_tools">3.2. Literaturrecherche zu Steganografie- und Wasserzeichen-Tools</a></li>
+<li><a href="#literaturrecherche_daten">3.3. Literaturrecherche zu Forschungsdaten für Bild-Steganografie</a></li>
+<li><a href="#implementierung_attribut">3.4. Implementierung eines Prototyps zur Attributierung steganografischer Bilddaten</a></li>
+</ul>
+</li>
+<li><a href="#_ergebnisse">4. Ergebnisse</a>
+<ul class="sectlevel2">
+<li><a href="#ergebnisse_malware">4.1. Malware-Vorkommnisse im Zusammenhang mit Steganografie</a></li>
+<li><a href="#_übersicht_von_attributen_steganografischer_bilddaten">4.2. Übersicht von Attributen steganografischer Bilddaten</a></li>
+<li><a href="#_prorgamm_zum_vergleich_zweier_bilder">4.3. Prorgamm zum Vergleich zweier Bilder</a></li>
+<li><a href="#_prototyp_zur_attributierung_steganografischer_bilddaten">4.4. Prototyp zur Attributierung steganografischer Bilddaten</a></li>
+</ul>
+</li>
+<li><a href="#_zusammenfassung">5. Zusammenfassung</a></li>
+<li><a href="#_ausblick">6. Ausblick</a></li>
+<li><a href="#_bibliografie">Bibliografie</a></li>
+<li><a href="#_tabellen">Anhang A: Tabellen</a></li>
+<li><a href="#_abbildungen">Anhang B: Abbildungen</a></li>
+<li><a href="#_quellcode">Anhang C: Quellcode</a></li>
+</ul>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -549,12 +717,21 @@ um beispielsweise Robustheit des verwendeten Algorithmus zu testen und sicherzus
 <div class="paragraph">
 <p>Die Zielstellung dieser Arbeit konzentriert sich auf die folgenden Punkte:</p>
 </div>
-<div class="paragraph">
-<p>*. Erstellung einer umfänglichen Liste von Malware-Vorkommnissen, in denen Steganografie mit Bildern als Trägermedium verwendet wurde
-*. Erstellung einer Auswahlliste an Steganografie-Tools, die vergelichbar in ihrer Funktionalität zu den gefundenen Malwares sind
-*. Erstellung einer Auswahlliste an Wasserzeichen-Tools
-*. Recherche und/oder Aufbau von Forschungsdaten aus Cover- und Stego-Bilder-Paaren
-*. Entwicklung eines Prototyps eines Werkzeugs zur Identifikation von Merkmalen für den Einsatz bestimmter Steganografieverfahren, Bildverarbeitungsbibliotheken und weitere</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Erstellung einer umfänglichen Liste von Malware-Vorkommnissen, in denen Steganografie mit Bildern als Trägermedium verwendet wurde</p>
+</li>
+<li>
+<p>Erstellung einer Auswahlliste an Steganografie-Tools, die vergleichbar in ihrer Funktionalität zu den gefundenen Malwares sind, sowie einer Auswahlliste an Wasserzeichen-Tools</p>
+</li>
+<li>
+<p>Recherche und/oder Aufbau von Forschungsdaten aus Cover- und Stego-Bilder-Paaren</p>
+</li>
+<li>
+<p>Entwicklung eines Prototyps eines Werkzeugs zur Identifikation von Merkmalen für den Einsatz bestimmter Steganografieverfahren, Bildverarbeitungsbibliotheken und weitere</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
 <p>Durch das Erreichen der genannten Ziele soll ein erster Ansatz zur Identifikation von Steganografie-Tools basierend auf deren verwendeter Bilder erarbeitet werden,
@@ -565,7 +742,7 @@ welcher sowohl für den Einsatz mit Malware als mit Wasserzeichen weiterausgebau
 werden erstere nur mittels Literaturrecherche, während letztere auch praktisch durch Tests ausgewertet werden.</p>
 </div>
 <div class="paragraph">
-<p>Die beschriebene Ziele werden fortan im Rahmen dieser Arbeit als <strong>Z.1</strong> bis <strong>Z.5</strong> referenziert.</p>
+<p>Die beschriebene Ziele werden fortan im Rahmen dieser Arbeit als <strong>Z.1</strong> bis <strong>Z.4</strong> referenziert.</p>
 </div>
 </div>
 <div class="sect2">
@@ -596,11 +773,11 @@ werden erstere nur mittels Literaturrecherche, während letztere auch praktisch 
 <div class="sect2">
 <h3 id="_aufbau_der_arbeit"><a class="anchor" href="#_aufbau_der_arbeit"></a><a class="link" href="#_aufbau_der_arbeit">1.4. Aufbau der Arbeit</a></h3>
 <div class="paragraph">
-<p>Im folgenden Kapitel <a href="#_theoretische_grundlagen">Chapter 2</a> werden die theoretischen Grundlagen kurz dargelegt, ohne tiefergehend auf die mathematische Basis einzugehen,
+<p>Im folgenden Kapitel <a href="#_theoretische_grundlagen">Theoretische Grundlagen</a> werden die theoretischen Grundlagen kurz dargelegt, ohne tiefergehend auf die mathematische Basis einzugehen,
 da im Rahmen dieser Arbeit keine eigenen steganografischen Algorithmen entwickelt werden.
-Im Kapitel <a href="#_methodik">Chapter 3</a> werden das Vorgehen zu den Literaturrecherchen und der Entwicklung von Programmen zur Erreichung von <strong>Z.5</strong> dokumentiert.
-Das Kapitel <a href="#_ergebnisse">Chapter 4</a> stellt die gesammelten Ergebnisse, aufbereitet in Grafiken und als Code-Listings mit entsprechenden Interpretation, vor.
-Die Kaptiel <a href="#_zusammenfassung">Chapter 5</a> und <a href="#_ausblick">Chapter 6</a> geben schließlich einen kurzen Rückblick der Arbeit wider und zeigen weitere Ausbaumöglichkeiten des entwickelten Programmcodes
+Im Kapitel <a href="#_methodik">Methodik</a> werden das Vorgehen zu den Literaturrecherchen und der Entwicklung von Programmen zur Erreichung von <strong>Z.5</strong> dokumentiert.
+Das Kapitel <a href="#_ergebnisse">Ergebnisse</a> stellt die gesammelten Ergebnisse, aufbereitet in Grafiken und als Code-Listings mit entsprechenden Interpretation, vor.
+Die Kaptiel <a href="#_zusammenfassung">Zusammenfassung</a> und <a href="#_ausblick">Ausblick</a> geben schließlich einen kurzen Rückblick der Arbeit wider und zeigen weitere Ausbaumöglichkeiten des entwickelten Programmcodes
 sowie Richtungen zur Forschung auf.</p>
 </div>
 <div style="page-break-after: always;"></div>
@@ -630,20 +807,989 @@ sowie Richtungen zur Forschung auf.</p>
 <div class="sect1">
 <h2 id="_methodik"><a class="anchor" href="#_methodik"></a><a class="link" href="#_methodik">3. Methodik</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Die folgenden Methoden wurden zum Erreichen der <a href="#_zielsetzung">Zielsetzung</a> durchgeführt:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Literaturrecherche</em>: Um die Ziele <strong>Z.1</strong>, <strong>Z.2</strong> und <strong>Z.3</strong> zu erfüllen, wurde diese Methodik genutzt.
+Hauptsächlich wurden bei den Literaturrecherchen neben wissenschaftlichen Papern besonders auf technische Berichte von
+renomierten Akteuren im Bereich der IT-Sicherheit und speziell der IT-Forensik zurückgegriffen.
+Die Analyse von Online-Datenbanken für Malware erfolgte teilautomatisiert.
+Für die Suche nach geeigneter Software wurde aus den zuvor genannten Quellen weitere Verweise verfolgt sowie Suchen auf bekannten Software-
+Entwicklungsplattformen wie GitHub duruchgeführt.</p>
+</li>
+<li>
+<p><em>Software-Entwicklung</em>: Zur Erfüllung von <strong>Z.4</strong> wurde diese Methodik gewählt, da keine der gefundenen Tools entsprechende Funktionen bietet.
+Die Entwicklung fand nach dem Top-Down-Prinzip mit dem Test-Driven-Prinzip statt. Die Tests wurden direkt auf die Forschungsdaten angewendet und
+lassen sich automatisiert mit diesen ausführen.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Weitere Details folgen in den nächsten Unterabschnitten.</p>
+</div>
 <div class="sect2">
-<h3 id="_literaturrecherche_zu_malware_vorkommnissen_im_zusammenhang_mit_steganografie"><a class="anchor" href="#_literaturrecherche_zu_malware_vorkommnissen_im_zusammenhang_mit_steganografie"></a><a class="link" href="#_literaturrecherche_zu_malware_vorkommnissen_im_zusammenhang_mit_steganografie">3.1. Literaturrecherche zu Malware-Vorkommnissen im Zusammenhang mit Steganografie</a></h3>
+<h3 id="literaturrecherche_malware"><a class="anchor" href="#literaturrecherche_malware"></a><a class="link" href="#literaturrecherche_malware">3.1. Literaturrecherche zu Malware-Vorkommnissen im Zusammenhang mit Bild-Steganografie</a></h3>
+<div class="paragraph">
+<p>Die Recherche erfolgte in zwei Schritten:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Schaffen einer Übersicht zu Malware-Vorkommnissen aus wissenschaftlichen Publikationen und technischen Berichten</p>
+</li>
+<li>
+<p>Automatisierte Sammlung von Malware-Vorkommnissen aus öffentlichen Datenbanken (ohne Malware-Samples zu analysieren)</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_manuelle_recherche"><a class="anchor" href="#_manuelle_recherche"></a><a class="link" href="#_manuelle_recherche">3.1.1. Manuelle Recherche</a></h4>
+<div class="paragraph">
+<p>Die Recherche wurde zunächst über die folgenden Suchmaschinen manuell durchgeführt:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>scibo</em>: Die interne Suchmaschine der Technischen Hochschule Brandenburg, welche den sogenannten EBSCO Discovery Service nutzt</p>
+</li>
+<li>
+<p><em>Springer Link</em>: Eine Suchmaschine des Springer Verlags für wissenschaftliche Publikationen ihres Verlags</p>
+</li>
+<li>
+<p><em>Springer Professional</em>: Weitere Suchmaschine des Springer Verlags für wissenschaftliche Publikationen ihres Verlags</p>
+</li>
+<li>
+<p><em>Google</em>: Die Suchmaschine der gleichnamigen Firma zur Ausweitung der Suche über wissenschaftliche Publikationen hinaus
+Die folgende Darstellung zeigt jeweils die initiale Suchanfrage. Weitere Durchläufe wurden zu stäteren Zeitpunkten unternommen,
+wobei keine weiteren Quellen als relevant für das Ziel <strong>Z.1</strong> erhoben wurden.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Die folgenden Suchbegriffe wurden verwendet: <em>"Malware steganography"</em>, <em>"stego malware report"</em>, <em>"steganography malware analysis report 2023"</em>,
+<em>"stego malware"</em>, <em>"steganography malware report"</em>, <em>"steganography malware analysis"</em>, <em>"steganography malware survey"</em> und <em>"steganography malware database"</em>
+Die Suchanfragen wurde so gewählt, um gezielt nach Berichten zu suchen, die allgemeine Analysen liefern, statt auf einzelne Malware fokussiert zu sein.
+Im wissenschaftlichen Bereich wurden hauptsächlich Artikel zur Analyse von Bild-Steganografie mittels Künstlicher Intelligenz,
+im Bereich von Blockchains oder der Prävention im IT-Sicherheitsmanagement gefunden.</p>
+</div>
+<div class="paragraph">
+<p>Jedoch gerade aus den letzten drei Jahren ließen sich zwei Paper finden, die eine Urhebung oder Sammlung an Malware-Vorkommnissen mit Bild-Steganografie vorstellen.
+Da kaum wissenschaftliche Artikel in den Jahren zuvor zu diesem Thema publiziert wurden, lässt sich ein Trend bei Malware-Autoren und auch Forschung hin zu
+Steganografie-Malware erkennen. In <span class="citation">[<a href="#caviglione_never_2022">6</a>]</span> werden 10 Malware, die Steganografie oder Information Hiding verwenden, vorgestellt.
+Der Artikel verweist zudem auf ein Repository namens <em>steg-in-the-wild</em> von einem der Autoren des Artikels, in dem eine aktualisierte Liste der Malware geführt wird,
+welche im weiteren Verlauf der Recherche genutzt wurde. <span class="citation">[<a href="#l_lucacavsteg---wild_2024">7</a>]</span></p>
+</div>
+<div class="paragraph">
+<p>Des Weiteren wurde in <span class="citation">[<a href="#chaganti_stegomalware_2021">8</a>]</span> 16 Malware benannt, die sich zum Teil mit der Arbeit von Caviglione und Wojciech decken.</p>
+</div>
+<div class="paragraph">
+<p>Im technischen Bericht <span class="citation">[<a href="#cybleinc_stegomalware_2022">9</a>]</span> werden sechs Malware und die konkrete Funktionsweise jener an einem Beispiel beschrieben.
+Darin wie auch in <span class="citation">[<a href="#noauthor_alibaba_2022">10</a>]</span> wird die <em>MITRE Att&amp;ck</em>-Wissenbasis referenziert, in der eine systematische Zuordnung von sogennanten Techniken und Taktiken, die von Malware
+eingesetzt werden, zu Malware-Vorkommnissen durchgefürt wird. So wird unter den Techniken <em>T1001.002: Data Obfuscation: Steganography</em> und <em>T1027.003: Obfuscated Files or Information: Steganography</em>
+der Einsatz von Steganografie bei Malware-Vorkommnissen dokumentiert. <span class="citation">[<a href="#noauthor_mitre_nodate">11</a>]</span></p>
+</div>
+<div class="paragraph">
+<p>Eine weitere Datenbank für Malware-Vorkommnisse führt das Frauenhofer FKIE mit malpedia,
+die eine Suchmaschine zum Finden von Malware nach Suchbegriffen im Namen oder der Beschreibung bietet. <span class="citation">[<a href="#noauthor_malpedia_nodate">12</a>]</span></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_automatisierte_sammlung_aus_datenbanken"><a class="anchor" href="#_automatisierte_sammlung_aus_datenbanken"></a><a class="link" href="#_automatisierte_sammlung_aus_datenbanken">3.1.2. Automatisierte Sammlung aus Datenbanken</a></h4>
+<div class="paragraph">
+<p>Um eine umfängliche Übersicht zu schaffen, wurden daraufhin die Datenbanken von MITRE und Malpedia sowie die Artikelsammlung in steg-in-the-wild ausgewählt.
+Nach der manuellen Recherche sollte eine Übersicht geschaffen werden, die auch weniger beachtete Malware-Vorkommnisse einbezieht,
+um so eine höhere statistische Auswertbarkeit für die Ergebnisseliste zu erzielen.</p>
+</div>
+<div class="paragraph">
+<p>Die Automatisierung wurde mit Hilfe eines Jupyter Notebooks durchgeführt. Dabei handelt es sich um eine interaktive, lokal ausführbare Plattform,
+die es erlaubt, Datenanalysen und -visualisierung mit direktem Feedback mittels Python oder anderen Programmiersprachen durchzuführen.
+Die folgenden Python-Bibliotheken wurden neben der Standard-Bibliothek zusätzlich verwendet:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Selenium</em>: Ermöglicht das automatische Öffnen von und Interagieren mit Webseiten über einen lokalen Webbrowser</p>
+</li>
+<li>
+<p><em>Pandas</em>: Ermöglicht eine verbesserte Datenverarbeitung von tabularischen Daten</p>
+</li>
+<li>
+<p><em>requests</em>: Bietet ein einfaches Interface zum Herunterladen von Daten</p>
+</li>
+<li>
+<p><em>bibtexparser</em>: Ermöglicht das Parsen von BibTex-Dateien</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Außerdem wurde die Erweiterung <code>jupyter-ai</code> für Jupyter genutzt, um generative Text-KI für die initiale Generierung eines sogenannten Web-Scrapers zu nutzen.
+Die Aufgabe des Web-Scrapers ist das Sammeln (oder Schürfen) von Informationen aus Webdaten, vornehmlich HTML-Dateien.</p>
+</div>
+<div class="sect4">
+<h5 id="_mitre_datenbank"><a class="anchor" href="#_mitre_datenbank"></a><a class="link" href="#_mitre_datenbank">MITRE-Datenbank</a></h5>
+<div class="paragraph">
+<p>In Abbildung 1 sind Teile der Software-Tabelle der MITRE-Datenbank zu sehen, deren Links nun gesammelt und nach Steganografie-Malware gefiltert werden soll.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="assets/images/abbildung_1.png" alt="Software-Tabelle der MITRE-Datenbank">
+</div>
+<div class="title">Abbildung 1. Software-Tabelle der MITRE-Datenbank <span class="citation">[<a href="#noauthor_software_nodate">13</a>]</span></div>
+</div>
+<div class="paragraph">
+<p>Im Folgenden wird ein Code-Block dargestellt, in dem ein Web-Scraper automatisiert die zuvor genannte Tabelle nach den relevanten Daten durchforstet.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="python"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+</pre></td><td class="code"><pre><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="n">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="n">selenium.webdriver.chrome.service</span> <span class="kn">import</span> <span class="n">Service</span>
+<span class="kn">from</span> <span class="n">selenium.webdriver.common.by</span> <span class="kn">import</span> <span class="n">By</span>
+<span class="kn">from</span> <span class="n">selenium.webdriver.support.ui</span> <span class="kn">import</span> <span class="n">WebDriverWait</span>
+<span class="kn">from</span> <span class="n">selenium.webdriver.support</span> <span class="kn">import</span> <span class="n">expected_conditions</span> <span class="k">as</span> <span class="n">EC</span>
+
+<span class="c1"># Get the path to chromedriver from environment variable
+</span><span class="n">chrome_driver_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">CHROMEDRIVER_PATH</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># Set up Chrome driver <i class="conum" data-value="1"></i><b>(1)</b>
+</span><span class="n">options</span> <span class="o">=</span> <span class="n">webdriver</span><span class="p">.</span><span class="nc">ChromeOptions</span><span class="p">()</span>
+<span class="n">options</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">--headless</span><span class="sh">'</span><span class="p">)</span>  <span class="c1"># Run Chrome in headless mode
+</span><span class="n">options</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">--disable-extensions</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">options</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">--disable-dev-shm-usage</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">service</span> <span class="o">=</span> <span class="nc">Service</span><span class="p">(</span><span class="n">chrome_driver_path</span><span class="p">)</span>
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="p">.</span><span class="nc">Chrome</span><span class="p">(</span><span class="n">service</span><span class="o">=</span><span class="n">service</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
+
+<span class="n">FOUND_LINKS_FILE</span> <span class="o">=</span> <span class="sh">'</span><span class="s">data/mitre-attack-stego-malware.txt</span><span class="sh">'</span>
+
+
+<span class="k">def</span> <span class="nf">search_mitre_attack</span><span class="p">(</span><span class="n">mitre_attack_url</span><span class="o">=</span><span class="sh">'</span><span class="s">https://attack.mitre.org/software/</span><span class="sh">'</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">driver</span>
+    <span class="c1"># Open the link
+</span>    <span class="n">driver</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">mitre_attack_url</span><span class="p">)</span>
+
+    <span class="c1"># Collect links in the first column of the table <i class="conum" data-value="2"></i><b>(2)</b>
+</span>    <span class="n">links</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="nf">find_elements</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">CSS_SELECTOR</span><span class="p">,</span> <span class="sh">'</span><span class="s">table tr td:nth-child(1) a</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">link_urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">link</span><span class="p">.</span><span class="nf">get_attribute</span><span class="p">(</span><span class="sh">'</span><span class="s">href</span><span class="sh">'</span><span class="p">)</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">]</span>
+
+    <span class="n">driver</span><span class="p">.</span><span class="nf">quit</span><span class="p">()</span>
+
+    <span class="c1"># Iterate over each link
+</span>    <span class="n">found_links</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">link_url</span> <span class="ow">in</span> <span class="n">link_urls</span><span class="p">:</span>
+        <span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="p">.</span><span class="nc">Chrome</span><span class="p">(</span><span class="n">service</span><span class="o">=</span><span class="n">service</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Open the link
+</span>            <span class="n">driver</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">link_url</span><span class="p">)</span>
+
+            <span class="c1"># Wait for the page to fully load <i class="conum" data-value="3"></i><b>(3)</b>
+</span>            <span class="nc">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span> <span class="mi">10</span><span class="p">).</span><span class="nf">until</span><span class="p">(</span>
+                <span class="n">EC</span><span class="p">.</span><span class="nf">presence_of_element_located</span><span class="p">((</span><span class="n">By</span><span class="p">.</span><span class="n">TAG_NAME</span><span class="p">,</span> <span class="sh">'</span><span class="s">body</span><span class="sh">'</span><span class="p">))</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Search for the terms "steganography" in the page <i class="conum" data-value="4"></i><b>(4)</b>
+</span>            <span class="n">page_content</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">page_source</span><span class="p">.</span><span class="nf">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="sh">'</span><span class="s">steganography</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">page_content</span><span class="p">:</span>
+                <span class="n">found_links</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">link_url</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="s">Error occurred while processing link: </span><span class="si">{</span><span class="n">link_url</span><span class="si">}</span><span class="sh">'</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="c1"># Quit the driver
+</span>            <span class="n">driver</span><span class="p">.</span><span class="nf">quit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">found_links</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Initialisierung des Chrome-Webdrivers</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Selektion der Tabelle mit <code>table</code> &#8594; <code>tr</code> (Tabellenzeilen) &#8594; <code>td:nth-child(1)</code> (aus den Tabellendaten jeweils die erste Zelle) &#8594; <code>a</code> (das HTML-Element für Links)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Wartet, bis die Seite geladen wurde</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Sucht im Text der Webseite in Kleinbuchstaben nach <code>steganography</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Die Zeilen 12 bis 17 initialisieren den Chrome-Webdriver, der für die Kommunikation mit dem lokalen Chrome-Browser genutzt wird. Chrome wird <em>headless</em> (ohne Benutzeroberfläche), ohne Erweiterungen und mit der Option, Arbeitsspeicher auf die Festplatte auszulagern, gestartet.</p>
+</div>
+<div class="paragraph">
+<p>Der Block von Zeile 22 bis 56 definiert eine neue Funktion <code>search_mitre_attack(mitre_attack_url)</code>. Darin wird zunächst mittels des Webrivers der Link zur Software-Seite von MITRE Att&amp;ck geöffnet, dann in den beiden Zeilen 28 und 29 die Tabelle mit den allen gelisteten Softwares über einen CSS-Selektor ausgewählt und die gesammelten Links aus den <code>href</code>-HTML-Attributen extrahiert.</p>
+</div>
+<div class="paragraph">
+<p>Es wird über die Links iteriert, gewartet, bis der Hauptteil der Seite im Browser geladen wurde, und der Seiteninhalt nach dem Begriff <em>steganography</em> durchsucht. Konnte der Begriff gefunden werden, wird der Link einer Ergebnisliste hinzugefügt. Der Webdriver wird bei jedem Durchlauf neu geöffnet, da es sonst zu massiven Speicher-Leaks kommt und der Chrome-Prozess bis zu einem Crash Speicher konsumiert.</p>
+</div>
+<div class="paragraph">
+<p>Abbildung 2 zeigt ausschnittsweise, wie Software auf der MITRE-Webseite angezeigt wird. Markiert sind die Datenpunkte,
+die extrahiert werden sollen.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="assets/images/abbildung_2.png" alt="Beispiel einer Software auf der MITRE Webseite">
+</div>
+<div class="title">Abbildung 2. Beispiel einer Software auf der MITRE-Webseite <span class="citation">[<a href="#noauthor_sliver_nodate">14</a>]</span></div>
+</div>
+<div class="paragraph">
+<p>Im nächste Code-Block wird der dazu verwendete Web-Scraper vorgestellt.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="python"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+</pre></td><td class="code"><pre><span class="k">def</span> <span class="nf">scrape_mitre_attack_software</span><span class="p">(</span><span class="n">link</span><span class="p">):</span>
+    <span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="p">.</span><span class="nc">Chrome</span><span class="p">(</span><span class="n">service</span><span class="o">=</span><span class="n">service</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">driver</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+
+    <span class="c1"># Search for name in h1 tag <i class="conum" data-value="1"></i><b>(1)</b>
+</span>    <span class="n">name</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="nf">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">TAG_NAME</span><span class="p">,</span> <span class="sh">'</span><span class="s">h1</span><span class="sh">'</span><span class="p">).</span><span class="n">text</span>
+    <span class="c1"># Search for description in tag with class `description-body` <i class="conum" data-value="2"></i><b>(2)</b>
+</span>    <span class="n">description</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="nf">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">CLASS_NAME</span><span class="p">,</span> <span class="sh">'</span><span class="s">description-body</span><span class="sh">'</span><span class="p">).</span><span class="n">text</span>
+
+    <span class="c1"># Search for card body <i class="conum" data-value="3"></i><b>(3)</b>
+</span>    <span class="n">card_body</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="nf">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">CLASS_NAME</span><span class="p">,</span> <span class="sh">'</span><span class="s">card-body</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">card_data_divs</span> <span class="o">=</span> <span class="n">card_body</span><span class="p">.</span><span class="nf">find_elements</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">CLASS_NAME</span><span class="p">,</span> <span class="sh">'</span><span class="s">card-data</span><span class="sh">'</span><span class="p">)</span>
+
+    <span class="n">card_data_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="sh">'</span><span class="s">Name</span><span class="sh">'</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+        <span class="sh">'</span><span class="s">Description</span><span class="sh">'</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="c1"># Iterate card elements and extract key-value pairs <i class="conum" data-value="4"></i><b>(4)</b>
+</span>    <span class="k">for</span> <span class="n">card_data</span> <span class="ow">in</span> <span class="n">card_data_divs</span><span class="p">:</span>
+        <span class="n">col_md_11_div</span> <span class="o">=</span> <span class="n">card_data</span><span class="p">.</span><span class="nf">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">CLASS_NAME</span><span class="p">,</span> <span class="sh">'</span><span class="s">col-md-11</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">col_md_11_div</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">:</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">card_data_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="c1"># Locate 'Techniques Used' table <i class="conum" data-value="5"></i><b>(5)</b>
+</span>    <span class="n">techniques_table</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="nf">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">CLASS_NAME</span><span class="p">,</span> <span class="sh">'</span><span class="s">techniques-used</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">techniques_rows</span> <span class="o">=</span> <span class="n">techniques_table</span><span class="p">.</span><span class="nf">find_elements</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">TAG_NAME</span><span class="p">,</span> <span class="sh">'</span><span class="s">tr</span><span class="sh">'</span><span class="p">)</span>
+
+    <span class="c1"># Collect techniques table header <i class="conum" data-value="6"></i><b>(6)</b>
+</span>    <span class="n">techniques_headers</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">header</span><span class="p">.</span><span class="n">text</span>
+        <span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="n">techniques_rows</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">find_elements</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">TAG_NAME</span><span class="p">,</span> <span class="sh">'</span><span class="s">th</span><span class="sh">'</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">techniques</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">techniques_rows</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span> <span class="c1">#<i class="conum" data-value="7"></i><b>(7)</b>
+</span>        <span class="n">row_classes</span> <span class="o">=</span> <span class="n">row</span><span class="p">.</span><span class="nf">get_attribute</span><span class="p">(</span><span class="sh">'</span><span class="s">class</span><span class="sh">'</span><span class="p">)</span>
+        <span class="n">technique_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Get table columns
+</span>        <span class="n">columns</span> <span class="o">=</span> <span class="n">row</span><span class="p">.</span><span class="nf">find_elements</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">TAG_NAME</span><span class="p">,</span> <span class="sh">'</span><span class="s">td</span><span class="sh">'</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="c1"># In case there are only 4 columns, we can put them as-is in the dictionary
+</span>            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">header</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">techniques_headers</span><span class="p">):</span>
+                <span class="n">technique_dict</span><span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="n">index</span><span class="p">].</span><span class="n">text</span>
+        <span class="k">elif</span> <span class="sh">'</span><span class="s">noparent</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">row_classes</span><span class="p">:</span>
+            <span class="c1"># If the `noparent` class is present, we expect 5 columns and merge the 2nd and 3rd into one
+</span>            <span class="n">technique_dict</span><span class="p">[</span><span class="n">techniques_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span>
+            <span class="n">technique_dict</span><span class="p">[</span><span class="n">techniques_headers</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="sh">''</span><span class="p">.</span><span class="nf">join</span><span class="p">([</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">text</span><span class="p">,</span> <span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">text</span><span class="p">])</span>
+            <span class="n">technique_dict</span><span class="p">[</span><span class="n">techniques_headers</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="n">text</span>
+            <span class="n">technique_dict</span><span class="p">[</span><span class="n">techniques_headers</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="mi">4</span><span class="p">].</span><span class="n">text</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Otherwise we suspect this entry to be a sub-technique.
+</span>            <span class="c1"># In this case, we copy the name and description of the previous technique
+</span>            <span class="n">prev_technique</span> <span class="o">=</span> <span class="n">techniques</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">technique_dict</span><span class="p">[</span><span class="n">techniques_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">prev_technique</span><span class="p">[</span><span class="n">techniques_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">technique_dict</span><span class="p">[</span><span class="n">techniques_headers</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">prev_technique</span><span class="p">[</span><span class="n">techniques_headers</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="n">technique_dict</span><span class="p">[</span><span class="n">techniques_headers</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="n">text</span>
+            <span class="n">technique_dict</span><span class="p">[</span><span class="n">techniques_headers</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="mi">4</span><span class="p">].</span><span class="n">text</span>
+        <span class="n">techniques</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">technique_dict</span><span class="p">)</span>
+
+    <span class="n">driver</span><span class="p">.</span><span class="nf">quit</span><span class="p">()</span>
+
+    <span class="n">card_data_dict</span><span class="p">[</span><span class="sh">'</span><span class="s">MITRE ID</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">card_data_dict</span><span class="p">[</span><span class="sh">'</span><span class="s">ID</span><span class="sh">'</span><span class="p">]</span> <span class="c1">#<i class="conum" data-value="8"></i><b>(8)</b>
+</span>    <span class="k">del</span> <span class="n">card_data_dict</span><span class="p">[</span><span class="sh">'</span><span class="s">ID</span><span class="sh">'</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="o">**</span><span class="n">card_data_dict</span><span class="p">,</span>
+        <span class="sh">'</span><span class="s">Techniques Used</span><span class="sh">'</span><span class="p">:</span> <span class="n">techniques</span><span class="p">,</span>
+    <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Suche nach HTML-Element <code>h1</code> für den Name der Technik</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Suche nach HTML-Element mit der CSS-Klasse <code>description-body</code>, welches die Beschreibung der Technik beinhaltet</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Sammle im HTML-Element mit der CSS-Klasse <code>card-body</code> alle Unterelemente mit der Klasse <code>card-data</code> ein</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Extrahiere aus den Kartenelementen jeweils ein HTML-Element mit der Klasse <code>col-md-11</code>, welches einen Schlüssel und Wert (Variable <code>key</code> und <code>value</code>), separiert von <code>:</code>, beinhaltet</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Finde die <em>Techniques Used</em>-Tabelle anhand der CSS-Klasse <code>techniques-used</code> und sammle die Tabellenzeilen ein</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Extrahiere den Tabellenkopf aus der ersten Zeile der Tabelle</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Iteriere über die verbleibenden Tabellenzeilen und extrahiere die Informationen zur jeweiligen Technik nach Bedingungen (genau beschrieben im Text)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>Ersetze <code>ID</code>-Schlüssel mit <code>MITRE ID</code>, um die Herkunft der ID im Datensatz zu signalisieren</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Wie im Web-Scraper zuvor wird in diesem die Webdriver bei jedem Durchlauf in der zweiten Zeile reinitialisiert.
+Daraufhin wird der Name und die Beschreibung der MITRE Software in den Zeilen 6 und 8 extrahiert, in dem nach der Überschrift der Seite (<code>h1</code>) und einem HTML-Element mit der CSS-Klasse <code>description-body</code> gesucht wird.
+Als nächstes wird die Karte, wie in Abbildung 2 zu sehen, herausgesucht und die einzelnen Schlüssel-Wert-Paare extrahiert.
+Die Paare werden beim Doppelpunkt getrennt und als Schlüssel und Wert im <code>card_data_dict</code>-Dictionary gespeichert.
+Es folgt die Extraktion der genutzten Techniken aus der Tabelle <em>Techniques Used</em>.
+Dazu wird die Tabelle mit der CSS-Klasse <code>techniques-used</code> selektiert, der Tabellenkopf aus der ersten Zeile entnommen und die restlichen Zeilen iteriert.</p>
+</div>
+<div class="paragraph">
+<p>Die Abbildung 3 zeigt in einem Auszug, wie die Tabellen aussehen können.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="assets/images/abbildung_3.png" alt="Beispiel einer _Techniques Used_-Tabelle">
+</div>
+<div class="title">Abbildung 3. Beispiel einer <em>Techniques Used</em>-Tabelle <span class="citation">[<a href="#noauthor_sliver_nodate">14</a>]</span></div>
+</div>
+<div class="paragraph">
+<p>Die <em>ID</em>-Spalte ist teilweise in zwei Unterspalten unterteilt.
+Dies ist bei der Datensammlung in den Zeilen 41 bis 58 berücksichtigt. Daraus ergeben sich die folgenden Bedingungen und Abarbeitungen:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Es sind insgesamt 4 Spalten &#8658; Übernehme die Zellen entsprechend des Tabellenkopfs</p>
+</li>
+<li>
+<p>Die Zeile hat die CSS-Klasse <code>noparent</code> und es sind 4 Spalten mit einer geteilt in zwei &#8658; Füge die zweite und dritte Zelle zusammen als zweite Zelle, übernehme die restlichen Zellen</p>
+</li>
+<li>
+<p>Die Zeile beinhaltet die CSS-Klasse <code>sub</code> und die ersten beiden Spalten sind leer &#8658; Übernehme die Daten der ersten beiden Zellen aus der vorherigen Zeile, übernehme die restlichen Zellen</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Abschließend wird die <code>ID</code> in <code>MITRE ID</code> umbenannt, um die Herkunft im Datensatz klarzustellen und das Dictionary mit den Techniken zusammengeführt.</p>
+</div>
+<div class="paragraph">
+<p>Anzumerken ist dabei, dass die beiden Web-Scraper in einer optimierten Version zusammengefasst werden sollten,
+sodass die Software-Seiten nicht zwei Mal geöffnet und nach relevanten Informationen durchsucht werden müssen.
+Bei der iterativen Arbeit mit dem Jupyter Notebook war die geteilte Vorgehensweise allerdings leichter zu testen.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_malpedia_datenbank"><a class="anchor" href="#_malpedia_datenbank"></a><a class="link" href="#_malpedia_datenbank">Malpedia-Datenbank</a></h5>
+<div class="paragraph">
+<p>Im folgenden Code-Block wird ein weitere Funktion vorgestellt, die einen allgemeinen Ansatz zum Web-Scraping verfolgt und nicht speziell auf eine Webseite zugeschnitten ist.
+Dies wurde unter anderem genutzt, um nach Steganografie-Malware im Bildbereich in der Malware-Datenbank <em>Malpedia</em> des Frauenhofer FKIE zu suchen.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="python"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+</pre></td><td class="code"><pre><span class="k">def</span> <span class="nf">scrape_malware_data</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="p">.</span><span class="nc">Chrome</span><span class="p">(</span><span class="n">service</span><span class="o">=</span><span class="n">service</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span> <span class="c1">#<i class="conum" data-value="1"></i><b>(1)</b>
+</span>    <span class="k">try</span><span class="p">:</span>
+        <span class="n">driver</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+        <span class="c1"># Wait for the page to fully load
+</span>        <span class="n">driver</span><span class="p">.</span><span class="nf">implicitly_wait</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">page_content</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">page_source</span><span class="p">.</span><span class="nf">lower</span><span class="p">()</span> <span class="c1">#<i class="conum" data-value="2"></i><b>(2)</b>
+</span>        <span class="k">if</span> <span class="sh">'</span><span class="s">steganography</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">page_content</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Look for the title in the meta tags <i class="conum" data-value="3"></i><b>(3)</b>
+</span>            <span class="n">name</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="nf">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">XPATH</span><span class="p">,</span> <span class="sh">'</span><span class="s">//meta[@name=</span><span class="sh">"</span><span class="s">title</span><span class="sh">"</span><span class="s"> or @property=</span><span class="sh">"</span><span class="s">og:title</span><span class="sh">"</span><span class="s">]</span><span class="sh">'</span><span class="p">).</span><span class="nf">get_attribute</span><span class="p">(</span>
+                <span class="sh">'</span><span class="s">content</span><span class="sh">'</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NoSuchElementException</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># The description is not always available
+</span>        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Look for a meta tag that contains "description" in the name or property attribute <i class="conum" data-value="4"></i><b>(4)</b>
+</span>            <span class="n">description</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="nf">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">XPATH</span><span class="p">,</span>
+                                              <span class="sh">'</span><span class="s">//meta[@name=</span><span class="sh">"</span><span class="s">description</span><span class="sh">"</span><span class="s"> or contains(@property, </span><span class="sh">"</span><span class="s">description</span><span class="sh">"</span><span class="s">)]</span><span class="sh">'</span><span class="p">).</span><span class="nf">get_attribute</span><span class="p">(</span>
+                <span class="sh">'</span><span class="s">content</span><span class="sh">'</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NoSuchElementException</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># The creation date is not always available
+</span>        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Look for a meta tag that contains "created" or "published" in the name or property attribute <i class="conum" data-value="5"></i><b>(5)</b>
+</span>            <span class="n">created_at</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="nf">find_element</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="n">XPATH</span><span class="p">,</span>
+                                             <span class="sh">'</span><span class="s">//meta[contains(@name, </span><span class="sh">"</span><span class="s">created</span><span class="sh">"</span><span class="s">) or contains(@name, </span><span class="sh">"</span><span class="s">published</span><span class="sh">"</span><span class="s">) or contains(@property, </span><span class="sh">"</span><span class="s">created</span><span class="sh">"</span><span class="s">) or contains(@property, </span><span class="sh">"</span><span class="s">published</span><span class="sh">"</span><span class="s">)]</span><span class="sh">'</span><span class="p">).</span><span class="nf">get_attribute</span><span class="p">(</span>
+                <span class="sh">'</span><span class="s">content</span><span class="sh">'</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NoSuchElementException</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="n">platforms</span> <span class="o">=</span> <span class="p">[</span><span class="n">platform</span> <span class="k">for</span> <span class="n">platform</span> <span class="ow">in</span> <span class="n">PLATFORMS</span> <span class="k">if</span> <span class="n">platform</span><span class="p">.</span><span class="nf">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">page_content</span><span class="p">]</span> <span class="c1">#<i class="conum" data-value="6"></i><b>(6)</b>
+</span>        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="sh">'</span><span class="s">Name</span><span class="sh">'</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">Description</span><span class="sh">'</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">Type</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">MALWARE</span><span class="sh">'</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">Created</span><span class="sh">'</span><span class="p">:</span> <span class="n">created_at</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">Platforms</span><span class="sh">'</span><span class="p">:</span> <span class="n">platforms</span><span class="p">,</span>
+            <span class="sh">'</span><span class="s">References</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="n">url</span><span class="p">],</span>
+        <span class="p">}</span>
+    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="s">Error occurred while processing link: </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="sh">'</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">driver</span><span class="p">.</span><span class="nf">quit</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">data</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Initialisiere des Webdriver bei jedem Aufruf (wie in vorherigen Web-Scrapern)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Sucht nach dem Wort <code>steganography</code> im Text der Webseite in Kleinbuchstaben</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Sucht nach einem <code>meta</code>-HTML-Element mit dem Attribut <code>name</code> gesetzt auf <code>title</code> <strong>oder</strong> dem Attribut <code>property</code> gesetzt auf <code>og:title</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Sucht nach einem <code>meta</code>-HTML-Element mit dem Attribut <code>name</code> gesetzt auf <code>description</code> <strong>oder</strong> dem Attribut <code>property</code>, dessen Wert <code>description</code> enthält</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Sucht nach einem <code>meta</code>-HTML-Element mit dem Attribut <code>name</code>, dessen Wert <code>created</code> oder <code>published</code> enthält, <strong>oder</strong> dem Attribut <code>property</code>, dessen Wert <code>created</code> oder <code>published</code> enthält</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Sucht nach den Namen von Plattformen, die in der Konstante <code>PLATFORMS</code> definiert sind, die als Ziele der auf der Webseite beschriebenen Malware gewählt worden sein könnten</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Der Ablauf des generischen Web-Scrapers ist ähnlich zu den vorherigen. Der Webdriver wird immer neu initialisiert.
+Es wird nach dem Wort <code>steganography</code> im Text der Webseite in Kleinbuchstaben gesucht.
+Danach wird versucht, Meta-Informationen aus der Webseite wie den Namen des Artikels, eine Beschreibung dazu, das Erstellungs- und Änderungsdatum zu extrahieren. Dabei werden XPath-Selektoren verwendet, da diese sehr flexibel
+mit XML- bzw. HTML-Elementen und deren Attributen arebeiten können.
+Außerdem wird versucht, durch die in dem Artikel beschriebene Malware angegriffene Plattformen zu finden.</p>
+</div>
+<div class="paragraph">
+<p>Die gesammelten Daten werden in einem Dictionary zusammengeführt, das in der Struktur den MITRE-Daten gleicht,
+um eine einfache Zusammenführung und Weiterverarbeitung zu ermöglichen.</p>
+</div>
+<div class="paragraph">
+<p>Im Fall der Malpedia-Datenbank können alle Referenzen zu den dort enthaltenen Einträgen als BibTex-Datei unter
+<a href="https://malpedia.caad.fkie.fraunhofer.de/library/download" class="bare">https://malpedia.caad.fkie.fraunhofer.de/library/download</a> heruntergeladen werden.
+Der nächste Code-Block zeigt die Sammlung der Links aus den BibTex-Einträgen, wobei in den Titeln
+nach <code>steganography</code> gesucht wird. Dies ist nicht die umfassendste Methode, ermöglicht aber einen Überblick in
+kürzerer Zeit zu gewinnen, als jeden einzelnen der 15069 Einträge (zum Zeitpunkt der letzten Ausführung am 23.02.24) mit dem Web-Scraper durchzugehen.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="python"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="kn">import</span> <span class="n">bibtexparser</span>
+
+<span class="n">bibliography</span> <span class="o">=</span> <span class="n">bibtexparser</span><span class="p">.</span><span class="nf">parse_file</span><span class="p">(</span><span class="n">MALPEDIA_BIBLIOGRAPHY_FILE</span><span class="p">)</span>
+
+<span class="n">stego_malware_entries</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">bibliography</span><span class="p">.</span><span class="n">entries</span><span class="p">:</span>
+    <span class="k">if</span> <span class="sh">'</span><span class="s">steganography</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">[</span><span class="sh">'</span><span class="s">title</span><span class="sh">'</span><span class="p">].</span><span class="nf">lower</span><span class="p">():</span>
+        <span class="n">stego_malware_entries</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Die so vorgefilterten Einträge wurden dann mit dem Webscraper <code>scrape_malware_data</code> weiter untersucht.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_stego_in_the_wild"><a class="anchor" href="#_stego_in_the_wild"></a><a class="link" href="#_stego_in_the_wild">stego-in-the-wild</a></h5>
+<div class="paragraph">
+<p>Als letzte Datenquelle wurde das Repository <a href="https://github.com/lucacav/steg-in-the-wild" class="bare">https://github.com/lucacav/steg-in-the-wild</a> von Luca Caviglione verwendet und
+die relevanten Daten aus der <code>README.md</code>-Datei gesammelt, im folgenden Code-Block zu sehen.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="python"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre><span class="k">def</span> <span class="nf">extract_links_from_list</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">text</span><span class="p">.</span><span class="nf">splitlines</span><span class="p">()</span>
+
+    <span class="c1"># We only want the first bullet list <i class="conum" data-value="1"></i><b>(1)</b>
+</span>    <span class="n">list_entries</span> <span class="o">=</span> <span class="n">itertools</span><span class="p">.</span><span class="nf">dropwhile</span><span class="p">(</span><span class="k">lambda</span> <span class="n">line</span><span class="p">:</span> <span class="ow">not</span> <span class="n">line</span><span class="p">.</span><span class="nf">startswith</span><span class="p">(</span><span class="sh">'</span><span class="s">*</span><span class="sh">'</span><span class="p">),</span> <span class="n">lines</span><span class="p">)</span>
+    <span class="n">list_entries</span> <span class="o">=</span> <span class="n">itertools</span><span class="p">.</span><span class="nf">takewhile</span><span class="p">(</span><span class="k">lambda</span> <span class="n">line</span><span class="p">:</span> <span class="n">line</span><span class="p">.</span><span class="nf">startswith</span><span class="p">(</span><span class="sh">'</span><span class="s">*</span><span class="sh">'</span><span class="p">),</span> <span class="n">list_entries</span><span class="p">)</span>
+
+    <span class="c1"># Extract links and their descriptions <i class="conum" data-value="2"></i><b>(2)</b>
+</span>    <span class="n">links</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">list_entries</span><span class="p">:</span>
+        <span class="n">link</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="n">entry</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">):</span><span class="sh">'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">url</span> <span class="o">=</span> <span class="n">link</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">](</span><span class="sh">'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">links</span><span class="p">.</span><span class="nf">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">description</span><span class="p">.</span><span class="nf">strip</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="n">links</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Sammle die erste Stichpunktliste ein und ignoriere alle weiteren</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Zerlege die Eintrage am Doppelpunkt, um den Namen, den Link und zugehörige Beschreibung zu extrahieren</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Die Ergebnisliste aus Tupeln mit dem Namen des Artikels, dem zugehörigen Link und der Beschreibung des Repository-Autorens wurde wiederum elementweise als Parameter an den Webscraper <code>scrape_malware_data</code> übergeben.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_automatisierte_datenzusammenführung_und_säuberung"><a class="anchor" href="#_automatisierte_datenzusammenführung_und_säuberung"></a><a class="link" href="#_automatisierte_datenzusammenführung_und_säuberung">Automatisierte Datenzusammenführung und -säuberung</a></h5>
+<div class="paragraph">
+<p>Im letzten Schritt wurden die Ergebnislisten zusammengeführt und bereinigt.
+Dabei wurden die Daten aus der MITRE-Datenbank als Ausgangspunkt genommen.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="python"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+</pre></td><td class="code"><pre><span class="n">malpedia_malware_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">malware</span> <span class="k">for</span> <span class="n">malware</span> <span class="ow">in</span> <span class="n">malpedia_malware_data</span> <span class="k">if</span> <span class="n">malware</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
+
+<span class="n">processed_malware_data</span> <span class="o">=</span> <span class="n">mitre_attack_data</span>
+
+<span class="c1"># Try to extract any malware names from the other datasets than MITRE Att@ck and add them to the list <i class="conum" data-value="1"></i><b>(1)</b>
+</span><span class="k">def</span> <span class="nf">try_add_malware_data</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">new_malware_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="sh">'</span><span class="s">Name</span><span class="sh">'</span><span class="p">]</span>
+        <span class="n">split_name</span> <span class="o">=</span> <span class="n">name</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">:</span><span class="sh">'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">split_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">split_name</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span><span class="p">()</span>
+            <span class="n">entry</span><span class="p">[</span><span class="sh">'</span><span class="s">Name</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="n">new_malware_data</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">.</span><span class="nf">remove</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_malware_data</span>
+
+<span class="n">processed_malware_data</span> <span class="o">+=</span> <span class="nf">try_add_malware_data</span><span class="p">(</span><span class="n">malpedia_malware_data</span><span class="p">)</span>
+<span class="n">processed_malware_data</span> <span class="o">+=</span> <span class="nf">try_add_malware_data</span><span class="p">(</span><span class="n">sitw_data</span><span class="p">)</span>
+
+<span class="c1"># Try to match the processed malware data with the left over Malpedia and steg-in-the-wild data
+</span><span class="k">def</span> <span class="nf">compare_names</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">other_name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">other_name</span> <span class="ow">or</span> <span class="n">name</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sh">'</span><span class="s"> </span><span class="sh">'</span><span class="p">,</span> <span class="sh">''</span><span class="p">)</span> <span class="ow">in</span> <span class="n">other_name</span> <span class="ow">or</span> <span class="n">name</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sh">'</span><span class="s">-</span><span class="sh">'</span><span class="p">,</span> <span class="sh">''</span><span class="p">)</span> <span class="ow">in</span> <span class="n">other_name</span>
+
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">processed_malware_data</span><span class="p">:</span> <span class="c1">#<i class="conum" data-value="2"></i><b>(2)</b>
+</span>    <span class="n">name</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="sh">'</span><span class="s">Name</span><span class="sh">'</span><span class="p">].</span><span class="nf">lower</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">malpedia_entry</span> <span class="ow">in</span> <span class="n">malpedia_malware_data</span><span class="p">:</span>
+        <span class="n">malpedia_name</span> <span class="o">=</span> <span class="n">malpedia_entry</span><span class="p">[</span><span class="sh">'</span><span class="s">Name</span><span class="sh">'</span><span class="p">].</span><span class="nf">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nf">compare_names</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">malpedia_name</span><span class="p">):</span>
+            <span class="n">entry</span><span class="p">[</span><span class="sh">'</span><span class="s">References</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">References</span><span class="sh">'</span><span class="p">,</span> <span class="p">[])</span> <span class="o">+</span> <span class="n">malpedia_entry</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span>
+                <span class="sh">'</span><span class="s">References</span><span class="sh">'</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">malpedia_malware_data</span><span class="p">.</span><span class="nf">remove</span><span class="p">(</span><span class="n">malpedia_entry</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">sitw_data_entry</span> <span class="ow">in</span> <span class="n">sitw_data</span><span class="p">:</span>
+        <span class="n">sitw_name</span> <span class="o">=</span> <span class="n">sitw_data_entry</span><span class="p">[</span><span class="sh">'</span><span class="s">Name</span><span class="sh">'</span><span class="p">].</span><span class="nf">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nf">compare_names</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">sitw_name</span><span class="p">):</span>
+            <span class="n">entry</span><span class="p">[</span><span class="sh">'</span><span class="s">References</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">References</span><span class="sh">'</span><span class="p">,</span> <span class="p">[])</span> <span class="o">+</span> <span class="n">sitw_data_entry</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span>
+                <span class="sh">'</span><span class="s">References</span><span class="sh">'</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">sitw_data</span><span class="p">.</span><span class="nf">remove</span><span class="p">(</span><span class="n">sitw_data_entry</span><span class="p">)</span>
+
+<span class="c1"># Convert the list of dictionaries to a DataFrame and clean the data
+</span><span class="n">malware_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">processed_malware_data</span> <span class="o">+</span> <span class="n">malpedia_malware_data</span> <span class="o">+</span> <span class="n">sitw_data</span><span class="p">)</span>
+
+<span class="n">malware_data</span> <span class="o">=</span> <span class="n">malware_data</span><span class="p">[</span><span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Name</span><span class="sh">'</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">contains</span><span class="p">(</span><span class="sh">'</span><span class="s">404</span><span class="sh">'</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">]</span> <span class="c1">#<i class="conum" data-value="3"></i><b>(3)</b>
+</span><span class="n">malware_data</span> <span class="o">=</span> <span class="n">malware_data</span><span class="p">[</span><span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Description</span><span class="sh">'</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">contains</span><span class="p">(</span><span class="sh">'</span><span class="s">404</span><span class="sh">'</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">]</span>
+<span class="n">malware_data</span> <span class="o">=</span> <span class="n">malware_data</span><span class="p">[</span><span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Name</span><span class="sh">'</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">contains</span><span class="p">(</span><span class="sh">'</span><span class="s">Not Found</span><span class="sh">'</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">]</span>
+<span class="n">malware_data</span> <span class="o">=</span> <span class="n">malware_data</span><span class="p">[</span><span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Description</span><span class="sh">'</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">contains</span><span class="p">(</span><span class="sh">'</span><span class="s">Not Found</span><span class="sh">'</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">]</span>
+
+<span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Created</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">to_datetime</span><span class="p">(</span><span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Created</span><span class="sh">'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="sh">'</span><span class="s">coerce</span><span class="sh">'</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="sh">'</span><span class="s">mixed</span><span class="sh">'</span><span class="p">,</span> <span class="n">utc</span><span class="o">=</span><span class="bp">True</span><span class="p">).</span><span class="n">dt</span><span class="p">.</span><span class="n">date</span> <span class="c1">#<i class="conum" data-value="4"></i><b>(4)</b>
+</span>
+<span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Last Modified</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">to_datetime</span><span class="p">(</span>
+    <span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Last Modified</span><span class="sh">'</span><span class="p">],</span>
+    <span class="n">errors</span><span class="o">=</span><span class="sh">'</span><span class="s">coerce</span><span class="sh">'</span><span class="p">,</span>
+    <span class="nb">format</span><span class="o">=</span><span class="sh">'</span><span class="s">mixed</span><span class="sh">'</span><span class="p">,</span>
+    <span class="n">utc</span><span class="o">=</span><span class="bp">True</span><span class="p">).</span><span class="n">dt</span><span class="p">.</span><span class="n">date</span>
+
+<span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Platforms</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Platforms</span><span class="sh">'</span><span class="p">].</span><span class="nf">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">platforms</span><span class="p">:</span> <span class="sh">'</span><span class="s">, </span><span class="sh">'</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">platforms</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nf">isinstance</span><span class="p">(</span><span class="n">platforms</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">platforms</span>
+<span class="p">)</span> <span class="c1">#<i class="conum" data-value="5"></i><b>(5)</b>
+</span>
+<span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Techniques Used</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Techniques Used</span><span class="sh">'</span><span class="p">].</span><span class="nf">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">techniques</span><span class="p">:</span> <span class="sh">'</span><span class="s">, </span><span class="sh">'</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span>
+        <span class="n">technique</span><span class="p">[</span><span class="sh">'</span><span class="s">Use</span><span class="sh">'</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">technique</span> <span class="ow">in</span> <span class="n">techniques</span>
+        <span class="k">if</span> <span class="sh">'</span><span class="s">Steganography</span><span class="sh">'</span> <span class="ow">in</span> <span class="n">technique</span><span class="p">[</span><span class="sh">'</span><span class="s">Name</span><span class="sh">'</span><span class="p">]</span>
+    <span class="p">)</span> <span class="k">if</span> <span class="n">techniques</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="p">.</span><span class="n">nan</span> <span class="k">else</span> <span class="bp">None</span>
+<span class="p">)</span> <span class="c1">#<i class="conum" data-value="6"></i><b>(6)</b>
+</span>
+<span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">References</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">malware_data</span><span class="p">[</span><span class="sh">'</span><span class="s">References</span><span class="sh">'</span><span class="p">].</span><span class="nf">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">refs</span><span class="p">:</span> <span class="sh">'</span><span class="s">, </span><span class="sh">'</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">refs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">refs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="p">.</span><span class="n">nan</span> <span class="k">else</span> <span class="bp">None</span>
+<span class="p">)</span> <span class="c1">#<i class="conum" data-value="7"></i><b>(7)</b>
+</span>
+<span class="n">malware_data</span> <span class="o">=</span> <span class="n">malware_data</span><span class="p">.</span><span class="nf">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">Name</span><span class="sh">'</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="sh">'</span><span class="s">first</span><span class="sh">'</span><span class="p">)</span> <span class="c1">#<i class="conum" data-value="8"></i><b>(8)</b>
+</span></pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Versucht, einen Malware-Namen aus einem Artikel-Namen zu extrahieren, indem alles vor einem Doppelpunkt als Malware-Name angenommt wird</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Fügt Einträge aus <em>Malpedia</em> und <em>steg-in-the-wild</em> als Referenzen zu MITRE-Einträgen hinzu, wenn der Artikel-Name den Malware-Namen beinhaltet</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Entfernt alle Einträge, die <code>404</code> und <code>Not Found</code> im Namen oder der Beschreibung beinhaltet, da diese nicht valide sind</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Säubert die Datumswerte</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Fügt die Plattformen als Text, mit Kommata getrennt, zusammen</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Fügt die Techniken als Text zusammen, die mit Steganografie zutun haben</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Fügt die Referenzen als Text, mit Kommata getrennt, zusammen</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>Entfernte Duplikate</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Es wird zunächst versucht, einen Malware-Namen aus den Artikel-Namen zu extrahieren, indem alles vor einem Doppelpunkt als Malware-Name angenommt wird. Dann werden die Einträge durchgegangen und Einträge mit Malware-Namen im Artikel-Namen werden dem Malware-Eintrag als Referenz beigefügt. Anschließend findet die Datenbereinigung statt.</p>
+</div>
+<div class="paragraph">
+<p>Das finale Ergebnis wird im Abschnitt <a href="#malware_vorkommnisse">Malware-Vorkommnisse im Zusammenhang mit Steganografie</a> ausgewertet.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="literaturrecherche_tools"><a class="anchor" href="#literaturrecherche_tools"></a><a class="link" href="#literaturrecherche_tools">3.2. Literaturrecherche zu Steganografie- und Wasserzeichen-Tools</a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="_literaturrecherche_zur_attributierung_steganografischer_bilddaten"><a class="anchor" href="#_literaturrecherche_zur_attributierung_steganografischer_bilddaten"></a><a class="link" href="#_literaturrecherche_zur_attributierung_steganografischer_bilddaten">3.2. Literaturrecherche zur Attributierung steganografischer Bilddaten</a></h3>
+<h3 id="literaturrecherche_daten"><a class="anchor" href="#literaturrecherche_daten"></a><a class="link" href="#literaturrecherche_daten">3.3. Literaturrecherche zu Forschungsdaten für Bild-Steganografie</a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="_implementierung_eines_programms_zum_vergleich_zweier_bilder"><a class="anchor" href="#_implementierung_eines_programms_zum_vergleich_zweier_bilder"></a><a class="link" href="#_implementierung_eines_programms_zum_vergleich_zweier_bilder">3.3. Implementierung eines Programms zum Vergleich zweier Bilder</a></h3>
-
-</div>
-<div class="sect2">
-<h3 id="_implementierung_eines_prototypen_zur_attributierung_steganografischer_bilddaten"><a class="anchor" href="#_implementierung_eines_prototypen_zur_attributierung_steganografischer_bilddaten"></a><a class="link" href="#_implementierung_eines_prototypen_zur_attributierung_steganografischer_bilddaten">3.4. Implementierung eines Prototypen zur Attributierung steganografischer Bilddaten</a></h3>
+<h3 id="implementierung_attribut"><a class="anchor" href="#implementierung_attribut"></a><a class="link" href="#implementierung_attribut">3.4. Implementierung eines Prototyps zur Attributierung steganografischer Bilddaten</a></h3>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -652,7 +1798,7 @@ sowie Richtungen zur Forschung auf.</p>
 <h2 id="_ergebnisse"><a class="anchor" href="#_ergebnisse"></a><a class="link" href="#_ergebnisse">4. Ergebnisse</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_malware_vorkommnisse_im_zusammenhang_mit_steganografie"><a class="anchor" href="#_malware_vorkommnisse_im_zusammenhang_mit_steganografie"></a><a class="link" href="#_malware_vorkommnisse_im_zusammenhang_mit_steganografie">4.1. Malware-Vorkommnisse im Zusammenhang mit Steganografie</a></h3>
+<h3 id="ergebnisse_malware"><a class="anchor" href="#ergebnisse_malware"></a><a class="link" href="#ergebnisse_malware">4.1. Malware-Vorkommnisse im Zusammenhang mit Steganografie</a></h3>
 
 </div>
 <div class="sect2">
@@ -699,6 +1845,61 @@ sowie Richtungen zur Forschung auf.</p>
 <div class="paragraph">
 <p><a id="dittmann_motivation_2000"></a>[5] J. Dittmann, „Motivation und Einführung“, in <em>Digitale Wasserzeichen: Grundlagen, Verfahren, Anwendungsgebiete</em>, J. Dittmann, Hrsg. Springer, 2000, S. 1–7.</p>
 </div>
+<div class="paragraph">
+<p><a id="caviglione_never_2022"></a>[6] L. Caviglione und W. Mazurczyk, „Never Mind the Malware, Here’s the Stegomalware“, <em>IEEE Security &amp; Privacy</em>, Bd. 20, Nr. 5, S. 101–106, Sep. 2022, doi: 10.1109/MSEC.2022.3178205.</p>
+</div>
+<div class="paragraph">
+<p><a id="l_lucacavsteg---wild_2024"></a>[7] L, „lucacav/steg-in-the-wild“. Feb. 01, 2024, Zugegriffen: Feb. 22, 2024. [Online]. Verfügbar unter: <a href="https://github.com/lucacav/steg-in-the-wild" class="bare">https://github.com/lucacav/steg-in-the-wild</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="chaganti_stegomalware_2021"></a>[8] R. Chaganti, V. Ravi, M. Alazab, und T. D. Pham, „Stegomalware: A Systematic Survey of MalwareHiding and Detection in Images, Machine LearningModels and Research Challenges“, Nr. arXiv:2110.02504. arXiv, Okt. 06, 2021, Zugegriffen: Dez. 07, 2023. [Online]. Verfügbar unter: <a href="http://arxiv.org/abs/2110.02504" class="bare">http://arxiv.org/abs/2110.02504</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="cybleinc_stegomalware_2022"></a>[9] cybleinc, „Stegomalware - Identifying possible attack vectors“. Aug. 04, 2022, Zugegriffen: Dez. 07, 2023. [Online]. Verfügbar unter: <a href="https://cyble.com/blog/stegomalware-identifying-possible-attack-vectors/" class="bare">https://cyble.com/blog/stegomalware-identifying-possible-attack-vectors/</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="noauthor_alibaba_2022"></a>[10] „Alibaba OSS Buckets Compromised to Distribute Malicious Shell Scripts via Steganography“. Juli 21, 2022, Zugegriffen: Dez. 07, 2023. [Online]. Verfügbar unter: <a href="https://www.trendmicro.com/en_us/research/22/g/alibaba-oss-buckets-compromised-to-distribute-malicious-shell-sc.html" class="bare">https://www.trendmicro.com/en_us/research/22/g/alibaba-oss-buckets-compromised-to-distribute-malicious-shell-sc.html</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="noauthor_mitre_nodate"></a>[11] „MITRE ATT&amp;CK®“. Zugegriffen: Feb. 22, 2024. [Online]. Verfügbar unter: <a href="https://attack.mitre.org/" class="bare">https://attack.mitre.org/</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="noauthor_malpedia_nodate"></a>[12] „Malpedia (Fraunhofer FKIE)“. Zugegriffen: Feb. 22, 2024. [Online]. Verfügbar unter: <a href="https://malpedia.caad.fkie.fraunhofer.de/" class="bare">https://malpedia.caad.fkie.fraunhofer.de/</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="noauthor_software_nodate"></a>[13] „Software \textbar MITRE ATT&amp;CK®“. Zugegriffen: Feb. 23, 2024. [Online]. Verfügbar unter: <a href="https://attack.mitre.org/software/" class="bare">https://attack.mitre.org/software/</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="noauthor_sliver_nodate"></a>[14] „Sliver, Software S0633 \textbar MITRE ATT&amp;CK®“. Zugegriffen: Feb. 23, 2024. [Online]. Verfügbar unter: <a href="https://attack.mitre.org/software/S0633/" class="bare">https://attack.mitre.org/software/S0633/</a>.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tabellen"><a class="anchor" href="#_tabellen"></a><a class="link" href="#_tabellen">Anhang A: Tabellen</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>#[format=csv,separator=;,options="header,breakable",caption="Umfängliche Malware-Daten"]
+#|===
+#include::../notebooks/data/malware-full-data.csv[]
+#|===</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_abbildungen"><a class="anchor" href="#_abbildungen"></a><a class="link" href="#_abbildungen">Anhang B: Abbildungen</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>figures::[]</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_quellcode"><a class="anchor" href="#_quellcode"></a><a class="link" href="#_quellcode">Anhang C: Quellcode</a></h2>
+<div class="sectionbody">
+
 </div>
 </div>
 </div>

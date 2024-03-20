@@ -1,9 +1,562 @@
 == Methodik
 
-=== Literaturrecherche zu Malware-Vorkommnissen im Zusammenhang mit Steganografie
+Die folgenden Methoden wurden zum Erreichen der <<_zielsetzung,Zielsetzung>> durchgeführt:
 
-=== Literaturrecherche zur Attributierung steganografischer Bilddaten
+* _Literaturrecherche_: Um die Ziele **Z.1**, **Z.2** und **Z.3** zu erfüllen, wurde diese Methodik genutzt.
+Hauptsächlich wurden bei den Literaturrecherchen neben wissenschaftlichen Papern besonders auf technische Berichte von
+renomierten Akteuren im Bereich der IT-Sicherheit und speziell der IT-Forensik zurückgegriffen. 
+Die Analyse von Online-Datenbanken für Malware erfolgte teilautomatisiert.
+Für die Suche nach geeigneter Software wurde aus den zuvor genannten Quellen weitere Verweise verfolgt sowie Suchen auf bekannten Software-
+Entwicklungsplattformen wie GitHub duruchgeführt. 
 
-=== Implementierung eines Programms zum Vergleich zweier Bilder
+* _Software-Entwicklung_: Zur Erfüllung von **Z.4** wurde diese Methodik gewählt, da keine der gefundenen Tools entsprechende Funktionen bietet.
+Die Entwicklung fand nach dem Top-Down-Prinzip mit dem Test-Driven-Prinzip statt. Die Tests wurden direkt auf die Forschungsdaten angewendet und
+lassen sich automatisiert mit diesen ausführen.
 
-=== Implementierung eines Prototypen zur Attributierung steganografischer Bilddaten
+* _Experimentelle Validierung_:
+
+=== Suchmaschinen
+
+Die manuellen Recherchen wurde über die folgenden Suchmaschinen durchgeführt, falls nicht anders beschrieben:
+
+* _scibo_: Die interne Suchmaschine der Technischen Hochschule Brandenburg, welche den sogenannten EBSCO Discovery Service nutzt
+* _Springer Link_: Eine Suchmaschine des Springer Verlags für wissenschaftliche Publikationen ihres Verlags
+* _Springer Professional_: Weitere Suchmaschine des Springer Verlags für wissenschaftliche Publikationen ihres Verlags
+* _IEEE Xplore_: Bietet renomierten Zugang zu wissenschaftlichen Inhalten, die durch das Institut veröffentlicht wurden
+* _arxiv_: Ein freier Verteilungsdienst für wissenschaftliche Artikel, der jedoch selbst keine Peer-Reviews durchführt
+* _Google_: Die Suchmaschine der gleichnamigen Firma zur Ausweitung der Suche über wissenschaftliche Publikationen hinaus
+
+[#literaturrecherche_malware]
+=== Literaturrecherche zu Malware-Vorkommnissen im Zusammenhang mit Bild-Steganografie
+
+Die Recherche erfolgte in zwei Schritten:
+
+* Schaffen einer Übersicht zu Malware-Vorkommnissen aus wissenschaftlichen Publikationen und technischen Berichten
+* Automatisierte Sammlung von Malware-Vorkommnissen aus öffentlichen Datenbanken (ohne Malware-Samples zu analysieren)
+
+==== Manuelle Recherche
+
+Die folgenden Suchbegriffe wurden in den zuvor genannten <<_suchmaschinen,Suchmaschinen>> verwendet: __"Malware steganography"__, __"stego malware report"__, __"steganography malware analysis report 2023"__,
+__"stego malware"__, __"steganography malware report"__, __"steganography malware analysis"__, __"steganography malware survey"__ und __"steganography malware database"__
+Die Suchanfragen wurde so gewählt, um gezielt nach Berichten zu suchen, die allgemeine Analysen liefern, statt auf einzelne Malware fokussiert zu sein.
+Im wissenschaftlichen Bereich wurden hauptsächlich Artikel zur Analyse von Bild-Steganografie mittels Künstlicher Intelligenz,
+im Bereich von Blockchains oder der Prävention im IT-Sicherheitsmanagement gefunden.
+
+Jedoch gerade aus den letzten drei Jahren ließen sich zwei Paper finden, die eine Urhebung oder Sammlung an Malware-Vorkommnissen mit Bild-Steganografie vorstellen.
+Da kaum wissenschaftliche Artikel in den Jahren zuvor zu diesem Thema publiziert wurden, lässt sich ein Trend bei Malware-Autoren und auch Forschung hin zu
+Steganografie-Malware erkennen. In cite:[caviglione_never_2022] werden 10 Malware, die Steganografie oder Information Hiding verwenden, vorgestellt. 
+Der Artikel verweist zudem auf ein Repository namens _steg-in-the-wild_ von einem der Autoren des Artikels, in dem eine aktualisierte Liste der Malware geführt wird,
+welche im weiteren Verlauf der Recherche genutzt wurde. cite:[l_lucacavsteg---wild_2024]
+
+Des Weiteren wurde in cite:[chaganti_stegomalware_2021] 16 Malware benannt, die sich zum Teil mit der Arbeit von Caviglione und Wojciech decken.
+
+Im technischen Bericht cite:[cybleinc_stegomalware_2022] werden sechs Malware und die konkrete Funktionsweise jener an einem Beispiel beschrieben.
+Darin wie auch in cite:[noauthor_alibaba_2022] wird die __MITRE Att&ck__-Wissenbasis referenziert, in der eine systematische Zuordnung von sogennanten Techniken und Taktiken, die von Malware 
+eingesetzt werden, zu Malware-Vorkommnissen durchgefürt wird. So wird unter den Techniken __T1001.002: Data Obfuscation: Steganography__ und __T1027.003: Obfuscated Files or Information: Steganography__ 
+der Einsatz von Steganografie bei Malware-Vorkommnissen dokumentiert. cite:[noauthor_mitre_nodate]
+
+Eine weitere Datenbank für Malware-Vorkommnisse führt das Frauenhofer FKIE mit malpedia, 
+die eine Suchmaschine zum Finden von Malware nach Suchbegriffen im Namen oder der Beschreibung bietet. cite:[noauthor_malpedia_nodate]
+
+==== Automatisierte Sammlung aus Datenbanken
+
+Um eine umfängliche Übersicht zu schaffen, wurden daraufhin die Datenbanken von MITRE und Malpedia sowie die Artikelsammlung in steg-in-the-wild ausgewählt.
+Nach der manuellen Recherche sollte eine Übersicht geschaffen werden, die auch weniger beachtete Malware-Vorkommnisse einbezieht, 
+um so eine höhere statistische Auswertbarkeit für die Ergebnisseliste zu erzielen.
+
+Die Automatisierung wurde mit Hilfe eines Jupyter Notebooks durchgeführt. Dabei handelt es sich um eine interaktive, lokal ausführbare Plattform, 
+die es erlaubt, Datenanalysen und -visualisierung mit direktem Feedback mittels Python oder anderen Programmiersprachen durchzuführen.
+Die folgenden Python-Bibliotheken wurden neben der Standard-Bibliothek zusätzlich verwendet:
+
+* __Selenium__: Ermöglicht das automatische Öffnen von und Interagieren mit Webseiten über einen lokalen Webbrowser
+* __Pandas__: Ermöglicht eine verbesserte Datenverarbeitung von tabularischen Daten
+* __requests__: Bietet ein einfaches Interface zum Herunterladen von Daten
+* __bibtexparser__: Ermöglicht das Parsen von BibTex-Dateien
+
+Außerdem wurde die Erweiterung `jupyter-ai` für Jupyter genutzt, um generative Text-KI für die initiale Generierung eines sogenannten Web-Scrapers zu nutzen.
+Die Aufgabe des Web-Scrapers ist das Sammeln (oder Schürfen) von Informationen aus Webdaten, vornehmlich HTML-Dateien. 
+
+===== MITRE-Datenbank
+
+In Abbildung 1 sind Teile der Software-Tabelle der MITRE-Datenbank zu sehen, deren Links nun gesammelt und nach Steganografie-Malware gefiltert werden soll.
+
+.Software-Tabelle der MITRE-Datenbank cite:[noauthor_software_nodate]
+image::abbildung_1.png["Software-Tabelle der MITRE-Datenbank"]
+
+Im Folgenden wird ein Code-Block dargestellt, in dem ein Web-Scraper automatisiert die zuvor genannte Tabelle nach den relevanten Daten durchforstet. 
+
+[source,python,linenums,caption="asd"]
+----
+import os
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# Get the path to chromedriver from environment variable
+chrome_driver_path = os.environ.get('CHROMEDRIVER_PATH')
+
+# Set up Chrome driver <1>
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')  # Run Chrome in headless mode
+options.add_argument('--disable-extensions')
+options.add_argument('--disable-dev-shm-usage')
+service = Service(chrome_driver_path)
+driver = webdriver.Chrome(service=service, options=options)
+
+FOUND_LINKS_FILE = 'data/mitre-attack-stego-malware.txt'
+
+
+def search_mitre_attack(mitre_attack_url='https://attack.mitre.org/software/'):
+    global driver
+    # Open the link
+    driver.get(mitre_attack_url)
+
+    # Collect links in the first column of the table <2>
+    links = driver.find_elements(By.CSS_SELECTOR, 'table tr td:nth-child(1) a')
+    link_urls = [link.get_attribute('href') for link in links]
+
+    driver.quit()
+
+    # Iterate over each link
+    found_links = []
+    for link_url in link_urls:
+        driver = webdriver.Chrome(service=service, options=options)
+        try:
+            # Open the link
+            driver.get(link_url)
+
+            # Wait for the page to fully load <3>
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.TAG_NAME, 'body'))
+            )
+
+            # Search for the terms "steganography" in the page <4>
+            page_content = driver.page_source.lower()
+            if 'steganography' in page_content:
+                found_links.append(link_url)
+        except Exception as e:
+            print(f'Error occurred while processing link: {link_url}')
+            print(e)
+        finally:
+            # Quit the driver
+            driver.quit()
+    return found_links
+----
+<1> Initialisierung des Chrome-Webdrivers
+<2> Selektion der Tabelle mit `table` -> `tr` (Tabellenzeilen) -> `td:nth-child(1)` (aus den Tabellendaten jeweils die erste Zelle) -> `a` (das HTML-Element für Links)
+<3> Wartet, bis die Seite geladen wurde
+<4> Sucht im Text der Webseite in Kleinbuchstaben nach `steganography`
+
+Die Zeilen 12 bis 17 initialisieren den Chrome-Webdriver, der für die Kommunikation mit dem lokalen Chrome-Browser genutzt wird. Chrome wird _headless_ (ohne Benutzeroberfläche), ohne Erweiterungen und mit der Option, Arbeitsspeicher auf die Festplatte auszulagern, gestartet. 
+
+Der Block von Zeile 22 bis 56 definiert eine neue Funktion `search_mitre_attack(mitre_attack_url)`. Darin wird zunächst mittels des Webrivers der Link zur Software-Seite von MITRE Att&ck geöffnet, dann in den beiden Zeilen 28 und 29 die Tabelle mit den allen gelisteten Softwares über einen CSS-Selektor ausgewählt und die gesammelten Links aus den `href`-HTML-Attributen extrahiert. 
+
+Es wird über die Links iteriert, gewartet, bis der Hauptteil der Seite im Browser geladen wurde, und der Seiteninhalt nach dem Begriff _steganography_ durchsucht. Konnte der Begriff gefunden werden, wird der Link einer Ergebnisliste hinzugefügt. Der Webdriver wird bei jedem Durchlauf neu geöffnet, da es sonst zu massiven Speicher-Leaks kommt und der Chrome-Prozess bis zu einem Crash Speicher konsumiert.
+
+Abbildung 2 zeigt ausschnittsweise, wie Software auf der MITRE-Webseite angezeigt wird. Markiert sind die Datenpunkte,
+die extrahiert werden sollen.
+
+.Beispiel einer Software auf der MITRE-Webseite cite:[noauthor_sliver_nodate]
+image::abbildung_2.png["Beispiel einer Software auf der MITRE Webseite"]
+
+Im nächste Code-Block wird der dazu verwendete Web-Scraper vorgestellt.
+[source,python,linenums]
+----
+def scrape_mitre_attack_software(link):
+    driver = webdriver.Chrome(service=service, options=options)
+    driver.get(link)
+
+    # Search for name in h1 tag <1>
+    name = driver.find_element(By.TAG_NAME, 'h1').text
+    # Search for description in tag with class `description-body` <2>
+    description = driver.find_element(By.CLASS_NAME, 'description-body').text
+
+    # Search for card body <3>
+    card_body = driver.find_element(By.CLASS_NAME, 'card-body')
+    card_data_divs = card_body.find_elements(By.CLASS_NAME, 'card-data')
+
+    card_data_dict = {
+        'Name': name,
+        'Description': description,
+    }
+    # Iterate card elements and extract key-value pairs <4>
+    for card_data in card_data_divs:
+        col_md_11_div = card_data.find_element(By.CLASS_NAME, 'col-md-11')
+        key, value = col_md_11_div.text.split(':')
+        card_data_dict[key] = value
+
+    # Locate 'Techniques Used' table <5>
+    techniques_table = driver.find_element(By.CLASS_NAME, 'techniques-used')
+    techniques_rows = techniques_table.find_elements(By.TAG_NAME, 'tr')
+
+    # Collect techniques table header <6>
+    techniques_headers = [
+        header.text
+        for header in techniques_rows[0].find_elements(By.TAG_NAME, 'th')
+    ]
+    techniques = []
+    for row in techniques_rows[1:]: #<7>
+        row_classes = row.get_attribute('class')
+        technique_dict = {}
+
+        # Get table columns
+        columns = row.find_elements(By.TAG_NAME, 'td')
+
+        if len(columns) == 4:
+            # In case there are only 4 columns, we can put them as-is in the dictionary
+            for index, header in enumerate(techniques_headers):
+                technique_dict[header] = columns[index].text
+        elif 'noparent' in row_classes:
+            # If the `noparent` class is present, we expect 5 columns and merge the 2nd and 3rd into one
+            technique_dict[techniques_headers[0]] = columns[0].text
+            technique_dict[techniques_headers[1]] = ''.join([columns[1].text, columns[2].text])
+            technique_dict[techniques_headers[2]] = columns[3].text
+            technique_dict[techniques_headers[3]] = columns[4].text
+        else:
+            # Otherwise we suspect this entry to be a sub-technique.
+            # In this case, we copy the name and description of the previous technique
+            prev_technique = techniques[-1]
+            technique_dict[techniques_headers[0]] = prev_technique[techniques_headers[0]]
+            technique_dict[techniques_headers[1]] = prev_technique[techniques_headers[1]]
+            technique_dict[techniques_headers[2]] = columns[3].text
+            technique_dict[techniques_headers[3]] = columns[4].text
+        techniques.append(technique_dict)
+
+    driver.quit()
+
+    card_data_dict['MITRE ID'] = card_data_dict['ID'] #<8>
+    del card_data_dict['ID']
+
+    return {
+        **card_data_dict,
+        'Techniques Used': techniques,
+    }
+----
+<1> Suche nach HTML-Element `h1` für den Name der Technik
+<2> Suche nach HTML-Element mit der CSS-Klasse `description-body`, welches die Beschreibung der Technik beinhaltet
+<3> Sammle im HTML-Element mit der CSS-Klasse `card-body` alle Unterelemente mit der Klasse `card-data` ein
+<4> Extrahiere aus den Kartenelementen jeweils ein HTML-Element mit der Klasse `col-md-11`, welches einen Schlüssel und Wert (Variable `key` und `value`), separiert von `:`, beinhaltet
+<5> Finde die _Techniques Used_-Tabelle anhand der CSS-Klasse `techniques-used` und sammle die Tabellenzeilen ein
+<6> Extrahiere den Tabellenkopf aus der ersten Zeile der Tabelle
+<7> Iteriere über die verbleibenden Tabellenzeilen und extrahiere die Informationen zur jeweiligen Technik nach Bedingungen (genau beschrieben im Text)
+<8> Ersetze `ID`-Schlüssel mit `MITRE ID`, um die Herkunft der ID im Datensatz zu signalisieren
+
+Wie im Web-Scraper zuvor wird in diesem die Webdriver bei jedem Durchlauf in der zweiten Zeile reinitialisiert. 
+Daraufhin wird der Name und die Beschreibung der MITRE Software in den Zeilen 6 und 8 extrahiert, in dem nach der Überschrift der Seite (`h1`) und einem HTML-Element mit der CSS-Klasse `description-body` gesucht wird.
+Als nächstes wird die Karte, wie in Abbildung 2 zu sehen, herausgesucht und die einzelnen Schlüssel-Wert-Paare extrahiert. 
+Die Paare werden beim Doppelpunkt getrennt und als Schlüssel und Wert im `card_data_dict`-Dictionary gespeichert. 
+Es folgt die Extraktion der genutzten Techniken aus der Tabelle _Techniques Used_. 
+Dazu wird die Tabelle mit der CSS-Klasse `techniques-used` selektiert, der Tabellenkopf aus der ersten Zeile entnommen und die restlichen Zeilen iteriert.
+
+Die Abbildung 3 zeigt in einem Auszug, wie die Tabellen aussehen können. 
+
+.Beispiel einer _Techniques Used_-Tabelle cite:[noauthor_sliver_nodate]
+image::abbildung_3.png["Beispiel einer _Techniques Used_-Tabelle"]
+
+Die _ID_-Spalte ist teilweise in zwei Unterspalten unterteilt.
+Dies ist bei der Datensammlung in den Zeilen 41 bis 58 berücksichtigt. Daraus ergeben sich die folgenden Bedingungen und Abarbeitungen:
+
+. Es sind insgesamt 4 Spalten => Übernehme die Zellen entsprechend des Tabellenkopfs
+. Die Zeile hat die CSS-Klasse `noparent` und es sind 4 Spalten mit einer geteilt in zwei => Füge die zweite und dritte Zelle zusammen als zweite Zelle, übernehme die restlichen Zellen
+. Die Zeile beinhaltet die CSS-Klasse `sub` und die ersten beiden Spalten sind leer => Übernehme die Daten der ersten beiden Zellen aus der vorherigen Zeile, übernehme die restlichen Zellen
+
+Abschließend wird die `ID` in `MITRE ID` umbenannt, um die Herkunft im Datensatz klarzustellen und das Dictionary mit den Techniken zusammengeführt.
+
+Anzumerken ist dabei, dass die beiden Web-Scraper in einer optimierten Version zusammengefasst werden sollten,
+sodass die Software-Seiten nicht zwei Mal geöffnet und nach relevanten Informationen durchsucht werden müssen.
+Bei der iterativen Arbeit mit dem Jupyter Notebook war die geteilte Vorgehensweise allerdings leichter zu testen.
+
+===== Malpedia-Datenbank
+
+Im folgenden Code-Block wird ein weitere Funktion vorgestellt, die einen allgemeinen Ansatz zum Web-Scraping verfolgt und nicht speziell auf eine Webseite zugeschnitten ist. 
+Dies wurde unter anderem genutzt, um nach Steganografie-Malware im Bildbereich in der Malware-Datenbank _Malpedia_ des Frauenhofer FKIE zu suchen.
+
+[source,python,linenums]
+----
+def scrape_malware_data(url, name=None, description=None, created_at=None):
+    data = None
+
+    driver = webdriver.Chrome(service=service, options=options) #<1>
+    try:
+        driver.get(url)
+
+        # Wait for the page to fully load
+        driver.implicitly_wait(10)
+
+        page_content = driver.page_source.lower() #<2>
+        if 'steganography' in page_content:
+            return data
+
+        try:
+            # Look for the title in the meta tags <3>
+            name = driver.find_element(By.XPATH, '//meta[@name="title" or @property="og:title"]').get_attribute(
+                'content')
+        except NoSuchElementException:
+            pass
+
+        # The description is not always available
+        try:
+            # Look for a meta tag that contains "description" in the name or property attribute <4>
+            description = driver.find_element(By.XPATH,
+                                              '//meta[@name="description" or contains(@property, "description")]').get_attribute(
+                'content')
+        except NoSuchElementException:
+            pass
+
+        # The creation date is not always available
+        try:
+            # Look for a meta tag that contains "created" or "published" in the name or property attribute <5>
+            created_at = driver.find_element(By.XPATH,
+                                             '//meta[contains(@name, "created") or contains(@name, "published") or contains(@property, "created") or contains(@property, "published")]').get_attribute(
+                'content')
+        except NoSuchElementException:
+            pass
+
+        platforms = [platform for platform in PLATFORMS if platform.lower() in page_content] #<6>
+        data = {
+            'Name': name,
+            'Description': description,
+            'Type': 'MALWARE',
+            'Created': created_at,
+            'Platforms': platforms,
+            'References': [url],
+        }
+    except Exception as e:
+        print(f'Error occurred while processing link: {url}')
+        print(e)
+    finally:
+        driver.quit()
+
+    return data
+----
+<1> Initialisiere des Webdriver bei jedem Aufruf (wie in vorherigen Web-Scrapern)
+<2> Sucht nach dem Wort `steganography` im Text der Webseite in Kleinbuchstaben
+<3> Sucht nach einem `meta`-HTML-Element mit dem Attribut `name` gesetzt auf `title` **oder** dem Attribut `property` gesetzt auf `og:title`
+<4> Sucht nach einem `meta`-HTML-Element mit dem Attribut `name` gesetzt auf `description` **oder** dem Attribut `property`, dessen Wert `description` enthält
+<5> Sucht nach einem `meta`-HTML-Element mit dem Attribut `name`, dessen Wert `created` oder `published` enthält, **oder** dem Attribut `property`, dessen Wert `created` oder `published` enthält
+<6> Sucht nach den Namen von Plattformen, die in der Konstante `PLATFORMS` definiert sind, die als Ziele der auf der Webseite beschriebenen Malware gewählt worden sein könnten
+
+Der Ablauf des generischen Web-Scrapers ist ähnlich zu den vorherigen. Der Webdriver wird immer neu initialisiert.
+Es wird nach dem Wort `steganography` im Text der Webseite in Kleinbuchstaben gesucht. 
+Danach wird versucht, Meta-Informationen aus der Webseite wie den Namen des Artikels, eine Beschreibung dazu, das Erstellungs- und Änderungsdatum zu extrahieren. Dabei werden XPath-Selektoren verwendet, da diese sehr flexibel 
+mit XML- bzw. HTML-Elementen und deren Attributen arebeiten können.
+Außerdem wird versucht, durch die in dem Artikel beschriebene Malware angegriffene Plattformen zu finden.
+
+Die gesammelten Daten werden in einem Dictionary zusammengeführt, das in der Struktur den MITRE-Daten gleicht,
+um eine einfache Zusammenführung und Weiterverarbeitung zu ermöglichen.
+
+Im Fall der Malpedia-Datenbank können alle Referenzen zu den dort enthaltenen Einträgen als BibTex-Datei unter 
+https://malpedia.caad.fkie.fraunhofer.de/library/download heruntergeladen werden. 
+Der nächste Code-Block zeigt die Sammlung der Links aus den BibTex-Einträgen, wobei in den Titeln 
+nach `steganography` gesucht wird. Dies ist nicht die umfassendste Methode, ermöglicht aber einen Überblick in 
+kürzerer Zeit zu gewinnen, als jeden einzelnen der 15069 Einträge (zum Zeitpunkt der letzten Ausführung am 23.02.24) mit dem Web-Scraper durchzugehen.
+
+[source,python,linenums]
+----
+import bibtexparser
+
+bibliography = bibtexparser.parse_file(MALPEDIA_BIBLIOGRAPHY_FILE)
+
+stego_malware_entries = []
+for entry in bibliography.entries:
+    if 'steganography' in entry['title'].lower():
+        stego_malware_entries.append(entry)
+----
+
+Die so vorgefilterten Einträge wurden dann mit dem Webscraper `scrape_malware_data` weiter untersucht.
+
+===== stego-in-the-wild
+
+Als letzte Datenquelle wurde das Repository https://github.com/lucacav/steg-in-the-wild von Luca Caviglione verwendet und
+die relevanten Daten aus der `README.md`-Datei gesammelt, im folgenden Code-Block zu sehen.
+
+[source,python,linenums]
+----
+def extract_links_from_list(text):
+    lines = text.splitlines()
+
+    # We only want the first bullet list <1>
+    list_entries = itertools.dropwhile(lambda line: not line.startswith('*'), lines)
+    list_entries = itertools.takewhile(lambda line: line.startswith('*'), list_entries)
+
+    # Extract links and their descriptions <2>
+    links = []
+    for entry in list_entries:
+        link, description = entry.split('):', 1)
+        name, url = link.split('](', 1)
+        name = name[3:]
+        url = url[:-1]
+        links.append((name, url, description.strip()))
+    return links
+----
+<1> Sammle die erste Stichpunktliste ein und ignoriere alle weiteren
+<2> Zerlege die Eintrage am Doppelpunkt, um den Namen, den Link und zugehörige Beschreibung zu extrahieren
+
+Die Ergebnisliste aus Tupeln mit dem Namen des Artikels, dem zugehörigen Link und der Beschreibung des Repository-Autorens wurde wiederum elementweise als Parameter an den Webscraper `scrape_malware_data` übergeben.
+
+===== Automatisierte Datenzusammenführung und -säuberung
+
+Im letzten Schritt wurden die Ergebnislisten zusammengeführt und bereinigt.
+Dabei wurden die Daten aus der MITRE-Datenbank als Ausgangspunkt genommen.
+
+[source,python,linenums]
+----
+malpedia_malware_data = [malware for malware in malpedia_malware_data if malware is not None]
+            
+processed_malware_data = mitre_attack_data
+
+# Try to extract any malware names from the other datasets than MITRE Att@ck and add them to the list <1>
+def try_add_malware_data(data):
+    new_malware_data = []
+    for entry in data:
+        name = entry['Name']
+        split_name = name.split(':')
+        if len(split_name) > 1:
+            name = split_name[0].strip()
+            entry['Name'] = name
+            new_malware_data.append(entry)
+            data.remove(entry)
+    return new_malware_data
+
+processed_malware_data += try_add_malware_data(malpedia_malware_data)
+processed_malware_data += try_add_malware_data(sitw_data)
+
+# Try to match the processed malware data with the left over Malpedia and steg-in-the-wild data
+def compare_names(name, other_name):
+    return name in other_name or name.replace(' ', '') in other_name or name.replace('-', '') in other_name
+
+for entry in processed_malware_data: ## <2>
+    name = entry['Name'].lower()    
+    for malpedia_entry in malpedia_malware_data:
+        malpedia_name = malpedia_entry['Name'].lower()
+        if compare_names(name, malpedia_name):
+            entry['References'] = entry.get('References', []) + malpedia_entry.get(
+                'References', [])
+            malpedia_malware_data.remove(malpedia_entry)
+    
+    for sitw_data_entry in sitw_data:
+        sitw_name = sitw_data_entry['Name'].lower()
+        if compare_names(name, sitw_name):
+            entry['References'] = entry.get('References', []) + sitw_data_entry.get(
+                'References', [])
+            sitw_data.remove(sitw_data_entry)
+            
+# Convert the list of dictionaries to a DataFrame and clean the data
+malware_data = pd.DataFrame(processed_malware_data + malpedia_malware_data + sitw_data)
+
+malware_data = malware_data[malware_data['Name'].str.contains('404') == False] #<3>
+malware_data = malware_data[malware_data['Description'].str.contains('404') == False]
+malware_data = malware_data[malware_data['Name'].str.contains('Not Found', case=False) == False]
+malware_data = malware_data[malware_data['Description'].str.contains('Not Found', case=False) == False]
+
+malware_data['Created'] = pd.to_datetime(malware_data['Created'], errors='coerce', format='mixed', utc=True).dt.date #<4>
+
+malware_data['Last Modified'] = pd.to_datetime(
+    malware_data['Last Modified'],
+    errors='coerce',
+    format='mixed',
+    utc=True).dt.date
+
+malware_data['Platforms'] = malware_data['Platforms'].apply(
+    lambda platforms: ', '.join(platforms)
+    if isinstance(platforms, list) else platforms
+) #<5>
+
+malware_data['Techniques Used'] = malware_data['Techniques Used'].apply(
+    lambda techniques: ', '.join(
+        technique['Use']
+        for technique in techniques
+        if 'Steganography' in technique['Name']
+    ) if techniques is not np.nan else None
+) #<6>
+
+malware_data['References'] = malware_data['References'].apply(
+    lambda refs: ', '.join(refs)
+    if refs is not np.nan else None
+) #<7>
+
+malware_data = malware_data.drop_duplicates(subset=['Name'], keep='first') #<8>
+----
+<1> Versucht, einen Malware-Namen aus einem Artikel-Namen zu extrahieren, indem alles vor einem Doppelpunkt als Malware-Name angenommt wird
+<2> Fügt Einträge aus _Malpedia_ und _steg-in-the-wild_ als Referenzen zu MITRE-Einträgen hinzu, wenn der Artikel-Name den Malware-Namen beinhaltet
+<3> Entfernt alle Einträge, die `404` und `Not Found` im Namen oder der Beschreibung beinhaltet, da diese nicht valide sind
+<4> Säubert die Datumswerte
+<5> Fügt die Plattformen als Text, mit Kommata getrennt, zusammen
+<6> Fügt die Techniken als Text zusammen, die mit Steganografie zutun haben
+<7> Fügt die Referenzen als Text, mit Kommata getrennt, zusammen
+<8> Entfernte Duplikate
+
+Es wird zunächst versucht, einen Malware-Namen aus den Artikel-Namen zu extrahieren, indem alles vor einem Doppelpunkt als Malware-Name angenommt wird. Dann werden die Einträge durchgegangen und Einträge mit Malware-Namen im Artikel-Namen werden dem Malware-Eintrag als Referenz beigefügt. Anschließend findet die Datenbereinigung statt.
+
+Das finale Ergebnis wird im Abschnitt <<malware_vorkommnisse,Malware-Vorkommnisse im Zusammenhang mit Steganografie>> ausgewertet, woraus die Anforderungen an den folgende Literaturrecherche abgeleitet wurden.
+
+[#literaturrecherche_tools]
+=== Literaturrecherche zu Steganografie- und Wasserzeichen-Tools
+
+Basierend auf der zuvor erfolgten Sammlung an Malwares, welche Information Hiding Techniken mit Bilddaten nutzen, wurde die Recherche mit den nachfolgenden Kriterien durchgeführt.
+
+. *Bekanntheit*: Die Software muss in wissenschaftlichen Publikationen verwendet worden sein oder auf gängigen Software-Plattformen wie Github mindestens 1000 Bewertungen oder Downloads vorweisen können.
+. *Funktionsweise*: Der in der Software implementierte Algorithmus zum Information Hiding muss zumindest in einem Überblick dokumentiert sein oder zumindest der Quellcode muss verfügbar sein, damit die Software einer Kategorie entsprechend den <<_theoretische_grundlagen,Theoretische Grundlagen>> zugeordnet werden kann.
+. *noch was*: das 
+
+==== Steganografie-Software
+
+Die Recherche wurde mit den folgenden Suchbegriffen durchgeführt: _"information hiding"_, _"information hiding tools"_, _"Steganography Detection"_, _"Steganography Techniques"_, _"steganography overview"_, _"steganography survey"_, _"steganography tools"_ und _"steganography apps"_.
+
+Die Suche im wissenschaftlichen Umfeld ergab insbesondere die Arbeiten von Pilania at al. in cite:[pilania_roadmap_2021] und cite:[pilania_steganography_2023] sowie von Virma at al. in cite:[verma_detecting_2022]. Es zeigen sich darin Überschneidungen in den gängigen Tools, die zur Evaluierung und Detektion von Steganografie in Bildern genutzt werden. Diese Tools sind nur auf den Desktop-Plattformen ausführbar. 
+Breuer cite:[noauthor_dominicbreukerstego-toolkit_nodate] hat eine Software-Sammlung an Steganografie-Tools zusammengestellt,
+die sich ebenfalls vielfältig mit den in den Publikationen verwendeten Programmen deckt. 
+
+Im Bereich der mobilen Applikationen existieren ebenfalls Steganografie-Programme, welche im Folgenden als Steganografie-Apps bezeichnet werden, wie die Arbeiten von Chen at al. cite:[chen_forensic_2018] und cite:[chen_tackling_2018] sowie von Newman at al. cite:[newman_stegoappdb_2019] zeigen.
+
+Aus der Recherche ging hervor, dass insbesondere Steganografie und zugehörige Desktop-Tools wie auch mobile Apps sowohl in der Wissenschaft als auch in der technischen Umsetzung Beachtung finden,
+während weitere Techniken des Information Hidings wie das Einbetten in Metadata oder andere selten betrachtet werden.
+
+Die gefundenen Progrmame wurden zusammengetragen und in zwei Tabellen aufgeteilt, 
+welche jeweils die Desktop-Tools und die mobilen Apps vorstellen.
+Diese sind in den Ergebnissen zu finden.
+
+==== Wasserzeichen-Software
+
+Wie in den <<theorie_wasserzeichen,theoretischen Grundlagen zu Wasserzeichen>> beschrieben werden Wasserzeichen entweder sichtbar oder unsichtbar eingebettet,
+wobei nur die unsichtbaren eine relevanten Schutz vor Entfernung liefern können. Somit lag der Fokus dieses Rechercheteils auf den unsichtbaren Algorithmen.
+
+Die Recherche wurde mit den folgenden Suchbegriffen durchgeführt: _"watermarking survey"_, _"invisble watermarking"_, _"watermarking attack"_.
+
+Dies führte bereits zu einer Vielzahlen an aktuellen wissenschaftlichen Artikeln zu diesem Thema. Der Fokus lag dabei auf Publikationen,
+die einen Überblick über die existierenden Algorithmen verschaffen oder solche Algorithmen attackieren, da für diese im Allgemeinen auf bekannte, öffentlich zugängliche Tools zurückgegriffen wird. Dabei zeigte sich, dass wie in <<theorie_wasserzeichen,theoretischen Grundlagen zu Wasserzeichen>>
+beschrieben, 
+
+Im Abschnitt <<ergebnisse_softwares_wz, Übersicht zu Wasserzeichen-Software>> werden die in den Publikationen cite:[an_benchmarking_2024,mareen_blind_2024,zhao_invisible_2023] verwendeten Implementierungen kurz vorgestellt und in diese Arbeit eingeordnet.
+
+[#literaturrecherche_daten]
+=== Literaturrecherche zu Forschungsdaten für Bild-Steganografie
+
+Für die Arbeit mit den mobilen Steganografie-Anwendungen haben Newman at al. eine Bild-Datenbank aufgebaut,
+die öffentlich über eine Webseite zugänglich ist. Zunächst kann ausgewählt werden, 
+ob Stego- oder nur Cover-Bilder selektiert werden sollen.
+Danach ermöglicht eine Eingabe-Formular das weitere Konfigurieren des gewünschten Datensatzes.
+
+Für den Android-Bereich stehen fünf und für den iOS-Bereich sechs verschiedene Modelle zur Verfügung,
+auf denen Bilder aufgenommen wurden, während es für Android fünf und für iOS lediglich eine Stegangrafie-App zur Auswahl gibt.
+Des Weiteren können zwischen drei Einbettungsraten gewählt werden:
+
+* Zwischen 0% und 10% 
+* Zwischen 10% und 20% 
+* Zwischen 20% und 40% 
+
+Schließlich kann die Belichtung auf _automatisch_ und/oder _manuell_ im Bereich von 10 bis 7000 ISO und einer Belichtungszeit zwischen stem:[1/11000] und stem:[1/2] gestellt werden.
+
+Zwar wird auf der Webseite nicht die Anzahl der Bilder nach der gewünschten Einstellung benannt,
+Experimente mit den heruntergeladenen Daten zeigten jedoch, dass für die meisten Konfigurationskombinationen
+mehrere tausend Bilder zur Verfügung stehen, was der statistischen Auswertbarkeit der Daten Genüge tut.
+Zudem besticht die Verwendung der StegoAppDB damit, dass für die Steganografie-Apps keine Cover-Stego-Bildpaare mehr
+generiert werden müssen und so der Prototyp direkt auf diesen Daten angewendet werden kann.
+
+Die konkret verwendete Konfiguration zum Herunterladen der StegoAppDB-Datensatzes für diese Arbeit 
+wird im Abschnitt <<ergebnisse_bilddatensatz,Verwendeter Bild-Datensatz>> beschrieben.
+
+[#implementierung_attribut]
+=== Implementierung eines Prototyps zur Attributierung steganografischer Bilddaten

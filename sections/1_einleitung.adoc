@@ -25,7 +25,7 @@ Die Verwendung von Steganografie in Bilddateien kann bereits in vielen Fällen e
 einer möglicherweise verwendeten Bibliothek zur Verarbeitung von Bilddaten oder sogar einer bestimmten Malware oder Malware-Familie. Eine derartige Zuordnung kann vielfältige Informationen zum Angriffshergang,
 Beschaffenheit und Ursprung der Malware wie auch zur Herkunft der damit operierenden Täter liefern, die für die strafrechtliche Verfolgung von großer Bedeutung sein können.
 
-Neben der Verwendung durch Malware wird Steganografie zudem auch für das Einbetten sogenannter digitalter Wasserzeichen genutzt, bei dem Bilddateien mit einem versteckten Code versehen werden,
+Neben der Verwendung durch Malware wird Steganografie zudem auch für das Einbetten sogenannter digitalter Wasserzeichen genutzt, bei dem Bilddateien mit einem sichtbaren oder versteckten Code versehen werden,
 um ungewünschte Distributionen oder Manipulationen des Bildes nachverfolgen zu können. Dies ist wichtig, um Urheberrechte zu schützen und deren Bruch durch beispielsweise Piraterie ahnden zu können. 
 Die Analyse von potenziell mit Wasserzeichen gekennzeichneten Bildern kann also wie bei Malware Aufschluss auf Herkunft und konkrete Art der Einbettung liefern, 
 um beispielsweise Robustheit des verwendeten Algorithmus zu testen und sicherzustellen, dass bei der Einbettung keine privaten Informationen preisgegeben werden. cite:[dittmann_motivation_2000]
@@ -37,18 +37,17 @@ um beispielsweise Robustheit des verwendeten Algorithmus zu testen und sicherzus
 Die Zielstellung dieser Arbeit konzentriert sich auf die folgenden Punkte:
 
 . Erstellung einer umfänglichen Liste von Malware-Vorkommnissen, in denen Steganografie mit Bildern als Trägermedium verwendet wurde
-. Erstellung einer Auswahlliste an Steganografie-Tools, die vergelichbar in ihrer Funktionalität zu den gefundenen Malwares sind
-. Erstellung einer Auswahlliste an Wasserzeichen-Tools
+. Erstellung einer Auswahlliste an Steganografie-Software, die vergleichbar in ihrer Funktionalität zu den gefundenen Malwares sind, sowie einer Auswahlliste an Wasserzeichen-Software
 . Recherche und/oder Aufbau von Forschungsdaten aus Cover- und Stego-Bilder-Paaren
 . Entwicklung eines Prototyps eines Werkzeugs zur Identifikation von Merkmalen für den Einsatz bestimmter Steganografieverfahren, Bildverarbeitungsbibliotheken und weitere
 
 Durch das Erreichen der genannten Ziele soll ein erster Ansatz zur Identifikation von Steganografie-Tools basierend auf deren verwendeter Bilder erarbeitet werden, 
-welcher sowohl für den Einsatz mit Malware als mit Wasserzeichen weiterausgebaut werden kann, wobei dies nicht mehr im Fokus dieser Arbeit liegt.
+welcher sowohl für den Einsatz mit Malware als auch mit Wasserzeichen weiterausgebaut werden kann, wobei dies nicht mehr im Fokus dieser Arbeit liegt.
 
 Da die Menge der Malware-Vorkommnisse erwartbar weit größer als die Menge der Steganografie- und Wasserzeichen-Tools sein dürfte,
 werden erstere nur mittels Literaturrecherche, während letztere auch praktisch durch Tests ausgewertet werden.
 
-Die beschriebene Ziele werden fortan im Rahmen dieser Arbeit als **Z.1** bis **Z.5** referenziert.
+Die beschriebene Ziele werden fortan im Rahmen dieser Arbeit als **Z.1** bis **Z.4** referenziert.
 
 === Forschungsfragen und Hypthoesen
 
@@ -58,19 +57,19 @@ Aus der Zielsetzung lassen sich folgende Forschungsfragen und zugehörigen Hypth
 Frage: Können Werkzeuge zur Einbettung von Daten mittels Steganografie nur anhand ihrer Ausgabe-Bilder und der Original-Bilder automatisiert identifiziert werden?::
 *Hypothese*: Ja, es lassen sich immer wiederkehrende Merkmale in den Bildern nachweisen, die mit dem verwendeten Einbettungswerkzeug in Zusammenhang stehen.
 
-Frage: Gibt es eine Schnittmenge der verwendeten Steganografie-Algorithmen und technischen Umsetzung zwischen Malwares, Steganografie- und Wasserzeichen-Tools?::
+Frage: Gibt es eine Schnittmenge bzgl. der Merkmale der verwendeten Steganografie-Algorithmen und technischen Umsetzung zwischen Malwares, Steganografie- und Wasserzeichen-Tools?::
 *Hypthese*: Ja, es kann eine Schnittmenge zumindest in der Kategorie der Steganografie-Algorithmen und der zur Umsetzung verwendeten Programmiersprachen und Bibliotheken abgesteckt werden.
 
-Frage: Worin unterscheiden sich die drei Kategorien?::
+Frage: Worin unterscheiden sich die drei Kategorien bzgl. der Merkmale?::
 *Hypothese*: Die Malwares legen einen größeren Wert auf Performance als auf Robustheit, während Wassezeichen-Tools umgekehrt gewichtet sind. Steganografie-Tools sind je nach Gewichtung der Autoren aufgestellt.
 
 Die beschriebene Fragen werden fortan im Rahmen dieser Arbeit als **F.1** bis **F.3** referenziert.
 
 === Aufbau der Arbeit
 
-Im folgenden Kapitel <<_theoretische_grundlagen>> werden die theoretischen Grundlagen kurz dargelegt, ohne tiefergehend auf die mathematische Basis einzugehen,
+Im folgenden Kapitel <<_theoretische_grundlagen,Theoretische Grundlagen>> werden die theoretischen Grundlagen kurz dargelegt, ohne tiefergehend auf die mathematische Basis einzugehen,
 da im Rahmen dieser Arbeit keine eigenen steganografischen Algorithmen entwickelt werden. 
-Im Kapitel <<_methodik>> werden das Vorgehen zu den Literaturrecherchen und der Entwicklung von Programmen zur Erreichung von *Z.5* dokumentiert.
-Das Kapitel <<_ergebnisse>> stellt die gesammelten Ergebnisse, aufbereitet in Grafiken und als Code-Listings mit entsprechenden Interpretation, vor.
-Die Kaptiel <<_zusammenfassung>> und <<_ausblick>> geben schließlich einen kurzen Rückblick der Arbeit wider und zeigen weitere Ausbaumöglichkeiten des entwickelten Programmcodes 
+Im Kapitel <<_methodik,Methodik>> werden das Vorgehen zu den Literaturrecherchen und der Entwicklung von Programmen zur Erreichung von *Z.5* dokumentiert.
+Das Kapitel <<_ergebnisse,Ergebnisse>> stellt die gesammelten Ergebnisse, aufbereitet in Grafiken und als Code-Listings mit entsprechenden Interpretation, vor.
+Die Kaptiel <<_zusammenfassung,Zusammenfassung>> und <<_ausblick,Ausblick>> geben schließlich einen kurzen Rückblick der Arbeit wider und zeigen weitere Ausbaumöglichkeiten des entwickelten Programmcodes 
 sowie Richtungen zur Forschung auf.

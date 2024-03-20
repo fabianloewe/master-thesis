@@ -1,11 +1,11 @@
 [abstract]
 == Abstract
 
-In dieser Masterarbeit wird zunächst ein Überblick zum Information Hiding mit Hilfe von Bilddateien verschafft.
+In dieser Masterarbeit wird zunächst ein Überblick zum Information Hiding mithilfe von Bilddateien verschafft.
 Der Fokus wird auf die Verwendung der beschriebenen Techniken im öffentlichen Raum durch Einbettungswerkzeuge und Malware gesetzt.
-Eine Untersuchung aktueller Malware-Vorkommnisse zeigt die Relevanz der Thematik und verschafft einen kategorisierte Übersicht für weitere Untersuchungen.
+Eine Untersuchung aktueller Malware-Vorkommnisse zeigt die Relevanz der Thematik und verschafft eine kategorisierte Übersicht für weitere Untersuchungen.
 Anhand der Funde werden Einbettungswerkzeug, die algorithmisch verwandte Verfahren zu den untersuchten Malwares anwenden, und Forschungsdaten mit Cover- und Stego-Bild-Paaren ausgewählt. 
-Die Bildpaaren werden daraufhin mit einem Werkzeug verglichen und aus den Ergebnissen steganografische Merkmale extrahiert, welche Hinweise auf die Anwendung bestimmter Algorithmen, 
+Die Bildpaare werden daraufhin mit einem Werkzeug verglichen und aus den Ergebnissen steganografische Merkmale extrahiert, welche Hinweise auf die Anwendung bestimmter Algorithmen,
 Bildverarbeitungsbibliotheken und weitere Informationen liefern. 
 Schließlich werden im Ausblick weitere Forschungsrichtungen im Bereich des Information Hiding vorgestellt.
 

@@ -1,5 +1,6 @@
 :doctype: book
 :imagesdir: assets/images
+:figure-caption: Abbildung
 //:stylesheet: paper.css
 // Disable generating an update label at the bottom of the doc.
 :last-update-label!:
@@ -29,6 +30,8 @@ endif::env-vscode[]
 :bibtex-throw: true
 :stem: asciimath
 :appendix-caption: Anhang
+:source-highlighter: rouge
+:icons: font
 
 image::logo.svg[role=logo]
 

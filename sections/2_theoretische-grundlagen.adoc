@@ -1,9 +1,138 @@
 == Theoretische Grundlagen
 
+Zunächst werden die theoretischen Grundlagen zum _Information Hiding_ aufbereitet.
+Basierend darauf wird auf die Analyse von Merkmalen, die durch das Anwenden von Information Hiding entstehen, eingangen.
+
 === Information Hiding
 
-==== Steganografie
+Die Methodik des Information Hiding beschreibt allgemein das Verstecken von Daten in anderen Daten,
+wobei in das _Cover_-Medium Daten eingebettet werden, wodurch das veränderte Medium mit eingebettet Daten (allgemein als _Stego_-Medium bekannt) entsteht.
+Die eingebetteten Daten werden je nach Kontext als _Einbettungsdaten_, _Nachricht_ oder auch _Payload_ bezeichnet.
+Zum Information Hiding werden die Techniken der _Steganografie_, des __Watermarking__s (im weiteren Text als Wasserzeichen benannt) und 
+die _Kryptografie_ zugeteilt. Die Kryptgrafie wird in dieser Arbeit nicht weiter als eigenständiges Verfahren beleuchtet, 
+da dabei nicht versucht wird, das originale Medium scheinbar unverändert zu lassen. cite:[petitcolas_information_1999,agrawal_survey_2015]
 
-==== Watermarking
+Neben den genannten Techniken fällt auch das Einbetten in die Struktur des Cover-Mediums zum Information Hiding,
+wobei zumeist Metadaten überschrieben oder Einbettungsdaten einfach an festgelegte Stellen im Medium geschrieben werden.
 
-=== Attributierung
+==== Anwendungsgebiete
+
+Das Einbetten in die Struktur oder die Metadaten erfolgt im Allgemeinen spezifisch auf das Format angepasst.
+In ein Bild im JFIF-Format cite:[hamilton_eric_jpeg_1992] lassen sich beispielsweise Daten an Stelle eines Vorschaubildes (sogenanntes _Thumbnail_) einbettet.
+Außerdem zählen zu dieser Art von Information Hiding das Anfügen von Daten nach einem End-Marker des Dateiformats wie dem EOI-Marker bei JPEG. 
+Die oftmals simple Natur dieser Verfahren erlaubt eine schnelle Implementierung in Programmcode und ermöglicht meistens eine hohe Kapazität an Einbettungsdaten.
+
+.TODO:
+* Quellen
+
+Bei der Steganografie liegt der Fokus auf dem effektiven Verstecken der Existenz von eingebetteten Daten,
+sodass nur der Sendende und der Empfangende von der Nachricht weiß und diese auch nur entschlüsseln kann.
+Wie bereits in der Einleitung beschrieben, wurde diese Technik schon lange vor digitalen Systemen eingesetzt. 
+cite:[agrawal_survey_2015]
+
+Wasserzeichen weisen dagegen ein andere Anwendungsgebiete auf. Sie werden für das Fingerprinting, den Urheberrechtsschutz,
+die Verifikation der Authentizität von Inhalten (z.B. auf Social Media-Plattformen), in medizinischen Anwendungen und viele mehr
+angewandt. Daraus hervorgehend müssen Wasserzeichen anderen Kriterien genügen, als es Steganografie- oder Struktur-Verfahren tun.
+cite:[begum_digital_2020]
+
+[#theorie_kriterien]
+==== Kriterien
+
+Die Techniken des Information Hiding werden nach drei Kriterien eingeordnet:
+
+.Kriterien für das Information Hiding cite:[begum_digital_2020]
+[horizontal%ordered]
+Kapazität:: Beschreibt, welche Größe an Daten in das Cover eingebettet werden kann
+Robustheit:: Beschreibt, wie sicher das Verfahren vor Angriffen durch Dritte ist
+Erkennbarkeit:: Beschreibt, wie einfach die Verwendung des Verfahrens auf das Cover durch Dritte zu entdecken ist
+
+Im folgenden Diagramm wird die Gewichtung von Struktur-Einbettungen, Steganografie und Wasserzeichen visualisiert.
+Ein Wert von _1_ entspricht _niedriger_, _2_ entspricht _mittlerer_ und _3_ entspricht _hoher_ Kapazität und Robustheit,
+während ein Wert von _1_ eine _hohe_, _2_ eine _mittlere_ und _3_ eine _geringe_ Erkennbarkeit widerspiegelt.
+Die Abbildung zeigt eine grobe Tendenz und ist nicht durch empirische Forschung konkret belegt.
+
+.Gewichtung von Verfahren im Bereich der Struktur-Einbettung, Steganografie und Wasserzeichen
+image::abbildung_radar-verfahren.png[]
+
+.TODO:
+* Quellen
+
+Dabei ist zu erkennen, dass bei Struktur-Einbettungen mehr Wert darauf gelegt wird, größere Datenmengen verschleiert transportieren zu können,
+wofür die Robustheit und Erkennbarkeit zurückgestellt wird. Steganografie wird dagegen eingesetzt, um eine bessere Robustheit und niedrigere
+Erkennbarkeit zu erzielen. Wasserzeichen werden mit möglichst hoher Robustheit erstellt, wobei auch die Erkennbarkeit eine hohe Priorisierung hat, 
+und die Kapazität eine untergeordnete Rolle spielt. Dies ist darin begründet, dass Wasserzeichen üblicherweise nur Identifikationsinformationen beinhalten.
+
+==== Verfahren
+
+Die klassischen Verfahren der Stegangrafie können in zwei Domänen unterteilt werden: der _Raum_- und der _Frequenz_-Domäne.
+In der Raumdomäne werden die Pixel des Cover-Bildes so verändert, dass die Nachricht darin versteckt ist und wieder extrahiert werden kann.
+In der Frequenz-Domäne werden die Komprimierungstabellen des Bildes genutzt, um durch gezielte Manipulation der darin enthaltenen Werte eine Nachricht zu verstecken. Neben den klassischen Verfahren werden zudem vermehrt auch neuronale Netze insbesondere für Wasserzeichen eingesetzt.
+
+Die wichtigsten Verfahren werden nachfolgend kurz vorgestellt, ohne einen Anspruch auf Vollständigkeit zu erheben:
+
+.Raumdomäne
+Least Significant Bit (LSB):: Bei dieser Technik wird der am wenigsten wichtige Bit eines Pixel in den Wert eines Bits aus der einzubettenden Nachricht geändert. Die Veränderung ist für das menschliche Auge minimal und daher durch reine Observation durch Menschen kaum zu entdecken.
+Neben des am wenigsten relevanten Bits kann auch der zweitwenigst relevante und der drittwenigst und so weiter zur Einbettung genutzt werden,
+wobei sich die Kapazität bezüglich der Einbettungslänge für eine immer leichtere Detektierbarkeit erhöht. Bei Farbbildern kann die Technik auf jeden der drei Farbkanäle sowie auf den Alpha-Kanal angewendet werden.
+
+Intermedia Significant Bit (ISB):: Diese Verbesserung der LSB-Methode sucht pro Pixel in einem bestimmten Bit-Intervall nach dem optimimalen Bit,
+dessen Veränderung am wenigsten Einfluss auf die Detektierbarkeit ausüben dürfte. Varianten dieser Methode passen die restlichen Bits außerdem so an,
+dass der Farbwert des Pixels am dem ursprüngplichen entspricht.
+
+Patchwork:: Diese Technik nutzt eine pseudo-zufällige Einbettung von sich wiederholenden Mustern mittels einer Gauss-Verteilung. Dabei werden
+zwei Patches A und B pseudo-zufällig ausgewählt, wobei A verblasst und B verdunkelt wird.
+
+.Frequenzdomäne
+Discrete Cosine Transform  (DCT):: Die DCT-Methode nutzt die DCT-Tabelle von JPEG-Bildern, indem meistens das Cover-Bild in mehrere Blöcke unterteilt wird, auf die die Einbettung ausgeführt wird. Üblicherweise werden die niederen Frequnzen zur Manipulation genutzt, 
+da diese durch einfacheste Verfahren wie Sichtprüfung durch Menschen schwerer detektierbar sind. 
+
+Discrete Wavelet Transform (DWT):: Die Frequenzen des Bilds werden in sogenannte Wavelets umgewandelt,
+welche für die Signalverarbeitung oder Bildkompremierung relevant sind. Die dabei verwendeten Koeffizienten können in mehrere Ebenen
+unterteilt werden, welche verschiedene Manipulationen erlauben.
+
+Singular Value Decomposition (SVD):: Verfahren der SVD-Technik nutzen Eigenschaften der Eigendekomposition einer symmetrischen Matrix mit nicht-negativen Eigenwerten sowie deren Beziehungen zu den Koeeffizienten. 
+
+Weitere Techniken werden insbesondere in der Forschung neu- und weiterentwickelt.
+Auch Hybrid-Verfahren der beiden Domänen sind möglich.
+In dieser Arbeit soll allerdings nur ein Überblick über die gängisten Techniken verschafft werden.
+Einen guten Einblick in das breitere Forschungsfeld und vertiefende Informationen zu den Kurzbeschreibungen liefern
+Begum und Uddin in cite:[begum_digital_2020].
+
+Zum Bereich des Information Hidings gehört auch die Einbettung in die Struktur des Cover-Bildes, z.B. die folgenden Methoden:
+
+.Struktur-Verfahren
+Einbetten in Metadaten:: Hierbei wird die Nachricht in ein Feld der Metadaten des Cover-Bildes geschrieben.
+Dabei kann es sich um das Kommentar-Feld oder auch das Model-Feld in den EXIF-Metadaten handeln.
+Für größere Nachrichten wie Payloads muss jedoch insbesondere bei EXIF-Feldern der durch Bildverarbeitungsprogramme 
+erwartete Datentyp beachtet werden.
+
+Anfügen ans Dateiende:: Die Nachricht wird nach dem End-Marker der Bilddatei eingefügt.
+Die meisten Bilddarstellungsprogramme ignorieren alle weiteren Anhänge, wodurch ein Payload für einen menschlichen Betrachter nicht sichtbar wird,
+jedoch durch Forensik-Programme einfach zu erkennen ist.
+
+Ändern des Vorschaubilds:: Eine Nachricht kann an Stelle eines Vorschaubilds in das Cover-Bild eingefügt werden. 
+Eine einfache Detektion durch Sicht kann dann nur erfolgen, falls das Vorschaubild dargestellt werden soll.
+
+Struktur-Verfahren können noch in vielen weiteren Variationen eingesetzt werden.
+Außerdem können Struktur-Verfahren mit Raum- und Frequenz-Verfahren kombiniert werden, um beispielsweise die Kapazität zu erhöhen.
+
+=== Merkmalsanalyse
+
+Die _Merkmalsanalyse_ im Kontext dieser Arbeit beschäftigt sich mit der Suche nach und der Analyse von gefundenen Merkmalen
+von vermutlichen steganografisch manipulierten Daten. Damit ist sie der sogenannten _Attribution_ zugehörig,
+welche sich grundsätzlich mit dem Ziel beschäftigt, den oder die Verursachenden von böswilliger Cyberaktivität 
+wie zum Beispiel das Eindringen in Rechnersysteme. Dabei kann es zunächst um die Rückverfolgung auf des Angriffs auf die 
+durch die Angreifer verwendeten Systeme gehen, welche wiederum Rückschlüsse auf die Angreifer selbst ermöglichen.
+Oftmals werden Angriffe im Auftrag einer Drittpartei durchgeführt, die möglicherweise über die Angreifer identifizierbar sind. 
+cite:[lin_attribution_2016]
+
+.TODO:
+* mehr zu Politik und Gesellschaft
+
+Die Merkmalsanalyse in dieser Arbeit fokussiert sich nur auf die Identifikation von Programmen, 
+die für die Einbettung von Daten mittels Information Hiding oder im Speziellen Steganografie genutzt wurden, 
+was auch als _Steganalyse_ bezeichnet wird. Eine solche Merkmalsanalyse wird durchgeführt,
+nachdem ein erhärterer Verdacht auf die Nutzung von Steganografie durch vorherige Schritte der Steganalyse festegestellt wurde. 
+Je nach erwartetem Steganografie-Verfahren werden unterschiedliche Analyse-Verfahren angewendet und zumeist miteinander kombiniert,
+um die Einbettungssoftware so detailliert wie möglich zu identifizieren. 
+Konkrete Methoden werden in den Ergebnissen vorgestellt.
