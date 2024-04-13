@@ -62,6 +62,7 @@ wofür die Robustheit und Erkennbarkeit zurückgestellt wird. Steganografie wird
 Erkennbarkeit zu erzielen. Wasserzeichen werden mit möglichst hoher Robustheit erstellt, wobei auch die Erkennbarkeit eine hohe Priorisierung hat, 
 und die Kapazität eine untergeordnete Rolle spielt. Dies ist darin begründet, dass Wasserzeichen üblicherweise nur Identifikationsinformationen beinhalten.
 
+[#theorie-verfahren]
 ==== Verfahren
 
 Die klassischen Verfahren der Stegangrafie können in zwei Domänen unterteilt werden: der _Raum_- und der _Frequenz_-Domäne.

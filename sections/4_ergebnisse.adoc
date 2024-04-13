@@ -270,16 +270,22 @@ Schutz vor Angriffen in diesem Fachbereich bieten. Da unsichtbare Wasserzeichen 
 
 Der ausgewählte Datensatz beinhaltet Cover-Stego-Bildpaare der zuvor beschriebenen mobilen Stego-Apps.
 Diese setzen hauptsächlich Steganografie in der Raumdomäne ein, wobei PixelKnot in der Frequenz-Domäne arbeitet.
-Um den Einsatz von Information Hiding durch Malware besser widerzuspiegeln, wurde aus den Cover-Bilder des Datensatzes 
-zudem Stego-Bilder mit den Verfahren der Strukur-Einbettung erstellt.
+Um den Einsatz von Information Hiding durch Malware besser widerzuspiegeln, wurde aus den Cover-Bildern des Datensatzes
+zudem Stego-Bilder mit den Verfahren der Struktur-Einbettung erstellt.
 
 Die Einstellung des Suchformulars der StegoAppDB wurde wie folgt vorgenommen:
 
 .Einstellung StegoAppDB
 image::stegoappdb-verwendet.png[Einstellung StegoAppDB]
 
-Es wurden lediglich immer das erste Gerät pro Gerätetyp ausgewählt und die manuelle Belichtungsdauer nicht selektiert, da sonst die Größe des Datensatzes um nahezu das Zehnfache angestiegen wäre. (siehe <<appendix_stegoappdb-nicht-verwendet>>) 
-
-=== Prototyp zur Merkmalsanalyse steganografischer Bilddaten
+Es wurden lediglich immer das erste Gerät pro Gerätetyp ausgewählt und die manuelle Belichtungsdauer nicht selektiert, da sonst die Größe des Datensatzes um nahezu das Zehnfache angestiegen wäre. (siehe <<appendix_stegoappdb-nicht-verwendet>>)
 
 === Übersicht von Merkmalen steganografischer Bilddaten
+
+- Vorstellung Metadaten
+- Vorstellung Signaturen in LSB-Ebenen
+- Vorstellung Dateigrößendifferenzen
+
+=== Auswertung des Detektors
+
+- Vorstellung Ergebnisse der Detektionen

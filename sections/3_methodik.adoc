@@ -558,5 +558,272 @@ generiert werden müssen und so der Prototyp direkt auf diesen Daten angewendet 
 Die konkret verwendete Konfiguration zum Herunterladen der StegoAppDB-Datensatzes für diese Arbeit 
 wird im Abschnitt <<ergebnisse_bilddatensatz,Verwendeter Bild-Datensatz>> beschrieben.
 
-[#implementierung_attribut]
-=== Implementierung eines Prototyps zur Attributierung steganografischer Bilddaten
+[#implementierung_merkmal]
+=== Implementierung eines Prototyps zur Merkmalsfindung steganografischer Bilddaten
+
+Zur Umsetzung eines prototypischen Detektors für die Identifikation bestimmter Steganografie-Werkzeuge wurde
+in grundsätzlich zwei Schritten vorgegangen.
+
+. Bestimmung möglicher Merkmalskategorien
+. Recherche und Nutzung von Dateianalyse- und Steganalyse-Tools zur Findung der Merkmale, die auf die Verwendung bestimmter Stego-Tools hinweisen
+. Entwicklung des Detektors basierend auf gefundenen Merkmalen
+
+==== Merkmalskategorien
+
+Aus den vorgestellten <<theorie-verfahren,Verfahren zur Einbettung>> lassen sich Merkmalskategorien ableiten,
+den den Domänen der Einbettungsverfahren entsprechen.
+
+* Merkmale der Raum-Domäne: Dabei werden die Pixel der Bilder nach Auffälligkeiten untersucht.
+Dazu gehören statistischen Analysen von Pixel-Änderungen wie auch Analysen der LSBs der Pixel.
+* Merkmale der Frequenz-Domäne: Entprechend der Raum-Domäne werden statistischen Analysen oder LSB-Analysen
+auf den Koeffizienten von komprimierten Bildern durchgeführt.
+* Merkmale der Struktur: Es werden Dateigrößen und weitere Metadaten der Cover- und Stego-Bilder verglichen.
+
+==== Analyse-Tools
+
+Zur Recherche wurde hauptsächlich die Google-Suchmaschine verwendet,
+da die meisten Analyse-Tools nicht im akademischen Umfeld entwickelt werden.
+Die nachfolgenden Tools wurden als potenziell nützlich identifiziert und aktiv verwendet.
+
+.Verwendete Analyse-Tools
+|===
+|Name|Domäne(n)|Benutzeroberfläche|Kommentar
+
+|*exiftool*
+|Struktur
+|Kommandozeile
+|Gibt alle gefundenen Metadaten zu Mediendateien aus.
+Kann bei JPEGs auch grundlegende Informationen zu Koeffizienten liefern.
+
+|*sherloq*
+|Struktur, Raum
+|Grafisch
+|Ermöglicht Darstellung von Metadaten (mittels _exiftool_ im Hintergrund).
+Kann verschiedene Filter auf Bilder legen und weiteres.
+
+|*aletheia*
+|Struktur, Raum, Frequenz
+|Kommandozeile
+|Bietet Ausgabe von Metadaten, statistische Analysen in der Raum-Domäne,
+Simulationen von Stego-Tools, Angriffe auf Steganografie mittels maschinellem Lernen
+
+|===
+
+[NOTE]
+====
+Weitere aus dem Linux-Umfeld sind zum Beispiel _binwalk_ und _foremost_, die jedoch
+in dieser Arbeit nicht verwendet wurden.
+
+Sämtliche Analysen wurden auf einem Macbook Pro M1 durchgeführt.
+====
+
+Insbesondere das Analyse-Tool _aletheia_ stellte sich durch die Vielzahl an Funktionen als sehr nützlich heraus,
+da es in Python geschrieben, quelloffen und daher denkbar einfach zu erweitern oder
+in Python-Skripte oder Jupyter Notebooks als Bibliothek einzubinden ist.
+
+Die in dieser Arbeit verwendete Version von _aletheia_ wurde vom Autor angepasst,
+um den aktuellen Stand von Python nutzen zu können sowie
+die Erweiterung der Kommandozeilen-Befehle des Tools zu vereinfachen.
+
+==== Vorstellung der Analysen
+
+Es wurden drei Analysen aufgrund des <<ergebnisse_bilddatensatz,verwendeten Datensatzes>> ausgewählt.
+Die Auswahl wurde so vorgenommen, da die meisten Stego-Apps LSB-Verfahren implementieren,
+weshalb Änderungen im Stego-Bild in der _Raum-Domäne_ *höchstwahrscheinlich*,
+in der _Struktur_ *wahrscheinlich* und in der _Frequenz-Domäne_ *unwahrscheinlich* zu finden sind.
+
+.Ausgewählte Analysen
+|===
+|Name|Domäne|Blind? (Genügt Stego-Bild)|Ziele
+
+|Metadatenvergleich
+|Struktur
+|Nein
+|
+
+* Herausarbeiten von Veränderungen der Metadaten im Stego-Bild im Vergleich zum Cover-Bild.
+* Vergleich nicht nur innerhalb der Paare, sondern auch über alle Paare mit der gleichen eingebetteten Nachricht hinweg
+
+|Dateigrößenunterschied
+|Struktur
+|Nein
+|
+
+* Analyse der Veränderung der Dateigröße zwischen Cover- und Stego-Bild
+* Herausarbeiten möglicher Zusammenhänge oder identifizierbarer Intervalle in der prozentualen Veränderung
+
+|LSB-Extraktion
+|Raum
+|
+
+* Bei _Analyse_: *Nein*, da nach der eingebetteten Nachricht gesucht wird, die bekannt sein muss.
+* Bei _Detektion_: *Ja*, da nur im Stego-Bild nach Signaturen, etc. gesucht wird.
+
+|
+
+* Identifikation der verwendeten Parameter zur LSB-Einbettung.
+* Identifikation möglicher eingebetteter Signaturen, Längenangaben der Nachricht, etc.
+
+|===
+
+Zu jeder der in der Tabelle vorgestellten Analysen wurden die folgenden algorithmischen Vorgehensweisen gewählt.
+
+.Metadaten-Vergleich
+****
+Pro Stego-App:
+
+. Lese Metadaten von erstem Cover- und Stego-Bild-Paar als Zuordnungstabellen _c_ und _s_ aus.
+. Vergleiche _c_ und _s_ auf Unterschiede und schreibe diese in neue Zuordnungstabelle _u_.
+. Für jedes weitere Paar: Wiederhole 1. und 2. und kombiniere _u_ mit vorherigem _u_ mittels Schnittmenge.
+
+.Implementierung
+[,python]
+----
+include::../tools/aletheia/aletheialib/attacks.py[%lineno,lines="104..129"]
+----
+Schritt 1 ist in `metadata()`  und Schritt 2 in `metadata_diff()` implementiert.
+Schritt 3 wurde in der Python-Konsole bzw. Jupyter Notebook umgesetzt.
+****
+
+.Dateigrößenunterschied
+****
+Für jedes Cover-Stego-Paar pro Stego-App:
+
+. Lese Dateigröße von Cover als _c_ und von Stego als _s_ aus.
+. Berechne Differenz stem:[d=s-c] und prozentualer Unterschied stem:[p=d/c*100]
+. Erstelle gemeinsame Übersicht (bspw. als Grafik) aller prozentualen Unterschiede.
+
+.Implementierung
+[,python]
+----
+include::../tools/aletheia/aletheialib/attacks.py[%lineno,lines="749..771"]
+----
+Schritt 1 und 2 ist in `size_diff()` implementiert.
+Schritt 3 wurde im Jupyter Notebook umgesetzt, in die `results`-Liste zur Visualisierung genutzt wurde.
+****
+
+.LSB-Extraktion
+****
+Für jedes Cover-Stego-Paar pro Stego-App:
+
+. Extrahiere die Least _n_ Significant Bits aus den Farbkanälen _R_, _G_, _B_ oder _A_ pro Pixel pro Stego-Bild aus und
+füge diese im Big-Endian- oder Little-Endian-Format aneinander.
+Daraus ergeben sich die Parameter _Anzahl der LSBs **n**_, _verwendete Farbkanäle_ und das _Endian-Format_.
+. Suche nach der eingebetteten Nachricht.
+. Suche nach wiederkehrenden Mustern in allen extrahierten Nachrichten ohne Zusammenhang mit der Nachricht (_Signatur_) oder
+im mit Zusammenhang mit der Nachricht (bspw. _Nachrichtenlänge_ in den ersten 4 Bytes).
+. Vergleiche Ergebnisse aller Extraktionen zur Validierung.
+
+.Implementierung
+[,python]
+----
+include::../tools/aletheia/aletheialib/attacks.py[%lineno,lines="667..713"]
+----
+Schritt 1 ist mittels der `_extract_bits_*()`-Funktionen umgesetzt. Es existiert eine **opt**imierte Version
+jeweils für das Little- und Big-Endian-Format, wenn die Least _n_ Significant Bits _1_ oder ein Vielfaches von _2_ sind.
+Ansonsten werden nicht-optimierten Versionen zur Extraktion verwendet. `np.zeros()` sowie `np.array()` stammt aus der `numpy`-Bibliothek.
+****
+
+Weitere potenziell relevante Analysen für den Datensatz wie die R/S-Analyse wurden aus Gründen des Umfangs dieser Arbeit
+nicht durchgeführt. Die dazu nötigen Algorithmen sind ebenfalls im Analyse-Tool _aletheia_ implementiert und
+sollten für eine nächste Ausbaustufe des Detektors in Betracht gezogen werden.
+
+==== Implementierung eines prototypischen Detektors
+
+Die konkreten Ziele des prototypischen Detektors sind:
+
+1. Bestimmung des zur Einbettung verwendeten Tools basierend auf Cover- und Stego-Bild
+2. Nachvollziehbarkeit des Bestimmungsprozesses
+3. Einfacher modularer Aufbau zur einfachen Erweiterbarkeit
+4. Deterministische Ergebnisse (vorerst Verzicht auf maschinelles Lernen zur Erkennung von Merkmalen)
+
+Basierend auf diesen Zielen wurden mögliche bestehende Lösungen untersucht.
+Neben den vielen proprietären Malware-Scanner fiel die quelloffene Lösung YARA des Malware-Analyse-Portals VirusTotal
+als möglicher Detektor für diese Arbeit auf.
+
+YARA ermöglicht die Analyse von Dateien (mit dem Fokus auf Malware) anhand selbst definierter Regeln.
+Diese Regeln werden in einer domänen spezifischen Sprache geschrieben und
+an YARA gemeinsam mit der zu analysierenden Datei übergeben.
+Die Webseite des Tools zeigt das folgende Beispiel einer Regel:
+
+.Beispiel-Regel von der YARA-Webseite
+[,yara]
+----
+rule silent_banker : banker
+{
+    meta:
+        description = "This is just an example"
+        threat_level = 3
+        in_the_wild = true
+
+    strings:
+        $a = {6A 40 68 00 30 00 00 6A 14 8D 91}
+        $b = {8D 4D B0 2B C1 83 C0 27 99 6A 4E 59 F7 F9}
+        $c = "UVODFRYSIHLNWPEJXQZAKCBGMT"
+
+    condition:
+        $a or $b or $c
+}
+----
+
+Die Regel heißt _silent_banker_, weist unter anderem eine Beschreibung und eine Gefahrenniveau _threat_level_ sowie
+mehrere Strings und eine Bedingung auf. In der Sektion _strings_ werden die Strings Variablen zugeordnet,
+welche in der Bedingung eine nach der anderen mit der Eingabedatei verglichen werden,
+bis eine Übereinstimmung gefunden wurde. Mittels Modulen erlaubt YARA den Zugriff auf verschiedene weitere Daten
+der Eingabedatei, sodass auch dynamische Werte untersucht werden können.
+
+Damit YARA jedoch nutzbar zur Umsetzung der zuvor vorgestellten Analysen ist,
+muss insbesondere das erste Ziel möglich sein. YARA erlaubt jedoch nur eine Eingabedatei,
+wodurch alle nicht-blinden Analysen nicht mehr direkt möglich sind.
+Wäre diese Bedingung erfüllt, ließe sich zumindest die Dateigrößenanalyse als Regel definieren.
+Damit auch der Metadatenvergleich und die LSB-Extraktion möglich werden, müsste YARA die entsprechenden Daten bereitstellen,
+sodass von Regeln daraufzugegriffen werden kann.
+Diese Funktion ist über selbst entwickelte Module in der Programmiersprache C zwar möglich,
+wurde aber aufgrund der Komplexität der Sprache selbst sowie des Build-Systems an dieser Stelle nicht weiterverfolgt.
+
+Dennoch diente YARA als Inspiration eines selbst-entwickelten Tools in Python,
+dass auch direkt auf _alethiea_ zur Detektion zurückgreift. Wie in YARA werden Regeln definiert,
+die auf die Eingabe-Bildpaare angewendeten werden.
+Die Regeln sind im YAML-Format in einer Konfigurationsdatei definiert, sodass kein eigener Parser
+wie bei einer domänenspezifischen Sprache entwickelt werden musste.
+
+Der Aufbau der Konfigurationsdatei ist wie folgt:
+
+.Konfigurationsdatei des Detektors
+[source,yaml]
+----
+isd: "1" # <1>
+tools: # <2>
+  - name: PixelKnot # <3>
+    tags: [ Android, F5 ] # <4>
+rules: # <5>
+  - name: ISA.PixelKnot.File-Size-Diff # <6>
+    desc: Check if the file size difference is maximum -3%. # <7>
+    tools: # <8>
+      - name: PixelKnot # <9>
+        weight: 5 # <10>
+    match: # <11>
+      value: attacks.size_diff([(cover.path, stego.path)])[0][3] # <12>
+      cond: -3 <= value < 0 # <13>
+----
+<1> Versionsnummer (aktuell nur "1", "1.0" oder "1.0.0") und Marker, dass diese Konfigurationsdatei für den Detektor bestimmt ist
+<2> Tools, die durch die nachfolgend definierten Regeln detektiert werden können
+<3> Name eines Stego-Tools
+<4> Frei wählbare Tags zur Zuordnung des Tools zu bestimmten Kategorien
+<5> Einsteig zum von oben nach unten abzuarbeitenden Regelbaum
+<6> Name der ersten Regel
+<7> Beschreibung der ersten Regel
+<8> Detektierbare Tools durch diese Regel
+<9> Name des detektierbaren Tools
+<10> Gewichtung, falls die Regel erfolgreich war
+<11> Definition der Zuordnung
+<12> Der zu vergleichende Wert
+<13> Eine Bedingung, die wahr (`True`) oder falsch (`False`) zurückgeben muss
+
+In jeder Regel kann der `match` auch direkt ein Python-Ausdruck sein.
+Ansonsten können wie im Beispiel `value` und `cond` verwendet werden,
+um den zu vergleichenden Wert ausgeben zu lassen. Sowohl `value` als auch `cond` sind Python-Ausdrücke.
+
+Im Beispiel wird die Dateigröße von Cover- und Stego-Bild ausgewertet und aus dem ersten Element der Ergebnisliste (`[0]`)
+das vierte Element (`[3]`) ausgelesen, welches den prozentualen Unterschied beinhaltet.
+Wenn der Unterschied zwischen -3 % und 0 % liegt, könnte PixelKnot für die Einbettung verwendet worden sein.

@@ -1,0 +1,77 @@
+isd: "1"
+tools:
+  - name: MobiStego
+    tags: [ Android, LSB ]
+  - name: PixelKnot
+    tags: [ Android, F5 ]
+  - name: Pictograph
+    tags: [ iPhone, LSB ]
+  - name: SteganographyM
+    tags: [ Android, LSB ]
+  - name: Passlok
+    tags: [ Android, LSB ]
+  - name: PocketStego
+    tags: [ Android, LSB ]
+rules:
+  - name: ISA.PixelKnot.File-Size-Diff
+    desc: Check if the file size difference is maximum -3%.
+    tools:
+      - name: PixelKnot
+        weight: 5
+    match:
+      value: attacks.size_diff([(cover.path, stego.path)])[0][3]
+      cond: -3 <= value < 0
+  ###
+  - name: ISA.Passlok.File-Size-Diff
+    desc: Check if the file size difference is maximum 0.25%.
+    tools:
+      - name: Passlok
+        weight: 5
+    match:
+      value: attacks.size_diff([(cover.path, stego.path)])[0][3]
+      cond: 0 < value <= 0.25
+  ###
+  - name: ISA.PocketStego.File-Size-Diff
+    desc: Check if the file size difference is maximum 20%.
+    tools:
+      - name: PocketStego
+        weight: 1
+    match:
+      value: attacks.size_diff([(cover.path, stego.path)])[0][3]
+      cond: 0 < value <= 20
+  ###
+  - name: ISA.MobiStego.File-Size-Diff
+    desc: Check if the file size difference is maximum 50%.
+    tools:
+      - name: MobiStego
+        weight: 1
+    match:
+      value: attacks.size_diff([(cover.path, stego.path)])[0][3]
+      cond: 0 < value <= 50
+    next:
+      name: ISA.MobiStego.LSB-Signature
+      desc: Check if data extracted from the LSBs contains a signature.
+      tools:
+        - name: MobiStego
+          weight: 10
+      match:
+        value: attacks.lsb_extract(stego.path, bits=2, endian='big').tobytes()
+        cond: value[:3] == b'@!#' and b'#!@' in value[3:]
+  ###
+  - name: ISA.Pictograph.File-Size-Diff
+    desc: Check if the file size difference is in the range of 20% to 50%.
+    tools:
+      - name: Pictograph
+        weight: 1
+    match:
+      value: attacks.size_diff([(cover.path, stego.path)])[0][3]
+      cond: 20 <= value <= 50
+  ###
+  - name: ISA.SteganographyM.File-Size-Diff
+    desc: Check if the file size difference is in the range of 20% to 80%.
+    tools:
+      - name: SteganographyM
+        weight: 1
+    match:
+      value: attacks.size_diff([(cover.path, stego.path)])[0][3]
+      cond: 20 <= value <= 80

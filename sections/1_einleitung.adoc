@@ -71,5 +71,5 @@ Im folgenden Kapitel <<_theoretische_grundlagen,Theoretische Grundlagen>> werden
 da im Rahmen dieser Arbeit keine eigenen steganografischen Algorithmen entwickelt werden. 
 Im Kapitel <<_methodik,Methodik>> werden das Vorgehen zu den Literaturrecherchen und der Entwicklung von Programmen zur Erreichung von *Z.5* dokumentiert.
 Das Kapitel <<_ergebnisse,Ergebnisse>> stellt die gesammelten Ergebnisse, aufbereitet in Grafiken und als Code-Listings mit entsprechenden Interpretation, vor.
-Die Kaptiel <<_zusammenfassung,Zusammenfassung>> und <<_ausblick,Ausblick>> geben schließlich einen kurzen Rückblick der Arbeit wider und zeigen weitere Ausbaumöglichkeiten des entwickelten Programmcodes 
+Die Kapitel <<_zusammenfassung,Zusammenfassung>> und <<_ausblick,Ausblick>> geben schließlich einen kurzen Rückblick der Arbeit wider und zeigen weitere Ausbaumöglichkeiten des entwickelten Programmcodes
 sowie Richtungen zur Forschung auf.
