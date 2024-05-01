@@ -3,6 +3,7 @@ from typing import List, Optional, Union
 
 
 def _check_is_type(rule_dict, key: str, _type):
+    """Check if the key in the rule_dict is of the given type. If not, raise a ValueError."""
     name = rule_dict[key]
     if not isinstance(name, _type):
         _type_name = 'string' if _type is str else _type
@@ -12,13 +13,23 @@ def _check_is_type(rule_dict, key: str, _type):
 
 @dataclass
 class Tool:
+    """Represents a stego tool."""
+
     name: str
+    """The name of the tool."""
+
     desc: Optional[str]
+    """The description of the tool."""
     tags: List[str]
+    """The tags of the tool like "App", "CLI", "LSB", etc."""
+
     version: Optional[str] = None
+    """The version of the tool."""
 
     @staticmethod
     def from_dict(technique_dict):
+        """Create a Tool object from a dictionary."""
+
         if 'name' not in technique_dict:
             raise ValueError('Missing "name" field (the name of the tool)')
         else:
@@ -38,14 +49,21 @@ class Tool:
 
 @dataclass
 class Matcher:
+    """Represents a match expression that is split into a value to be evaluated and a condition to be checked."""
+
     value: str
+    """The value to be evaluated."""
+
     cond: str
+    """The condition to check the value against."""
 
     def __str__(self):
         return self.cond + ' with value = ' + self.value
 
     @staticmethod
     def from_dict(match_dict) -> Union[str, 'Matcher']:
+        """Create a Matcher object from a dictionary."""
+
         if isinstance(match_dict, str):
             return match_dict
         elif isinstance(match_dict, dict):
@@ -56,11 +74,18 @@ class Matcher:
 
 @dataclass
 class MatchedTool:
+    """Represents a tool that can be matched by a rule."""
+
     name: str
+    """The name of the tool."""
+
     weight: int
+    """The weight of this match for the evidence of this tool being used in the image."""
 
     @staticmethod
     def from_dict(tech_dict):
+        """Create a MatchedTool object from a dictionary."""
+
         if 'name' not in tech_dict:
             raise ValueError('Missing "name" field (the name of the tool as defined in the techniques section)')
         else:
@@ -77,15 +102,30 @@ class MatchedTool:
 
 @dataclass
 class Rule:
+    """Represents a rule that can be applied to detect a stego tool in an image."""
+
     name: str
+    """The name of the rule."""
+
     desc: str
+    """The description of the rule."""
+
     tags: List[str]
+    """The tags of the rule."""
+
     match: str | Matcher
+    """The match expression of the rule."""
+
     tools: List[MatchedTool]
+    """The tools that may be identified by this rule."""
+
     next: Optional[Union['Rule', 'CompoundRule']]
+    """The next rule to be applied after this rule."""
 
     @staticmethod
     def from_dict(rule_dict: dict) -> Union['Rule', 'CompoundRule']:
+        """Create a Rule object from a dictionary."""
+
         if 'operator' in rule_dict and 'rules' in rule_dict:
             return CompoundRule.from_dict(rule_dict)
 
@@ -121,14 +161,33 @@ class Rule:
 
 @dataclass
 class CompoundRule:
+    """Represents a compound rule that will apply to a list of rules according to the operator."""
+
     name: Optional[str]
+    """The name of the rule."""
+
     desc: Optional[str]
+    """The description of the rule."""
+
     tags: List[str]
+    """The tags of the rule."""
+
     operator: str
+    """The operator to apply to the rules (one of "any", "all", "none" or "each").
+    
+    - "any": At least one rule must match.
+    - "all": All rules must match.
+    - "none": None of the rules must match.
+    - "each": Each rule will be applied whether the previous rule matched or not.
+    """
+
     rules: List[Union['Rule', 'CompoundRule']]
+    """The sub-rules of this rule."""
 
     @staticmethod
     def from_dict(rule_dict) -> 'CompoundRule':
+        """Create a CompoundRule object from a dictionary."""
+
         name = _check_is_type(rule_dict, 'name', str) if 'name' in rule_dict else None
         desc = _check_is_type(rule_dict, 'desc', str) if 'desc' in rule_dict else None
         tags = _check_is_type(rule_dict, 'tags', list) if 'tags' in rule_dict else []
@@ -149,12 +208,29 @@ class CompoundRule:
 
 @dataclass
 class Config:
+    """Represents the configuration for the detector."""
+
     isd: str
-    techniques: List[Tool]
+    """The identifier and version of the configuration.
+    
+    `isd` stands for "Image Steganography Detector".
+    
+    Current versions: "1", "1.0", "1.0.0
+    """
+
+    tools: List[Tool]
+    """The list of stego tools that can be detected."""
+
     rules: List[Rule | CompoundRule]
+    """The list of rules to be applied to detect stego tools.
+    
+    This corresponds to a compound rule with the operator "each".    
+    """
 
     @staticmethod
     def from_dict(config_dict):
+        """Create a Config object from a dictionary."""
+
         if "isd" not in config_dict:
             raise ValueError("Missing 'isd' with a version number")
 
@@ -164,13 +240,13 @@ class Config:
 
         if "tools" not in config_dict:
             raise ValueError("Missing 'tools'")
-        techniques = [Tool.from_dict(tech) for tech in config_dict['tools']]
+        tools = [Tool.from_dict(tech) for tech in config_dict['tools']]
 
         if "rules" not in config_dict:
             raise ValueError("Missing 'rules'")
         rules = [Rule.from_dict(rule) for rule in config_dict['rules']]
 
-        return Config(isd, techniques, rules)
+        return Config(isd, tools, rules)
 
     @staticmethod
     def _versions():

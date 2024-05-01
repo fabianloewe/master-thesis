@@ -21,6 +21,69 @@ figures::[]
 [appendix]
 == Quellcode
 
+.Auszug aus `notebooks/detect-algo.ipynb`, Code-Zelle 6
+[,python#anhang-detect-algo]
+----
+MESSAGE_DIR = Path('../datasets/StegoAppDB_stegos_20240309-030352/message_dictionary')
+
+
+def find_nth_substring(haystack, needle, n):
+    start = haystack.find(needle)
+    while start >= 0 and n > 1:
+        start = haystack.find(needle, start + len(needle))
+        n -= 1
+    return start
+
+
+def get_original_message(stego_img):
+    img_row = info_file[info_file['image_filename'] == stego_img.name]
+    msg_name = img_row['message_dictionary'].values[0]
+    starting_line_index = img_row['message_starting_index'].values[0]
+    msg_len = img_row['message_length'].values[0]
+    full_msg = (MESSAGE_DIR / msg_name).read_text()
+    start_index = find_nth_substring(full_msg, '\n', starting_line_index - 1) + 1
+    return full_msg[start_index:start_index + msg_len].encode('utf-8')
+
+
+def get_embedded_message(stego_img, bits, endian, channels, direction):
+    return attacks.lsb_extract(stego_img, bits, channels=channels, endian=endian, direction=direction).tobytes()
+
+
+def detect_used_method_and_bits(stego_images, path_parts):
+    method, channels, bits, endian, direction = path_parts
+    results = []
+    for stego_img in tqdm(stego_images, desc=f'Cycling through {method} {channels} {bits}-LSB {endian} {direction}'):
+        original_msg = get_original_message(stego_img)
+        extracted_msg = get_embedded_message(stego_img, bits, endian, channels, direction)
+        index = extracted_msg.find(original_msg)
+        if index != -1:
+            results.append((method, channels, bits, endian, direction, index))
+
+    rate = len(results) / len(stego_images)
+    results = set(results)
+    if len(results) == 1:
+        return rate, results.pop()
+    elif len(results) > 1:
+        return rate, results
+    else:
+        return rate, None
+
+
+#detected_used_method_and_bits = await detect_used_method_and_bits(
+#    stego_images_by_method['PocketStego'][:10],
+#    ('PocketStego', 'B', 1, 'MSB')
+#)
+detected_used_method_and_bits = [
+    (rate, values)
+    for rate, values in for_each_image(detect_used_method_and_bits, take=10)
+]
+----
+
+.Abgeleitete Regeln
+[#anhang-regeln,yaml]
+----
+include::../tools/detector/rules/stegoapps.yaml[]
+----
 
 [appendix]
 == Sonstiges

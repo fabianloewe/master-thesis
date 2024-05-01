@@ -1,3 +1,5 @@
+:d2: /opt/homebrew/bin/d2
+
 == Methodik
 
 Die folgenden Methoden wurden zum Erreichen der <<_zielsetzung,Zielsetzung>> durchgeführt:
@@ -554,6 +556,8 @@ Experimente mit den heruntergeladenen Daten zeigten jedoch, dass für die meiste
 mehrere tausend Bilder zur Verfügung stehen, was der statistischen Auswertbarkeit der Daten Genüge tut.
 Zudem besticht die Verwendung der StegoAppDB damit, dass für die Steganografie-Apps keine Cover-Stego-Bildpaare mehr
 generiert werden müssen und so der Prototyp direkt auf diesen Daten angewendet werden kann.
+Die in den Stego-Apps verwendeten Algorithmen basieren größtenteils auf LSB-Verfahren und
+sind damit mit dem aktuellen Stand der Malwares vergleichbar, die ebenfalls tendenziell mehr auf LSB-Verfahren setzen.
 
 Die konkret verwendete Konfiguration zum Herunterladen der StegoAppDB-Datensatzes für diese Arbeit 
 wird im Abschnitt <<ergebnisse_bilddatensatz,Verwendeter Bild-Datensatz>> beschrieben.
@@ -668,7 +672,8 @@ in der _Struktur_ *wahrscheinlich* und in der _Frequenz-Domäne_ *unwahrscheinli
 
 Zu jeder der in der Tabelle vorgestellten Analysen wurden die folgenden algorithmischen Vorgehensweisen gewählt.
 
-.Metadaten-Vergleich
+[#methodik-analysen-metadaten]
+.Metadatenvergleich
 ****
 Pro Stego-App:
 
@@ -685,6 +690,7 @@ Schritt 1 ist in `metadata()`  und Schritt 2 in `metadata_diff()` implementiert.
 Schritt 3 wurde in der Python-Konsole bzw. Jupyter Notebook umgesetzt.
 ****
 
+[#methodik-analysen-dateigroesse]
 .Dateigrößenunterschied
 ****
 Für jedes Cover-Stego-Paar pro Stego-App:
@@ -702,26 +708,30 @@ Schritt 1 und 2 ist in `size_diff()` implementiert.
 Schritt 3 wurde im Jupyter Notebook umgesetzt, in die `results`-Liste zur Visualisierung genutzt wurde.
 ****
 
+[#methodik-analysen-lsb-extraktion]
 .LSB-Extraktion
 ****
 Für jedes Cover-Stego-Paar pro Stego-App:
 
 . Extrahiere die Least _n_ Significant Bits aus den Farbkanälen _R_, _G_, _B_ oder _A_ pro Pixel pro Stego-Bild aus und
 füge diese im Big-Endian- oder Little-Endian-Format aneinander.
-Daraus ergeben sich die Parameter _Anzahl der LSBs **n**_, _verwendete Farbkanäle_ und das _Endian-Format_.
+Zudem kann bestimmt werden, ob die Pixel zeilen- oder spaltenweise durchgegangen werden sollen.
+Daraus ergeben sich die Parameter Anzahl der LSBs **n** als _bits_, verwendete Farbkanäle _channels_, das Endian-Format _endian_ und die Iterationsrichtung _direction_.
 . Suche nach der eingebetteten Nachricht.
 . Suche nach wiederkehrenden Mustern in allen extrahierten Nachrichten ohne Zusammenhang mit der Nachricht (_Signatur_) oder
 im mit Zusammenhang mit der Nachricht (bspw. _Nachrichtenlänge_ in den ersten 4 Bytes).
 . Vergleiche Ergebnisse aller Extraktionen zur Validierung.
 
-.Implementierung
+.Implementierung der Extraktion
 [,python]
 ----
 include::../tools/aletheia/aletheialib/attacks.py[%lineno,lines="667..713"]
 ----
-Schritt 1 ist mittels der `_extract_bits_*()`-Funktionen umgesetzt. Es existiert eine **opt**imierte Version
-jeweils für das Little- und Big-Endian-Format, wenn die Least _n_ Significant Bits _1_ oder ein Vielfaches von _2_ sind.
-Ansonsten werden nicht-optimierten Versionen zur Extraktion verwendet. `np.zeros()` sowie `np.array()` stammt aus der `numpy`-Bibliothek.
+Schritt 1 ist mittels der `\_extract_bits_*()`-Funktionen umgesetzt. Es existiert eine optimierte Version
+jeweils für das Little- und Big-Endian-Format, wenn die Least _n_ Significant Bits 1 oder ein Vielfaches von 2 sind.
+Ansonsten werden allgemeine Versionen zur Extraktion verwendet. `np.zeros()` sowie `np.array()` stammt aus der `numpy`-Bibliothek.
+
+Die Umsetzung der Schritte 2 bis 4 wurde in dieser Arbeit mittels Regeln für den <<_implementierung_eines_prototypischen_detektors,Detektor>> umgesetzt.
 ****
 
 Weitere potenziell relevante Analysen für den Datensatz wie die R/S-Analyse wurden aus Gründen des Umfangs dieser Arbeit
@@ -827,3 +837,41 @@ um den zu vergleichenden Wert ausgeben zu lassen. Sowohl `value` als auch `cond`
 Im Beispiel wird die Dateigröße von Cover- und Stego-Bild ausgewertet und aus dem ersten Element der Ergebnisliste (`[0]`)
 das vierte Element (`[3]`) ausgelesen, welches den prozentualen Unterschied beinhaltet.
 Wenn der Unterschied zwischen -3 % und 0 % liegt, könnte PixelKnot für die Einbettung verwendet worden sein.
+
+Der Detektor besteht aus drei Python-Dateien:
+
+[horizontal]
+`config.py`: :: Beinhaltet Datenklassen, welche die Konfigurationsdatei abbilden.
+`detect.py`: :: Einstieg in den Detektor, indem die Konfigurationsdatei sowie die Eingabebilder eingelesen und
+die Regeln aus der Konfiguration evaluiert werden.
+`eval.py`: :: Beinhaltet die `Evaluator`-Klasse, welche die Abarbeitung der Regeln vornimmt.
+
+Mittels `cd tools/detector && python detect.py --help` kann der Detektor aus dem Ordner `tools/detector` heraus ausgeführt werden, insofern alle Abhängigkeiten installiert sind.
+Der Befehl gibt dann die möglichen Kommandozeilenparameter aus, was dem Folgenden entsprechen sollte.
+
+----
+Usage: detect.py [OPTIONS]
+
+  Detects the used stego tool to hide data in the image
+
+  The tool uses a config file to define rules for detecting the stego tool.
+  Cover and stego images can be provided as arguments or read from stdin. If
+  the images are read from stdin, they should be provided as pairs of paths
+  separated by a comma. Only the first two values that are separated by a
+  comma are considered and the rest is currently discarded.
+
+Options:
+  -i, --cover-image PATH  Path to a cover image
+  -s, --stego-image PATH  Path to a stego image
+  --from-stdin            Read cover and stego images from stdin as pairs of
+                          paths separated by a comma
+  -c, --config FILE       Path to the config file in YAML format  [required]
+  --aletheia DIRECTORY    Path to the Aletheia root folder
+  --help                  Show this message and exit.
+----
+
+Die Ausführung des Programms beginnt, indem das Cover- und das Stego-Bild aus den Kommandozeilenparametern überprüft werden,
+ob es sich dabei um Bilddateien handelt. Alternativ können auch Cover-Stego-Paare durch ein Komma separiert aus
+dem Standardinput ausgelesen werden. Daraufhin wird die Konfigurationsdatei eingelesen und die Daten in Python-Klassen
+zur weiteren Verarbeitung geladen. Schließlich beginnt der `Evaluator` mit der Überprüfung des oder der Cover-Stego-Paare
+anhand der Regeln aus der Konfigurationsdatei. Nachdem alle Paare geprüft wurden, werden die Ergebnisse ausgegeben.

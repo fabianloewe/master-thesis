@@ -2,7 +2,7 @@
 
 Die folgenden Ergebnisse sind jeweils zu einem Abschnitt in <<_methodik,Methodik>> zugeordnet. 
 
-[#ergebnisse_malware]
+[#ergebnisse-malware]
 === Malware-Vorkommnisse im Zusammenhang mit Steganografie
 
 In der folgenden Tabelle sind die ersten fünf Einträge der zuvor gesammelten Malware-Vorkommnisse zu sehen.
@@ -282,10 +282,230 @@ Es wurden lediglich immer das erste Gerät pro Gerätetyp ausgewählt und die ma
 
 === Übersicht von Merkmalen steganografischer Bilddaten
 
-- Vorstellung Metadaten
-- Vorstellung Signaturen in LSB-Ebenen
-- Vorstellung Dateigrößendifferenzen
+==== Metadatenvergleich
+
+Der Metadatenvergleich wurde wie in der Vorstellung der <<methodik-analysen-metadaten,Analyse von Metadaten>> durchgeführt.
+Dabei zeigte sich das, in einigen Fällen Metadaten durch die Stego-Apps entfernt wurden.
+Es konnten aber keine neuen Metadaten identifiziert werden, die Rückschlüsse auf die verwendete Stego-App zulassen würden.
+
+TODO:
+* Füge Ausgabe des Metadatenvergleichs ein
+
+[#ergebnisse-dateigroessen]
+==== Dateigrößenunterschiede
+
+Die folgenden Dateigrößendifferenzen konnten mit der
+<<methodik-analysen-dateigroesse,im Methodikteil vorgestellten Analyse>> ermittelt werden.
+
+image::file-size_mobistego.png[Dateigrößenunterschiede MobiStego]
+
+Das Diagramm zeigt, dass der Größenunterschied für MobiStego bei 3060 Cover- und Stego-Bild
+sich im positiven Bereich zwischen 2 % bis 35 % bewegt.
+Dabei gibt es einige Ausreißer mit einem Unterschied bis zu 50 %,
+sehr wenige bis 60 % und lediglich ein Unterschied von 70 % vorkommt.
+
+image::file-size_passlok.png[Dateigrößenunterschiede Passlok]
+
+Bei Passlok wurden 1530 Bildpaare untersucht, wobei sich die Verteilung im Bereich von 0,1 % bis 0,25 % mit Ausreißern
+bis 0,38 % befindet.
+
+image::file-size_pictograph.png[Dateigrößenunterschiede Pictograph]
+
+Für Pictograph standen 4800 Bildpaare bereit, welche einen Unterschied von 16 % bis 50 % mit Ausreißern bis 65 % aufweisen.
+
+image::file-size_pixelknot.png[Dateigrößenunterschiede PixelKnot]
+
+PixelKnot weist als einzige App bei 3060 Bildpaaren eine Verkleinerung der Dateigröße auf,
+weshalb sich der Dateigrößenunterschied um -0,1 % bis -3 % mit Ausreißern bis -4,3 % bewegt.
+
+image::file-size_pocketstego.png[Dateigrößenunterschiede PocketStego]
+
+PocketStego befindet bei 3060 Bildpaaren im Bereich von 3 % bis 20 % mit Ausreißern bis 33 %.
+
+image::file-size_steganographym.png[Dateigrößenunterschiede SteganographyM]
+
+Bei SteganographM sind die größten Unterschiede in der Dateigröße vernehmbar.
+Die Unterschiede fallen in den Bereich von 19 % bis 70 % mit Ausreißern bis zu 130 %.
+
+Im nächsten Diagramm ist die Verteilung der prozentualen Dateigrößenunterschiede der Stego-Apps im Vergleich zueinander
+dargestellt.
+
+image::file-size_raw.png[Dateigrößenunterschiede mit Ausreißern]
+
+Dabei zeigt sich, dass PixelKnot im negativen Bereich keine Schnittmenge und SteganographyM im positiven Bereich
+ab mindestens 80 % keine Überschneidungen mit anderen Apps aufweist.
+
+Wie in den Diagrammen zu den einzelnen Apps bereits zu sehen war,
+gibt am unteren und oberen Ende der meisten Apps einige Ausreißer.
+Diese unteren und oberen 5 % wurden im folgenden Schnitt ausgeklammert,
+um Apps mit einer höheren Wahrscheinlichkeit für einen bestimmten Dateigrößenmunterschied eher zu detektieren als
+die Ausreißer weniger wahrscheinlicher Apps. Nach dieser Bereinigung sieht die Verteilung wie folgt aus:
+
+image::file-size_summary.png[Dateigrößenunterschiede ohne Ausreißer]
+
+Daraus ergeben sich die folgenden Bereiche, die über die Erkennung des Dateigrößenunterschieds abgedeckt werden können:
+
+. -2,63 % bis -0,25% => PixelKnot
+. 0,02 % bis 0,23 % => Passlok
+. 4,09 % bis 5,44 % => PocketStego
+. 5,44 % bis 18,68 % => PocketStego oder MobiStego
+. 18,68 % bis 20,88 % => MobiStego
+. 20,88 % bis 24 % => MobiStego oder SteganographyM
+. 24 % bis 34,6 % => MobiStego oder SteganographyM oder Pictograph
+. 34,6 % bis 47,67 % => SteganographyM oder Pictograph
+. 47,67 % oder mehr => Pictograph
+
+Durch die fünf Intervalle 1, 2, 3, 5 und 9 lassen sich die betrachteten Stego-Apps basierend auf dem Datensatz eindeutig zu ordnen.
+In den anderen Fällen ist es lediglich eine von zwei oder drei Apps.
+
+[#ergebnisse-lsb-extraktion]
+==== LSB-Extraktion
+
+Mittels der <<methodik-analysen-lsb-extraktion,LSB-Extraktion>> wurde insbesondere nach Signaturen in der eingebetteten Nachricht gesucht.
+Um dies zu erreichen, wurden zunächst die genauen Einbettungsstrategien ermittelt.
+Dies erfolgte durch Probieren möglicher Konfigurationen mit den ersten 10 Bildern,
+auf die eine Stego-App angewendet wurde.
+Eine Konfiguration besteht aus:
+
+Einbettungsmethode _method_:: Die verwendete Stego-App zum Einbetten
++
+*Optionen*: Die Namen der Stego-Apps als String
+
+Farbkanäle _channels_:: Die zu überprüfenden Farbkanäle
++
+*Optionen*: Jegliche Kombination aus `R`, `G`, `B`, `A`
+
+LSBs _bits_:: Die zu extrahierenden Least Significant Bits pro gewählten Farbkanal
++
+*Optionen*: 1, 2, 4
+
+Bit-Reihenfolge _endian_:: Die bei der Zusammensetzung der Nachricht zu beachtende Bit-Reihenfolge
++
+*Optionen*: `little` für Little-Endian oder `big` für Big-Endian
+
+Iterationsrichtung _direction_:: Die Richtung, in der über die Pixel iteriert werden soll
++
+*Optionen*: `row` für die Iteration über die Zeile bzw. Bildweite oder `col[umn]` für die Iteration über die Spalte bzw. Bildhöhe
+
+Der Ablauf wurde wie folgt umgesetzt:
+====
+. Erhalte Konfiguration
+. Für jedes Stego-Bild
+.. Suche und lese Originalnachricht aus
+.. Extrahiere eingebettete Nachricht aus LSBs der Konfiguration folgend
+.. Suche in extrahierter Nachricht nach Original
+*** Wenn Suche erfolgreich war, füge Konfiguration und Index der gefundenen Nachricht der Ergebnisliste hinzu
+. Entferne Duplikate aus Ergebnisliste und gib zurück:
+** Wenn Länge der Ergebnisliste 1 ist, gib Erfolgsrate und Konfiguration zurück
+** Wenn Länge der Ergebnisliste größer 1 ist, gib Erfolgsrate und Ergebinsliste mit passenden Konfigurationen zurück
+** Ansonsten, gib Erfolgsrate und `None` zurück
+====
+
+Mit folgendem Ergebnis:
+
+[%header,format=csv]
+|===
+rate,method,channels,bits,endian,direction,index
+1.0,MobiStego,RGB,2,big,row,3
+1.0,PocketStego,B,1,big,column,0
+|===
+
+Dies deckt sich mit den Erkenntnissen in cite:[chen_tackling_2018].
+Da PocketStego und MobiStego die einzigen beiden Stego-Apps sind,
+die einen nicht-zufälligen LSB-Einbettungspfad verwenden,
+konnten auch nur diese erkannt werden.
+Steganography_M dagegen nutzt einen pseudo-randomisierten Einbettungspfad und
+Pictograph und PixelKnot setzen Steganografie in der <<theorie-verfahren-frequenz,Frequenz-Domäne>> ein und
+sind daher so nicht detektierbar.
+
+Durch Vergleichen der extrahierten Nachrichten basierend auf den erkannten Konfigurationen konnten dann
+die folgenden Signaturen, wie auch in cite:[chen_tackling_2018] beschrieben, entdeckt werden:
+
+* *MobiStego*:
+** `@!#` (ASCII-Zeichen): Markiert den Beginn der Nachricht
+** `#!@` (ASCII-Zeichen): Markiert das Ende der Nachricht
+
+* *PocketStego*:
+** `b'\x00'` (Byte): Markiert das Ende der Nachricht. Es handelt sich dabei um den Null-Byte.
+
+=== Konfiguration des Detektors
+
+Aus den vorherigen Ergebnissen lassen sich die Regeln ableiten, welche der Detektor zur Analyse nutzen wird.
+Die dazugehörige Datei ist im <<anhang-regeln,Anhang>> beigefügt.
+
+Die Regeldatei listet zunächst alle Tools auf, die detektiert werden können.
+Es folgt der erste Regelblock, indem die Dateigrößen entsprechend den Intervallen
+aus den <<ergebnisse-dateigroessen,Ergebnissen der Dateigrößenvergleiche>> als Regeln abgebildet sind.
+Nach den Regeln `ISA.MobiStego.File-Size-Diff`, `ISA.PocketStego.File-Size-Diff`, `ISA.PocketStego-MobiStego.File-Size-Diff`,
+`ISA.MobiStego-SteganographyM.File-Size-Diff` und `ISA.MobiStego-SteganographyM-Pictograph.File-Size-Diff`
+wird die <<ergebnisse-lsb-extraktion,LSB-Signatur>> von MobiStego und respektive PocketStego überprüft.
+
+Die Namen der Regeln bestehen immer aus dem Kürzel `ISA` für _Image Stego App_, gefolgt von der oder den spezifischen App(s) und
+dem überprüften Merkmal abgekürzt in Englisch. Dadurch werden Namensräume für die Merkmale mit Zuordnung zu den Stego-Apps geschaffen.
+Die Benennung ist aber funktional nur als Text abgebildet und könnte beliebig anderweitig vorgenommen werden.
+
+Die Regeln sind im Rahmen dieser Arbeit alle gleich gewichtet,
+da eine statistische Auswertung jeder einzelnen Regel nötig ist und dies den Umfang sprengen würde.
+Ein sinnvoller Ansatz dazu wird im <<_ausblick,Ausblick>> beschrieben.
 
 === Auswertung des Detektors
 
-- Vorstellung Ergebnisse der Detektionen
+Mit den zuvor vorgestellten Regeln wurde jedes der 18570 Cover-Stego-Bildpaare durchlaufen,
+um die verwendete Stego-App zu bestimmen. Die Ergebnisse wurden in Wahrheitsmatrizen dargestellt.
+Dabei ist immer links oben die Anzahl der wahr-positiven (TP), rechts oben der falsch-positiven (FP),
+links unten der falsch-negativen (FN) und rechts unten der wahr-falschen (TN) Detektionen wiederzufinden.
+
+==== Auswertung mit binärer Betrachtung
+
+Es wurde zunächst überprüft, ob eine Erkennung stattfand oder nicht.
+Jede Detektion mit einer Gewichtung größer als 0 wurde somit als positiv eingestuft.
+
+image::eval-detect_bool_mobistego.png[]
+
+image::eval-detect_bool_passlok.png[]
+
+image::eval-detect_bool_pictograph.png[]
+
+image::eval-detect_bool_pixelknot.png[]
+
+image::eval-detect_bool_pocketstego.png[]
+
+image::eval-detect_bool_steganographym.png[]
+
+Dabei sind die folgenden statistischen Werte herausgekommen.
+
+[format=csv]
+|===
+include::../assets/tables/eval-detect_bool.csv[]
+|===
+
+==== Auswertung unter Bezugnahme auf Gewichtung
+
+In der zweiten Auswertung wurden ausschließlich Detektionen als positiv eingestuft,
+wenn sie unter allen Detektionen für ein bestimmtes Cover-Stego-Paar die höchste Gewichtung vorweisen konnten.
+Bei gleicher Gewichtung wurde die Detektion aufgrund mangelnder Eindeutig als negativ eingestuft.
+
+image::eval-detect_max_mobistego.png[]
+
+image::eval-detect_max_passlok.png[]
+
+image::eval-detect_max_pictograph.png[]
+
+image::eval-detect_max_pixelknot.png[]
+
+image::eval-detect_max_pocketstego.png[]
+
+image::eval-detect_max_steganographym.png[]
+
+Hierbei ergaben sich die folgenden statistischen Werte.
+
+[format=csv]
+|===
+include::../assets/tables/eval-detect_max.csv[]
+|===
+
+'''
+
+Es zeigt sich ein relevanter Unterschied in der Betrachtungsweise.
+Zählen ausschließlich die höchstgewichteten Detektionen, können sehr gute Ergebnisse erzielt werden.
+...

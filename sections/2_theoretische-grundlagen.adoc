@@ -83,6 +83,7 @@ dass der Farbwert des Pixels am dem ursprüngplichen entspricht.
 Patchwork:: Diese Technik nutzt eine pseudo-zufällige Einbettung von sich wiederholenden Mustern mittels einer Gauss-Verteilung. Dabei werden
 zwei Patches A und B pseudo-zufällig ausgewählt, wobei A verblasst und B verdunkelt wird.
 
+[#theorie-verfahren-frequenz]
 .Frequenzdomäne
 Discrete Cosine Transform  (DCT):: Die DCT-Methode nutzt die DCT-Tabelle von JPEG-Bildern, indem meistens das Cover-Bild in mehrere Blöcke unterteilt wird, auf die die Einbettung ausgeführt wird. Üblicherweise werden die niederen Frequnzen zur Manipulation genutzt, 
 da diese durch einfacheste Verfahren wie Sichtprüfung durch Menschen schwerer detektierbar sind. 

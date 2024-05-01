@@ -1,3 +1,12 @@
 == Ausblick
 
-Kamera-Fingerprinting
+* Kamera-Fingerprinting
+
+=== Detektor
+
+* YARA
+* Regeln können mehrere _Matches_ abbilden
+* Referenzieren von Regeln, um duplizierte Regeln zu vermeiden
+* Gewichtung der Regeln
+* Automatische Regelgenerierung für Dateigrößenunterschied und LSB-Signaturen
+* Payload-Analyse mit LLMs zur Erkennung von natürlichen oder Programmiersprachen

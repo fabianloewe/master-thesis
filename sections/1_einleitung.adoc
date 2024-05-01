@@ -13,7 +13,7 @@ wobei großes Interesse besonders bei der Einbettung von Informationen in Medien
 Die Grundlagen der noch heute relevanten Methoden wurden bereits in den 1990er bis 2000er Jahren entwickelt und 
 werden in den kommenden Kapiteln dieser Arbeit genauer vorgestellt.
 
-
+[#einleitung-motivation]
 === Motivation
 
 Für Entwickler von Schadsoftware, auch bekannt als Malware, ist stets wichtig, im Wettstreit mit den Gesetzeshütern einen Schritt voraus zu sein. 
@@ -32,6 +32,7 @@ um beispielsweise Robustheit des verwendeten Algorithmus zu testen und sicherzus
 
 <<<
 
+[#einleitung-zielsetzung]
 === Zielsetzung
 
 Die Zielstellung dieser Arbeit konzentriert sich auf die folgenden Punkte:
@@ -41,7 +42,7 @@ Die Zielstellung dieser Arbeit konzentriert sich auf die folgenden Punkte:
 . Recherche und/oder Aufbau von Forschungsdaten aus Cover- und Stego-Bilder-Paaren
 . Entwicklung eines Prototyps eines Werkzeugs zur Identifikation von Merkmalen für den Einsatz bestimmter Steganografieverfahren, Bildverarbeitungsbibliotheken und weitere
 
-Durch das Erreichen der genannten Ziele soll ein erster Ansatz zur Identifikation von Steganografie-Tools basierend auf deren verwendeter Bilder erarbeitet werden, 
+Durch das Erreichen der genannten Ziele soll ein erster Ansatz zur Identifikation von Steganografie-Tools basierend auf deren verwendeter Bilder erarbeitet werden,
 welcher sowohl für den Einsatz mit Malware als auch mit Wasserzeichen weiterausgebaut werden kann, wobei dies nicht mehr im Fokus dieser Arbeit liegt.
 
 Da die Menge der Malware-Vorkommnisse erwartbar weit größer als die Menge der Steganografie- und Wasserzeichen-Tools sein dürfte,
@@ -49,6 +50,7 @@ werden erstere nur mittels Literaturrecherche, während letztere auch praktisch 
 
 Die beschriebene Ziele werden fortan im Rahmen dieser Arbeit als **Z.1** bis **Z.4** referenziert.
 
+[#einleitung-forschungsfragen-hypthoesen]
 === Forschungsfragen und Hypthoesen
 
 Aus der Zielsetzung lassen sich folgende Forschungsfragen und zugehörigen Hypthosen ableiten:
@@ -57,10 +59,10 @@ Aus der Zielsetzung lassen sich folgende Forschungsfragen und zugehörigen Hypth
 Frage: Können Werkzeuge zur Einbettung von Daten mittels Steganografie nur anhand ihrer Ausgabe-Bilder und der Original-Bilder automatisiert identifiziert werden?::
 *Hypothese*: Ja, es lassen sich immer wiederkehrende Merkmale in den Bildern nachweisen, die mit dem verwendeten Einbettungswerkzeug in Zusammenhang stehen.
 
-Frage: Gibt es eine Schnittmenge bzgl. der Merkmale der verwendeten Steganografie-Algorithmen und technischen Umsetzung zwischen Malwares, Steganografie- und Wasserzeichen-Tools?::
+Frage: Gibt es eine Schnittmenge bzgl. der Eigenschaften der verwendeten Steganografie-Algorithmen und technischen Umsetzung zwischen Malwares, Steganografie- und Wasserzeichen-Tools?::
 *Hypthese*: Ja, es kann eine Schnittmenge zumindest in der Kategorie der Steganografie-Algorithmen und der zur Umsetzung verwendeten Programmiersprachen und Bibliotheken abgesteckt werden.
 
-Frage: Worin unterscheiden sich die drei Kategorien bzgl. der Merkmale?::
+Frage: In welchen Eigenschaften unterscheiden sich die drei Kategorien?::
 *Hypothese*: Die Malwares legen einen größeren Wert auf Performance als auf Robustheit, während Wassezeichen-Tools umgekehrt gewichtet sind. Steganografie-Tools sind je nach Gewichtung der Autoren aufgestellt.
 
 Die beschriebene Fragen werden fortan im Rahmen dieser Arbeit als **F.1** bis **F.3** referenziert.

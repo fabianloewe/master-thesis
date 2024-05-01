@@ -1,11 +1,21 @@
 import sys
+from dataclasses import dataclass
 from pathlib import Path
+from typing import List, Tuple
 
 import click
 import yaml
 
 from eval import Evaluator
 from config import Config
+
+
+@dataclass
+class Detection:
+    cover: Path
+    stego: Path
+    weights: dict
+    matched_rules: List[str]
 
 
 @click.command()
@@ -18,16 +28,39 @@ from config import Config
 @click.option("-c", "--config", required=True, type=click.Path(exists=True, dir_okay=False, path_type=Path),
               help="Path to the config file in YAML format")
 @click.option("--aletheia",
-              default=Path('../aletheia').resolve(strict=True),
+              default='../aletheia',
               type=click.Path(exists=True, file_okay=False, path_type=Path),
               help="Path to the Aletheia root folder")
 def detect(cover_image: Path, stego_image: Path, from_stdin: bool, config: Path, aletheia: Path):
-    """Detects the used stego tool to hide data in the image
+    """Detects the used stego tool to hide data in the image.
 
     The tool uses a config file to define rules for detecting the stego tool.
     Cover and stego images can be provided as arguments or read from stdin.
     If the images are read from stdin, they should be provided as pairs of paths separated by a comma.
     Only the first two values that are separated by a comma are considered and the rest is currently discarded.
+
+    The config file should be in YAML format and contain a list of rules.
+    Each rule should have a match condition and a list of tools with their weights.
+    The match condition can be a string or an object with a value and a condition.
+    The value is evaluated first and then the condition is evaluated with the value.
+
+    Example config file:
+
+    .. code-block:: text
+
+        isd: "1"
+        tools:
+          - name: PixelKnot
+            tags: [ Android, F5 ]
+        rules:
+          - name: ISA.PixelKnot.File-Size-Diff
+            desc: Check if the file size difference is maximum -3%.
+            tools:
+              - name: PixelKnot
+                weight: 5
+            match:
+              value: attacks.size_diff([(cover.path, stego.path)])[0][3]
+              cond: -3 <= value < 0
     """
     sys.path.append(str(aletheia))
 
@@ -51,6 +84,31 @@ def detect(cover_image: Path, stego_image: Path, from_stdin: bool, config: Path,
         for tool, weight in evaluator.weights.items():
             click.echo(f"-> {tool}: {weight:}")
         click.echo()
+
+
+def detect_tools(pairs: List[Tuple[Path, Path]], config: Path, *, debug=False) -> List[Exception]:
+    """Detects the used stego tool to hide data in the image.
+
+    :param pairs: List of pairs of cover and stego images
+    :param config: Path to the config file in YAML format
+    :param debug: Whether to print debug information
+    """
+
+    config = _load_config(config)
+    evaluator = Evaluator(config, debug=debug)
+    errors = []
+    for cover_image, stego_image in pairs:
+        try:
+            evaluator.check(cover_image, stego_image)
+            yield Detection(
+                cover=cover_image,
+                stego=stego_image,
+                weights=evaluator.weights,
+                matched_rules=[r.name for r in evaluator.matched_rules]
+            )
+        except Exception as e:
+            errors.append(e)
+    return errors
 
 
 def _get_pairs_from_stdin():
