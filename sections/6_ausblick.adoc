@@ -1,12 +1,44 @@
 == Ausblick
 
-* Kamera-Fingerprinting
+In dieser Arbeit wurden drei grundlegende Merkmale und Merkmalsräume untersucht.
+Diese wurden spezifisch für die untersuchten Stego-Apps ausgewählt und führten auch zu spezifischen Ergebnisse für jene.
+Allerdings sind nicht nur die zu untersuchenden Stego-Tools relevant für die Merkmalssuche, sondern auch der verwendete Datensatz.
+Der gewählte Datensatz wies keine Metadaten oder sonstige spezifische Eigenschaften von bestimmten Kameras auf,
+die zum Beispiel Rückschlüsse auf den Benutzer des Stego-Tools oder eine Lokalisation der Bilderstellung zugelassen hätte.
+Mit derartigen Daten, die ein Kamera-Fingerprinting ermöglichen, könnte neben dem verwendeten Tool auch Erkenntnisse
+über den Anwender des Tools gesammelt werden.
+Eine weitere Möglichkeit dazu ist die Verwendung von Sprachmodellen zur Erkennung von Sprache in extrahierten Payloads.
+So hätte im Datensatz dieser Arbeit festgestellt werden können, dass englische Texte eingebettet wurden.
+Mit den modernen großen Sprachmodellen (LLMs) könnte versucht werden, sogar zu erkennen, dass es sich um Werke von Shakespear handelt.
+In diesem Beispiel würde dies darauf hindeuten, dass der Anwender des Tools ein Liebhaber klassischer englischer Literatur ist
+und somit womöglich aus dem englischsprachigen Raum stammt oder sich dort schon lange aufhält.
+Bei Payloads aus Malware könnte dagegen die verwendete Programmiersprache und möglicherweise besondere Zeichen aus
+nicht-lateinischen Alphabeten erkannt werden, die ebenfalls auf den Entwickler der Malware schließen lassen könnten.
+Bei der artigen Herangehensweise ist jedoch zu bedenken, dass zukünftige Abwehrmechanismen gegen diese Erkennungen
+bewusst falsche Fährten legen könnten.
 
 === Detektor
 
-* YARA
-* Regeln können mehrere _Matches_ abbilden
-* Referenzieren von Regeln, um duplizierte Regeln zu vermeiden
-* Gewichtung der Regeln
-* Automatische Regelgenerierung für Dateigrößenunterschied und LSB-Signaturen
-* Payload-Analyse mit LLMs zur Erkennung von natürlichen oder Programmiersprachen
+Die folgenden offenen Punkte könnten in einer weiteren Ausbaustufe umgesetzt werden.
+
+. *Gewichtung der Regeln*: Im Rahmen dieser Arbeit wurde auf eine komplexe Gewichtung der Ergebnisse von Regeln verzichtet,
+da dazu jede einzelne Regel statistisch hätte ausgewertet und verglichen werden müssen.
+Dies sollte bei einem weiteren Ausbau vorgenommen werden,
+um bessere Ergebnisse bei der Erkennung der Stego-Tools zu erreichen.
+
+. *Mehrere Unterbindungen in einer Regel*: Der aktuelle Aufbau der Regelstruktur wurde so vorgenommen, dass eine Regel immer einen Fall prüft.
+In der Praxis stellte sich aber heraus, dass es durchaus sinnvoll sein könnte, in einer Regel mehrere Unterbindungen
+prüfen zu können und so auch eine Unterbindung einem Tool zuweisen zu können.
+Auf diese Weise würde sich die aktuelle Duplizieren der Regeln deutlich verringern lassen.
+
+. *Auslagern von Regeln*: Es könnte sich auch als sinnvoll erweisen, die Regeln in einem flachen `rules`-Block zu definieren und
+dann nur per ID in einem Regelbaum zu referenzieren. Dies würde ebenfalls die Duplizieren von Regeln deutlich verringern und
+zudem den Regelbaum deutlich einfacher erweiterbar machen.
+
+. *Verwendung von YARA*: Anstelle der Verbesserung des bestehenden Detektors könnte die Umsetzung der Regeln mittels YARA angestrebt werden.
+So würde eine Verknüpfung mit einem bestehenden Standard aufgebaut würde und
+es könnte in den Regeln auf Funktionalität von YARA zurückgriffen werden.
+Aus Gründen der Komplexität der Erweiterung des YARA-Scanners wurde auf die Umsetzung des Detektors mittels YARA verzichtet.
+
+. *Automatische Generierung von Regeln*: Sowohl die YAML-basierte aktuelle Variante als auch YARA-Regeln könnten automatisiert mittels Python generiert werden.
+Dadurch würden sich mögliche Funde von Merkmalen schneller testen lassen.

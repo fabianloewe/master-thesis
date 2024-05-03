@@ -285,11 +285,15 @@ Es wurden lediglich immer das erste Gerät pro Gerätetyp ausgewählt und die ma
 ==== Metadatenvergleich
 
 Der Metadatenvergleich wurde wie in der Vorstellung der <<methodik-analysen-metadaten,Analyse von Metadaten>> durchgeführt.
-Dabei zeigte sich das, in einigen Fällen Metadaten durch die Stego-Apps entfernt wurden.
-Es konnten aber keine neuen Metadaten identifiziert werden, die Rückschlüsse auf die verwendete Stego-App zulassen würden.
+Dabei zeigte sich das, sich das Metadatenfeld `PNG:SignicantBits` bei von MobiStego veränderten Bildern
+von `8 8 8` zu `8 8 8 8` änderte.
+Eine zweite Änderung konnte beim Feld `PNG:ColorType` festgestellt werden,
+welche sich bei Bildern von MobiStego von `2` auf `6` und bei Bildern von Pictograph von `0` auf `2` beläuft.
+
+Somit lassen sich diese Funde als Regeln zur Erkennung von MobiStego und Pictograph einsetzen.
 
 TODO:
-* Füge Ausgabe des Metadatenvergleichs ein
+* Regeln ableiten
 
 [#ergebnisse-dateigroessen]
 ==== Dateigrößenunterschiede
@@ -460,24 +464,56 @@ links unten der falsch-negativen (FN) und rechts unten der wahr-falschen (TN) De
 Es wurde zunächst überprüft, ob eine Erkennung stattfand oder nicht.
 Jede Detektion mit einer Gewichtung größer als 0 wurde somit als positiv eingestuft.
 
-image::eval-detect_bool_mobistego.png[]
+image::eval-detect_bool_mobistego.png[pdfwidth=80%]
 
-image::eval-detect_bool_passlok.png[]
+Es zeigt sich, dass mehr Stego-Bilder falsch MobiStego zugeordnet wurden als korrekte.
+Die Rate der korrekt erkannten Negativen ist dagegen mit 9899 zu 309 sehr gut.
 
-image::eval-detect_bool_pictograph.png[]
+image::eval-detect_bool_passlok.png[pdfwidth=80%]
 
-image::eval-detect_bool_pixelknot.png[]
+Die meisten Bilder wurden korrekt Passlok zugeteilt oder als andere Stego-App identifiziert.
+Bemerkenswert ist, dass es dabei keine falsche Negativ-Zuordnung gab.
 
-image::eval-detect_bool_pocketstego.png[]
+image::eval-detect_bool_pictograph.png[pdfwidth=80%]
 
-image::eval-detect_bool_steganographym.png[]
+Für Pictograph wurden beinahe ebenso viele Pictograph falsch wie richtig zugeordnet.
 
-Dabei sind die folgenden statistischen Werte herausgekommen.
+image::eval-detect_bool_pixelknot.png[pdfwidth=80%]
+
+Auch im Fall von PixelKnot wurde beinahe 1500 Bilder falsch dieser App zugeordnet.
+Die Anzahl an fälschlich als nicht von Passlok erstellte Bilder ist allerdings sehr niedrig.
+
+image::eval-detect_bool_pocketstego.png[pdfwidth=80%]
+
+PocketStego weist sehr ähnliche Ergebnisse wie PixelKnot auf.
+
+image::eval-detect_bool_steganographym.png[pdfwidth=80%]
+
+SteganographyM schließt am schlechtesten ab.
+Mehr als doppelt so viele Bilder werden falsch der App zugeordnet als richtigerweise.
+Ebenso ist die Anzahl an Falschnegativen sehr hoch.
+
+<<<
+
+Die folgende Tabelle stellt die Ergebnisse mit den Metriken der Genauigkeit (_Accuracy_),
+Präzision (_Precision_), Sensitivität (_Recall_) und dem F1-Score dar.
 
 [format=csv]
 |===
 include::../assets/tables/eval-detect_bool.csv[]
 |===
+
+Unter der Bedingung, dass eine Detektion immer gewertet wird,
+weisen SteganographyM und MobiStego mit 59,55 % un 68,12 % die schlechteste Genauigkeit auf,
+während Passlok, PixelKnot und PocketStego mit 98,86 % und 91,18 % und 90,36 % am besten abschneiden.
+
+Die Präzision ist bei allen Stego-Apps mit Ausnahme von Passlok und StegnographyM relativ niedrig,
+sodass eine positive Erkennung nur mit einer Wahrscheinlichkeit um die 50 % richtig ist.
+Bei Passlok dagegen wird jedes Bild korrekt der App zugeordnet,
+während bei SteganographyM mit 19,67 % nur jedes fünfte Bild richtigerweise der App zugewiesen wird.
+
+Die Sensitivität ist bei allen Apps bis auf SteganograpyM um die 90 % hoch.
+Es werden also die meisten Bilder, die von der jeweiligen App erstellt wurden, auch erkannt.
 
 ==== Auswertung unter Bezugnahme auf Gewichtung
 
@@ -508,4 +544,8 @@ include::../assets/tables/eval-detect_max.csv[]
 
 Es zeigt sich ein relevanter Unterschied in der Betrachtungsweise.
 Zählen ausschließlich die höchstgewichteten Detektionen, können sehr gute Ergebnisse erzielt werden.
+...
+
+==== Vergleich der Auswertungen
+
 ...

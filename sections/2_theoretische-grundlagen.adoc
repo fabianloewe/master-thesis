@@ -138,3 +138,37 @@ nachdem ein erhärterer Verdacht auf die Nutzung von Steganografie durch vorheri
 Je nach erwartetem Steganografie-Verfahren werden unterschiedliche Analyse-Verfahren angewendet und zumeist miteinander kombiniert,
 um die Einbettungssoftware so detailliert wie möglich zu identifizieren. 
 Konkrete Methoden werden in den Ergebnissen vorgestellt.
+
+==== Metriken
+
+Für die Auswertung der Erkennung von Stego-Tools werden die folgenden drei Metriken verwendet,
+welche unter anderem in cite:[hossin_review_2015] beschrieben sind.
+
+Genauigkeit (_Accuracy_):: Beschreibt die Rate der korrekten Zuordnungen im Vergleich zur Gesamtzahl an Bildpaaren.
++
+Formel: stem:[(tp + tn)/(tp + fp + tn + fn)]
+
+Präzision (_Precision_):: Beschreibt die Rate der korrekt zugeordneten Bilder zu den insgesamt zu einem Stego-Tool zugeordneten Bildern.
++
+Formel: stem:[(tp)/(tp+fn)]
+
+Sensitivität (_Recall_):: Beschreibt die Rate der korrekt zugeordneten Bilder zu den insgesamt korrekten Positiven und
+Negativen für ein Stego-Tool.
++
+Formel: stem:[(tp)/(tp+tn)]
+
+Dabei stehen die Variablen für:
+
+[cols="1h,2*"]
+|===
+| | Wirklich Positive | Wirklich Negative
+
+| Zugeordnet Positive
+| Wahrpositive / _True positive_ (stem:[tp])
+| Falschnegative / _False negative_ (stem:[fn])
+
+| Zugeordnet Negative
+| Falschpositive / _False positive_ (stem:[fp])
+| Wahrnegative / _True negative_ (stem:[tn])
+
+|===
