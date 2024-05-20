@@ -32,6 +32,7 @@ endif::env-vscode[]
 :icons: font
 :d2: /opt/homebrew/bin/d2
 :autofit-option:
+:appendix-caption!:
 
 include::locale/attributes.adoc[]
 

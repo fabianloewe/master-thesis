@@ -22,7 +22,7 @@ list-of::listing[]
 <<<
 
 [appendix]
-== Quellcode
+== Sonstiges
 
 .Code-Ausschnitt 15: Auszug aus `notebooks/detect-algo.ipynb`, Code-Zelle 6
 [,python#anhang-detect-algo]
@@ -87,9 +87,6 @@ detected_used_method_and_bits = [
 ----
 include::../tools/detector/rules/stegoapps.yaml[]
 ----
-
-[appendix]
-== Sonstiges
 
 .Einstellung StegoAppDB nicht verwendet
 [#appendix_stegoappdb-nicht-verwendet]
