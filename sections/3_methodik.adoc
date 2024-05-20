@@ -34,7 +34,7 @@ Die manuellen Recherchen wurden über die folgenden Suchmaschinen durchgeführt,
 * _Google Scholar_ und _Google_: Suchmaschine der gleichnamigen Firma zur Ausweitung der Suche über wissenschaftliche Publikationen hinaus
 
 [#literaturrecherche-malware]
-=== Literaturrecherche zu Malware-Vorkommnissen im Zusammenhang mit Bild-Steganografie
+=== Literaturrecherche zu Malware-Vorkommnissen im Zusammenhang mit Information Hiding bei Bildern
 
 Die Recherche erfolgte in zwei Schritten:
 
@@ -568,7 +568,7 @@ Im <<ergebnisse_softwares_wz>> werden die in den Publikationen
 cite:[an_benchmarking_2024,mareen_blind_2024,zhao_invisible_2023] verwendeten Implementierungen kurz vorgestellt und in diese Arbeit eingeordnet.
 
 [#literaturrecherche-datensatz]
-=== Literaturrecherche zu Forschungsdaten für Bild-Steganografie
+=== Literaturrecherche zu Forschungsdaten für Information Hiding bei Bildern
 
 Für die Arbeit mit den mobilen Steganografie-Anwendungen haben Newman at al. eine Bild-Datenbank aufgebaut, die öffentlich über eine Webseite zugänglich ist.
 Zunächst kann ausgewählt werden, ob Stego- oder nur Cover-Bilder selektiert werden sollen.
@@ -592,7 +592,7 @@ Die in den Stego-Apps verwendeten Algorithmen basieren größtenteils auf LSB-Ve
 Die konkret verwendete Konfiguration zum Herunterladen des StegoAppDB-Datensatzes für diese Arbeit wird im Abschnitt <<ergebnisse-datensatz,_Verwendeter Bild-Datensatz_>> beschrieben.
 
 [#implementierung_merkmal]
-=== Implementierung eines Prototyps zum Fingerprinting steganografischer Verfahren in Bilddaten
+=== Implementierung eines Prototyps zum Fingerprinting von Information Hiding-Verfahren in Bilddaten
 
 Zur Umsetzung eines prototypischen Detektors für die Identifikation bestimmter Steganografie-Werkzeuge wurde grundsätzlich in drei Schritten vorgegangen.
 
