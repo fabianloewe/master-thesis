@@ -1,0 +1,40 @@
+= Masterarbeit zum Thema "Fingerprinting-Merkmale für Bilddaten unter Einfluss von Information Hiding"
+
+== Struktur
+
+* `assets`: Enthält Bilder, Tabellen und Grafiken
+* `config`: Enthält Konfigurationen für die Erstellung von PDF oder Webseite aus den AsciiDocs
+* `datasets`: Enthält die Forschungsdaten. Wenn nicht vorhanden, entsprechend dem Methodik-Teil der Arbeit herunterladen
+* `locale`: Enthält Spracheinstellungen für AsciiDoc
+* `notebooks`: Enthält die Jupyter-Notebooks, die während der Arbeit mit Daten genutzt wurden
+* `sections`: Enthält die einzelnen Abschnitte der Masterarbeit
+* `style`: Enthält Style-Einstellungen für AsciiDoc
+* `theme`: Enthält ein Theme für das PDF in AsciiDoc
+* `tools`: Enthält den Detektor-Prototyp und aletheia
+
+== Installation
+
+Um die Notebooks ausführen zu können, sollte zunächst eine Python-Installation vorhanden sein und eine `virtualenv` erstellt werden.
+Dann müssen die benötigten Abhängigkeiten installiert werden.
+
+[,shell]
+----
+virtualenv --python=python3.11 venv
+source venv/bin/activate
+pip install -r requirements.txt
+----
+
+Wenn `aletheia` in `tools/aletheia` vorhanden ist, müssen die Abhängigkeiten entsprechend der Doku installiert werden.
+Danach kann Jupyter gestartet werden:
+
+[,shell]
+----
+python3 -m jupyter --notebook
+----
+
+Der Detektor sollte folgendermaßen aufrufbar sein und die Hilfe ausgeben.
+
+[,shell]
+----
+cd tools/detector && python3 detect.py --help
+----

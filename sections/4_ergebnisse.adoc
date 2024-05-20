@@ -1,299 +1,403 @@
+[#ergebnisse]
 == Ergebnisse
 
-Die folgenden Ergebnisse sind jeweils zu einem Abschnitt in <<_methodik,Methodik>> zugeordnet. 
+Die folgenden Ergebnisse sind jeweils zu einem Abschnitt in <<methodik,Methodik>> zugeordnet.
+Zunächst werden die gefundenen Malware-Vorkommnisse vorgestellt.
+Daraufhin werden Programme aus dem Bereich des Information Hiding dargelegt.
+Es folgt die Vorstellung des Forschungsdatensatzes.
+Den Abschluss bildet die Auswertung der Ergebnisse des Detektors mit den für den Forschungsdatensatz definierten Regeln.
 
 [#ergebnisse-malware]
-=== Malware-Vorkommnisse im Zusammenhang mit Steganografie
+=== Malware-Vorkommnisse im Zusammenhang mit Information Hiding
 
-In der folgenden Tabelle sind die ersten fünf Einträge der zuvor gesammelten Malware-Vorkommnisse zu sehen.
+Der folgende Auszug aus den gesamten gefundenen Malware-Vorkommnissen, bei denen Information Hiding mit Bildern angewendet wurde, zeigt die zehn aktuellsten Funde.
+Diese wurden erstmals im Zeitraum von Juli 2020 bis Mai 2024 registriert.
+Die Malware _Zox_ und das Framework _Silver_ wurden im April 2024 auf MITRE aktualisiert, um ihren aktuellen Stand abzubilden.
 
+[#tabelle-malware-auszug]
 .Auszug aus Malware-Daten
 [%header%breakable,format=csv,separator=;]
 |===
-include::../assets/tables/malware-samples.csv[]
+Name;Plattformen;Erstellt am;Zuletzt geändert;MITRE-ID;Medientypen;Stego-Verfahren;Referenzen
+requests-darwin-lite;macOS;13.05.2024;;;PNG;Unbekannt;cite:[noauthor_malicious_nodate-1]
+APT37;Windows;14.02.2023;;;JPEG;XOR;cite:[muhan__2023]
+Zox; Windows;09.01.2022;10.04.2024; S0672;PNG;Unbekannt;cite:[noauthor_operation_2014]
+Diavol; Windows;12.11.2021;04.12.2023; S0659;BMP;Unbekannt;cite:[rubinfeld_diavol_2021]
+ProLock; Windows;30.09.2021;15.10.2021; S0654;JPEG, BMP;Unbekannt;cite:[noauthor_prolock_nodate]
+ObliqueRAT; Windows;08.09.2021;15.10.2021; S0644;BMP;LSB;cite:[noauthor_obliquerat_2021]
+Sliver; Windows, Linux, macOS;30.07.2021;11.04.2024; S0633;PNG;Unbekannt;cite:[noauthor_bishopfoxsliver_2024]
+LiteDuke; Windows;24.09.2020;04.10.2021; S0513;PNG;LSB;cite:[faou_operation_2019]
+PolyglotDuke; Windows;23.09.2020;26.03.2023; S0518;GIF;LSB;cite:[faou_operation_2019]
+RegDuke; Windows;23.09.2020;24.03.2023; S0511;PNG;Unbekannt;cite:[faou_operation_2019]
 |===
 
-****
-Der Ausschnitt aus der vollständigen Tabellen (<<tabellen_malware,siehe Anhang>>) wurden mit den folgenden Schritten erstellt:
+Jede der gezeigten Malware wurde für die Ausführung auf dem Betriebssystem Windows entwickelt, wobei _Silver_ auch auf macOS und Linux lauffähig ist.
+Das quelloffene Framework wurde bei einer jüngsten Attacke aus dem Jahr 2024 in das Python-Paket _requests-darwin-lite_ eingebunden und so zur Komprimierung von macOS-System eingesetzt. cite:[noauthor_malicious_nodate]
 
-.Erstellung des Tabellenauszugs
+Fünf Exemplare (_requests-darwin-lite_, _Zox_, _Silver_, _LiteDuke_ und _RegDuke_) verwenden PNG-Bilder für ihre Zwecke.
+Weitere drei (_Diavol_, _ProLock_ und _ObliqueRAT_) nutzen Bitmap-Bilder, wobei _ProLock_ auch auf JPEG-Bilder zurückgreift.
+Das JPEG-Format kommt neben _ProLock_ nur beim Angriff der APT37-Gruppe zum Einsatz.
+
+Es zeigt sich, dass von den bekannten Stego-Verfahren dreimal (_ObliqueRAT_, _LiteDuke_ und _PolyglotDuke_) eine LSB-Variante implementiert wurde.
+Der Angriff von APT37 setzte eine XOR-Implementierung ein.
+Bei den anderen Vorkommnissen konnte kein Verfahren mit Sicherheit bestimmt werden.
+
+[NOTE]
+--
+Der Ausschnitt aus der vollständigen Tabelle im Verzeichnis `assets/tables/malware-full-data-cleaned-extended.csv`
+wurde mit den folgenden Schritten erstellt:
+
 . Gesamttabelle nach Werten in der Spalte `Created` absteigend sortieren
-. Zeilen, deren `Name` dem regülären Ausdruck `[\"{}@]` entsprichen, entfernen
-. Spalte `Page Content` entfernen
-. Ersten 5 Ergebnisse auswählen
-****
+. Zeilen, deren `Name` dem regulären Ausdruck `[\"{}@]` entspricht, entfernen.
+Dabei handelt es sich um nicht-lesbare Einträge, die somit auch nicht weiter verwertet werden können.
+. Ersten 10 Ergebnisse auswählen und die in <<tabelle-malware-auszug>> zusehenden Spalten auswählen
+. Englische Bezeichnungen in Deutsch übersetzen
+--
 
-Der Auszug zeigt fünf Malware-Vorkommnisse, die erstmals im Zeitraum von Juni 2021 bis Januar 2022 registriert wurden.
-Die Malware _Zox_ und _Raindrop_ erfuhren Aktualisierungen im März 2023 und waren zumindest bis zu diesem Zeitpunkt noch aktiv. Jede der gezeigten Malwares wurde für die Ausführung auf dem Betriebssystem Windows entwickelt. Drei Malwares nutzen Bitmap-Bilder, wobei davon eines auch auf JPEG-Bilder zurückgreift, während nur _Zox_ PNG-Bilder verwendet.
-Der gezeigte Auszug ist dabei jedoch voll representativ, wie die nächsten Auswertungen zeigen.
+Nachfolgend werden Auswertungen über den gesamten Datensatz der Malware-Vorkommnisse vorgestellt.
+Als Erstes werden die angegriffenen Betriebssysteme betrachtet.
 
-.Anzahl der Malwares pro Stegangraphie-Art
-|===
-|Steganographie-Art|Anzahl der Malwares
+.Anzahl der Malware-Vorkommnisse pro Betriebssysteme
+image::malware-platforms.png[]
 
-| LSB
-| 4
+Windows wurde bei 25 Vorkommnissen, und damit am meisten, als Ziel gewählt.
+Es folgt macOS bei vier, Android bei drei und Linux und iOS bei zwei böswilligen Programmen.
+Acht der 36 Vorkommnissen konnten nicht zugeordnet werden.
 
-| XOR
-| 2
+Der nächste Graph zeigt die Anzahl der Malware-Vorkommnisse pro Medientyp.
 
-| End of File
-| 2
+.Anzahl der Malware-Vorkommnisse pro Medientyp
+image::malware-carrier-types.png[]
 
-| Unknown
-| 29
-|===
-.**TODO**: 
-* Mit aktuellen Daten füllen! 
-* Mit Vorkommen pro Jahr angeben, um Shift zu LSB zu zeigen
+Dabei zeigt sich, dass sowohl JPEG als auch PNG mit 14 und 15 Malen besonders häufig genutzt wird.
+BMP-, GIF- und PDF-Dateien sind weniger relevant.
 
-.Anzahl der Malwares pro Plattform
-|===
-|Plattform|Anzahl der Malwares
+Abschließend ist die Verteilung der Malware-Vorkommnisse bei den Stego-Verfahren zu sehen.
 
-| Windows
-| 27
+.Anzahl der Malware-Vorkommnisse pro Stego-Verfahren
+image::malware-stego-fam.png[]
 
-| Android
-| 1
+Die meisten Vorkommnisse konnten keinem konkreten Stego-Verfahren zugeteilt werden, da oftmals die Artikel keine weitere Auskunft dazu liefern.
+Dennoch konnten von den bestimmbaren Angriffen acht einem LSB-Verfahren zugeordnet werden.
+Sechs setzten auf XOR-Verfahren, vier hängten ihren Payload ans Ende des Cover-Bilds an und drei fügt ihren Payload in die Metadaten oder an speziell markierten Stellen des Cover-Bilds ein.
 
-| macOS
-| 1
+==== Zusammenfassung der Malware-Vorkommnisse
 
-| Linux
-| 2
+Auch wenn einige Artikel keine genaueren Details zur verwendeten Steganografie liefern, lassen sich klare Tendenzen ablesen.
+Die meisten Vorkommnisse zielen auf das Betriebssystem Windows ab, verwenden PNG- oder JPEG-Bilder und implementieren eine LSB- oder XOR-Variante.
+Der Einsatz von Steganografie bei Malware konnte in den letzten vier Jahren mehr als zehnmal verzeichnet werden und ist damit ein aktueller Trend bei Malware-Entwicklern, um nicht durch Antivirensoftware erkannt zu werden.
 
-| Unbekannt
-| 16
-|===
-.**TODO**: 
-Mit aktuellen Daten füllen! 
+<<<
 
-.Anzahl der Malwares pro Cover-Typ
-|===
-|Cover-Typ|Anzahl der Malwares
-
-|JPG
-|5
-
-|PNG
-|10
-
-|BMP
-|4
-
-|GIF
-|0
-
-|TIFF
-|0
-
-|PDF
-|2
-
-|Unbekannt
-|24
-|===
-.**TODO**: 
-Mit aktuellen Daten füllen! 
-
-[#ergebnisse_softwares]
+[#ergebnisse-software]
 === Steganografie- und Wasserzeichen-Software
 
-Die anschließenden Unterabschnitte listen die in der Recherche gefundenen Softwares auf und
-vergleicht diese nach ihren Funktionen in einer Gesamtübersichtstabelle miteinander.
+Die anschließenden Unterabschnitte listen die in der Recherche gefundenen Programme auf und vergleichen diese nach ihren Funktionen und ihren erfüllten Anforderungen.
+Abschließend wird eine Auswahl an Kandidaten vorgestellt.
 
 [#ergebnisse_softwares_stego]
 ==== Übersicht zu Steganografie-Software
 
 In den folgenden Tabellen werden die Steganografie-Programme vorgestellt.
-Die erste Tabelle zeigt die Tools, die auf Desktop-Plattformen wie Windows, macOS und Linux laufen,
-während die zweite die Apps auf den mobilen Plattformen Android und iOS präsentiert.
-Beide Tabellen folgen dem gleichen Schema. Zunächst wird die Software,
-dann ihre untertützten Plattformen, ihrer Steganografie-Domäne (siehe Theorie), ihre unterstützten Steganografie-Algorithmen und 
-schließlich zugehörige Referenzen benannt.
+<<ergebnisse-software-tools>> zeigt die Tools, die auf Desktop-Plattformen wie Windows, macOS und Linux laufen, während <<ergebnisse-software-apps>> die Apps auf den mobilen Plattformen Android und iOS präsentiert.
+Beide Tabellen folgen dem gleichen Schema.
+Zunächst wird die Software, dann ihre unterstützten Plattformen, ihrer Stego-Domäne, ihre unterstützten Stego-Algorithmen, die Erfüllung der Anforderungen und schließlich zugehörige Referenzen benannt.
 
-.Desktop-Tools
-. jsteg cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
-. outguess cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
-. steghide cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
-. stegify
-. f5 cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
-. stegpy cite:[noauthor_dominicbreukerstego-toolkit_nodate]
-. lsbsteg
-. stegolsb
-
-.Desktop-Anwendungen
+[#ergebnisse-software-tools]
+.Übersicht von Stego-Tools als Desktop-Anwendungen
 |===
-|Name|Plattformen|Domäne|Algorithmen|Referenzen
+|Name|Plattformen|Domäne|Algorithmen|Anforderung Bekanntheit|Anforderung Funktionsweise|Anforderung Benutzbarkeit|Referenzen
 
 |jsteg
 |Windows, macOS, Linux
 |Raum
 |LSB
-|cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da quelloffen
+|Erfüllt, da als ausführbare Datei verfügbar
+|cite:[noauthor_dominicbreukerstego-toolkit_nodate,verma_detecting_2022]
 
 |steghide
 |Windows, macOS, Linux
 |Raum
 |LSB
-|cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da quelloffen
+|Erfüllt, da als ausführbare Datei verfügbar
+|cite:[noauthor_dominicbreukerstego-toolkit_nodate,verma_detecting_2022]
 
 |stegpy
 |Windows, macOS, Linux
 |Raum
 |LSB
-|cite:[noauthor_dominicbreukerstego-toolkit_nodate]
+|Nicht erfüllt, da zu geringe Bekanntheit
+|Erfüllt, da quelloffen
+|Erfüllt, da als Python-Paket nutzbar
+|cite:[noauthor_dominicbreukerstego-toolkit_nodate,izcoser_izcoserstegpy_2024]
+
+|stegify
+|Windows, macOS, Linux
+|Raum
+|LSB
+|Erfüllt, da über 1000 Bewertungen bei GitHub
+|Erfüllt, da quelloffen
+|Erfüllt, da als ausführbare Datei verfügbar
+|cite:[petrov_dimitarpetrovstegify_2024]
+
+|LSB-Steganography
+|Windows, macOS, Linux
+|Raum
+|LSB
+|Nicht erfüllt, da über 800 Bewertungen bei GitHub
+|Erfüllt, da quelloffen
+|Erfüllt, da als Python-Paket nutzbar
+|cite:[david_robindavidlsb-steganography_2024]
+
+|stegolsb
+|Windows, macOS, Linux
+|Raum
+|LSB
+|Nicht erfüllt, da über 500 Bewertungen bei GitHub
+|Erfüllt, da quelloffen
+|Erfüllt, da als Python-Paket nutzbar
+|cite:[gibson_ragibsonsteganography_2024]
 
 |outguess
 |Windows, macOS, Linux
 |Frequenz
 |Outguess
-|cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da quelloffen
+|Erfüllt, da als ausführbare Datei verfügbar
+|cite:[noauthor_dominicbreukerstego-toolkit_nodate,verma_detecting_2022]
 
 |f5
 |Windows, macOS, Linux
 |Frequenz
 |F5
-|cite:[noauthor_dominicbreukerstego-toolkit_nodate, verma_detecting_2022]
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da quelloffen
+|Nicht erfüllt, da keine Dokumentation zur Installation gefunden werden konnte
+|cite:[noauthor_dominicbreukerstego-toolkit_nodate,verma_detecting_2022]
 
 |===
 
-.Mobile-Apps
-. PixelKnot
-. Passlok
-. MobiStego
-. PocketStego
-. Steganography-Meznik
-. Pictograph
+Dabei ist zu erkennen, dass sechs der acht Tools auf ein selbst implementiertes LSB-Verfahren setzen und somit in der Raum-Domäne aktiv sind.
+Lediglich _f5_ nutzt den gleichnamigen Algorithmus und
+_outguess_ setzt auf eine eigene Variante in der Frequenz-Domäne.
+Alle gefundenen Programme sollen auf den drei gängigsten Betriebssystemen Windows, macOS and Linux im Desktop-Umfeld lauffähig sein.
+Der Entwicklungszeitraum der Tools beläuft sich von 2014 bei _f5_ als ältestes bis heute bei _stegolsb_, das weiterhin kleine Aktualisierungen erfährt.
 
-.Mobile Anwendungen
+Alle der dargestellten Stego-Tools erfüllen mindestens zwei der drei <<literaturrecherche-tools,Anforderungen>>, wobei _jsteg_, _steghide_ und _stegify_ diesen vollständig nachkommen.
+Alle drei Tools setzen LSB-Verfahren um und sind grundsätzlich auf Windows einsetzbar, welches am häufigsten als Angriffsziel gewählt wurde.
+Damit sind sie geeignete Kandidaten, um Stego-Malware bei der Erstellung des Forschungsdatensatzes zu repräsentieren.
+
+Neben den Desktop-Anwendungen wurden mobile Anwendungen für iOS und Android gefunden.
+Diese werden nachfolgend vorgestellt.
+
+[#ergebnisse-software-apps]
+.Übersicht von Stego-Tools als mobile Anwendungen
 |===
-|Name|Plattformen|Domäne|Algorithmen|Referenzen
+|Name|Plattformen|Domäne|Algorithmen|Anforderung Bekanntheit|Anforderung Funktionsweise|Anforderung Benutzbarkeit|Referenzen
 
 |PixelKnot
 |Android
 |Frequenz
 |F5
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da quelloffen
+|Erfüllt, da im Google Play-Store verfügbar
 |cite:[newman_stegoappdb_2019]
 
 |Passlok Privacy
 |Android
 |Frequenz
 |
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da in wissenschaftlicher Arbeit analysiert
+|Erfüllt, da im Google Play-Store kostenlos verfügbar
 |cite:[newman_stegoappdb_2019]
 
 |MobiStego
 |Android
 |Raum
 |LSB
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da quelloffen
+|Erfüllt, da im Google Play-Store kostenlos verfügbar
 |cite:[newman_stegoappdb_2019]
 
-|Steganography-Meznik
+|Steganography-Meznik (oder SteganographyM)
 |Android
 |Raum
 |LSB
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da in wissenschaftlicher Arbeit analysiert
+|Nicht eindeutig erfüllt, da nicht im Google Play-Store verfügbar, aber bei Drittanbietern
 |cite:[newman_stegoappdb_2019]
 
 |Pictograph
 |iOS
 |Raum
 |LSB
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da in wissenschaftlicher Arbeit analysiert
+|Erfüllt, da im App-Store kostenlos verfügbar
 |cite:[newman_stegoappdb_2019]
 
 |===
 
+Die Stego-Apps sind bis auf bei _PixelKnot_ und _Password Privacy_ mit einem LSB-Verfahren implementiert.
+Da Newman at el. in cite:[newman_stegoappdb_2019] diese Apps analysiert hat, sind die Anforderungen Bekanntheit und Funktionsweise bei jeder gegeben.
+Bis auf _Steganography-Meznik_ können zudem alle Apps einfach auf Endgeräten installiert werden.
+Als geeignete Kandidaten zeichnen sich daher insbesondere _MobiStego_ und _Pictograph_ ab, weil beide die drei Anforderungen erfüllen und LSB-Verfahren wie bei vielen der Malware-Vorkommnisse implementieren.
+
 [#ergebnisse_softwares_wz]
 ==== Übersicht zu Wasserzeichen-Software
 
-Der aktuelle Stand der Forschung zeigt, dass insbesondere die Verwendung von neuronalen Netzen zur Einbettung von Wasserzeichen in Bildern den aktuell höchsten 
-Schutz vor Angriffen in diesem Fachbereich bieten. Da unsichtbare Wasserzeichen im Gegensatz zu Steganografie-Tools oder auch -Malware einen Anwendungsbereich im Umfeld von Medienkonzernen finden und weniger von Endbenutzern verwendet werden, lassen sich vor allem komplexe wissenschaftlich belegte Implementierungen finden. 
+Der aktuelle Stand der Forschung zeigt, dass insbesondere die Verwendung von neuronalen Netzen zur Einbettung von Wasserzeichen in Bildern den aktuell höchsten Schutz vor Angriffen in diesem Fachbereich bieten.
+Da unsichtbare Wasserzeichen im Gegensatz zu Stego-Tools oder auch -Malware einen Anwendungsbereich im Umfeld von Medienkonzernen finden und weniger von Endbenutzern verwendet werden, lassen sich vor allem komplexe wissenschaftlich belegte Implementierungen finden.
 
-. https://github.com/Akshat-14/DWT-DCT-SVD[DwtDcdSvd] cite:[navas_dwt-dct-svd_2008]
-. https://github.com/tancik/StegaStamp[StegaStamp] cite:[tancik_stegastamp_2020]
-. https://github.com/facebookresearch/ssl_watermarking[SSL Watermarking] cite:[fernandez_watermarking_2022]
-. https://github.com/facebookresearch/stable_signature[Stable Signature] cite:[fernandez_stable_2023]
-. https://github.com/YuxinWenRick/tree-ring-watermark[Tree-Ring Watermarks] cite:[wen_tree-ring_2023]
-. https://github.com/ShieldMnt/invisible-watermark[invisible-watermark]
-. https://github.com/rosuH/EasyWatermark[Easy Watermark]
+Die folgende Tabelle stellt Verfahren aus dem aktuellen Stand der Technik dar.
 
 |===
-|Name|Plattformen|Domäne|Algorithmen|Referenzen
+|Name|Plattformen|Domäne|Algorithmen|Anforderung Bekanntheit|Anforderung Funktionsweise|Anforderung Benutzbarkeit|Referenzen
 
 |DwtDcdSvd
 |Windows, macOS, Linux
 |Frequenz
-|
+|<<theorie-verfahren-frequenz,DWT, DCT, SVD>>
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da quelloffen
+|Erfüllt, da als Python-Datei verfügbar
 |cite:[navas_dwt-dct-svd_2008]
 
 |StegaStamp
 |Windows, macOS, Linux
 |Frequenz
 |Neuronales Netzwerk
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da quelloffen
+|Erfüllt, da als Python-Datei verfügbar
 |cite:[tancik_stegastamp_2020]
 
 |SSL Watermarking
 |Windows, macOS, Linux
-|
+|Uneindeutig
 |Neuronales Netzwerk
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da quelloffen
+|Erfüllt, da als Python-Datei verfügbar
 |cite:[fernandez_watermarking_2022]
 
 |Stable Signature
 |Windows, macOS, Linux
-|
+|Uneindeutig
 |Neuronales Netzwerk
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da quelloffen
+|Erfüllt, da als Python-Datei verfügbar
 |cite:[fernandez_stable_2023]
 
 |Tree-Ring Watermarks
 |Windows, macOS, Linux
-|
+|Uneindeutig
 |Neuronales Netzwerk
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da quelloffen
+|Erfüllt, da als Python-Datei verfügbar
 |cite:[wen_tree-ring_2023]
 
 |Tree-Ring Watermarks
 |Android
-|
+|Uneindeutig
 |Neuronales Netzwerk
-|https://github.com/rosuH/EasyWatermark[Easy Watermark]
+|Erfüllt, da in wissenschaftlicher Arbeit verwendet
+|Erfüllt, da quelloffen
+|Erfüllt, da als Python-Datei verfügbar
+|cite:[rosuh_rosuheasywatermark_2024]
 
 |===
 
-==== Gesamtübersicht
+Es ist zu erkennen, dass alle Verfahren entweder in der Frequenz-Domäne agieren oder aufgrund der Verwendung von maschinellem Lernen auf uneindeutige Weise in die Bilder einbetten.
 
-.TODO:
-* Diagramm der Gesamtübersicht mit:
-** Domäne
-** Kategorie (Desktop, App, WZ)
+Zwar erfüllen alle Wasserzeichenverfahren die Anforderungen grundlegend, jedoch nutzt nach aktuellem Stand keine Malware die Frequenz-Domäne oder gar maschinelles Lernen zum Einbetten von Daten.
+Die erhöhte Robustheit der Verfahren deckt sich damit mit den Annahmen in <<forschungsfragen-hypthosen>> sowie
+<<theorie-kriterien>>.
 
-[#ergebnisse_bilddatensatz]
-=== Verwendeter Bild-Datensatz
+==== Zusammenfassung
 
-Der ausgewählte Datensatz beinhaltet Cover-Stego-Bildpaare der zuvor beschriebenen mobilen Stego-Apps.
-Diese setzen hauptsächlich Steganografie in der Raumdomäne ein, wobei PixelKnot in der Frequenz-Domäne arbeitet.
-Um den Einsatz von Information Hiding durch Malware besser widerzuspiegeln, wurde aus den Cover-Bildern des Datensatzes
-zudem Stego-Bilder mit den Verfahren der Struktur-Einbettung erstellt.
+Von den Stego-Tools im Desktop-Bereich stellen sich jsteg, steghide und stegify als geeignete Kandidaten heraus, während MobiStego und Pictograph im mobilen Anwendungsbereich hervorstechen.
+Alle genannten Stego-Programme nutzen LSB-Verfahren, sind auf Windows, Android oder iOS einsetzbar und erfüllen die <<literaturrecherche-tools,Anforderungen>>.
 
-Die Einstellung des Suchformulars der StegoAppDB wurde wie folgt vorgenommen:
+Zusätzlich sollten bis zu zwei Verfahren in der Frequenz-Domäne betrachtet werden, da diese möglicherweise als Weiterentwicklung bei Malware in Betracht gezogen werden könnten.
+Außerdem sind diese Techniken noch im Bereich der Wasserzeichen im Einsatz, womit diese im Forschungsdatensatz ebenso Beachtung finden würden.
 
-.Einstellung StegoAppDB
+<<<
+
+[#ergebnisse-datensatz]
+=== Verwendeter Forschungsdatensatzes
+
+Wie in <<literaturrecherche-datensatz>> beschrieben wurde die StegoAppDB als sinnvoller Kandidat für den Forschungsdatensatz gewählt.
+Die folgenden Vor- und Nachteile sind zu benennen:
+
+.Vor- und Nachteile der Verwendung der StegoAppDB als Forschungsdatensatzes
+|===
+|Vorteile|Nachteile
+
+|Es wurden bereits alle Cover-Stego-Bildpaare generiert und eingebettete Nachrichten sind dokumentiert.
+|Es sind nur die Stego-Apps enthalten.
+
+|Der Datensatz wurde mindestens einmal zuvor bei der Verwendung im Paper cite:[chen_tackling_2018] getestet.
+|
+|===
+
+Obwohl nur Daten von Stego-Apps enthalten sind, bilden diese jedoch ein gutes Spektrum der <<ergebnisse-software,gefundenen Stego-Software>> ab.
+Hauptsächlich sind darin LSB-Verfahren wie häufig bei Malware und zweimal Varianten in der Frequenz-Domäne umgesetzt, womit auch Algorithmen ähnlich der Wasserzeichenprogramme untersucht werden können.
+
+Es wurde dabei über eine Auswahlmaske ein Auszug aus der gesamten StegoAppDB benutzt.
+Die Einstellung des Suchformulars wurde wie folgt vorgenommen:
+
+.Einstellung des Suchformulars der StegoAppDB für den verwendeten Forschungsdatensatz cite:[newman_stegoappdb_2019]
 image::stegoappdb-verwendet.png[Einstellung StegoAppDB]
 
-Es wurden lediglich immer das erste Gerät pro Gerätetyp ausgewählt und die manuelle Belichtungsdauer nicht selektiert, da sonst die Größe des Datensatzes um nahezu das Zehnfache angestiegen wäre. (siehe <<appendix_stegoappdb-nicht-verwendet>>)
+Um die vollständigen Cover-Stego-Paare zur Verfügung zu haben, wurden die in der Maske als _pre-stego_ bezeichnete Option angewählt.
+Als Einbettungsprogramme wurden PixelKnot, Passlok Privacy, MobiStego, PocketStego, Stegangraphy-Meznik und Pictograph ausgewählt.
+Mit PixelKnot und Passlok Privacy arbeiten zwei der sechs Stego-Apps mit JPEG-Bildern, während der Rest PNG verwendet.
+Es wurden lediglich immer das erste Gerät pro Gerätetyp ausgewählt und die manuelle Belichtungsdauer nicht selektiert, da sonst die Größe des Datensatzes um nahezu das Zehnfache angestiegen wäre.
+(siehe <<appendix_stegoappdb-nicht-verwendet>>)
 
-=== Übersicht von Merkmalen steganografischer Bilddaten
+Der Forschungsdatensatz besteht aus 18570 Bildpaaren.
+Die gesamte Speichergröße beläuft sich auf 18,53 GB, wobei neben den Cover- auch noch ungenutzte Input-Bilder enthalten sind.
+Die einzelnen Bilder weisen eine Größe zwischen 100 und 300 KB auf, wurden auf 512x512 Pixel beschnitten und zu Grauwertbildern umgewandelt.
+Als Einbettungsnachrichten wurden Ausschnitte aus 634 Shakespeare-Stücken zufällig gewählt. cite:[newman_stegoappdb_2019]
+
+MobiStego, PixelKnot, PocketStego und SteganographyM haben 3060 Bildpaare, Pictograph 4800 und Passlok Privacy 1530.
+Diese Verteilung konnte in der Auswahlmaske nicht bestimmt werden.
+
+[#ergebnisse-merkmale]
+=== Vorstellung von Merkmalen der Stego-Bilder aus dem Forschungsdatensatz
+
+In diesem Abschnitt werden Merkmale aus dem Forschungsdatensatz vorgestellt, die als Ergebnisse der <<methodik-analysen,Analyseverfahren>> abgeleitet werden konnten.
+Diese werden dann in <<ergebnisse-detektor-konfig>> als Regeln definiert.
 
 ==== Metadatenvergleich
 
 Der Metadatenvergleich wurde wie in der Vorstellung der <<methodik-analysen-metadaten,Analyse von Metadaten>> durchgeführt.
-Dabei zeigte sich das, sich das Metadatenfeld `PNG:SignicantBits` bei von MobiStego veränderten Bildern
-von `8 8 8` zu `8 8 8 8` änderte.
-Eine zweite Änderung konnte beim Feld `PNG:ColorType` festgestellt werden,
-welche sich bei Bildern von MobiStego von `2` auf `6` und bei Bildern von Pictograph von `0` auf `2` beläuft.
+Dabei zeigte sich, dass sich das Metadatenfeld `PNG:SignicantBits` bei von MobiStego veränderten Bildern von `8 8 8` zu `8 8 8 8` änderte.
+Eine zweite Änderung konnte beim Feld `PNG:ColorType` festgestellt werden, welche sich bei Bildern von MobiStego von `2` auf `6` und bei Bildern von Pictograph von `0` auf `2` beläuft.
 
-Somit lassen sich diese Funde als Regeln zur Erkennung von MobiStego und Pictograph einsetzen.
+Somit lassen sich diese Funde als Merkmale beschreiben.
 
-TODO:
-* Regeln ableiten
+[#ergebnisse-merkmale-metadatenvergleich]
+.Abgeleitete Merkmale aus dem Metadatenvergleich
+Änderung von `PNG:SignificantBits`::
+* Wenn von `8 8 8` zu `8 8 8 8` -> Hinweis auf MobiStego
+Änderung von `PNG:ColorType`::
+* Wenn von `2` zu `6` -> Hinweis auf MobiStego
+* Wenn von `0` zu `2` -> Hinweis auf Pictograph
+
+<<<
 
 [#ergebnisse-dateigroessen]
 ==== Dateigrößenunterschiede
@@ -301,74 +405,72 @@ TODO:
 Die folgenden Dateigrößendifferenzen konnten mit der
 <<methodik-analysen-dateigroesse,im Methodikteil vorgestellten Analyse>> ermittelt werden.
 
-image::file-size_mobistego.png[Dateigrößenunterschiede MobiStego]
+.Übersicht der Dateigrößenunterschiede als Streudiagramme
+image::file-size-diff-percentage-per-method.png[]
 
-Das Diagramm zeigt, dass der Größenunterschied für MobiStego bei 3060 Cover- und Stego-Bild
-sich im positiven Bereich zwischen 2 % bis 35 % bewegt.
-Dabei gibt es einige Ausreißer mit einem Unterschied bis zu 50 %,
-sehr wenige bis 60 % und lediglich ein Unterschied von 70 % vorkommt.
-
-image::file-size_passlok.png[Dateigrößenunterschiede Passlok]
-
-Bei Passlok wurden 1530 Bildpaare untersucht, wobei sich die Verteilung im Bereich von 0,1 % bis 0,25 % mit Ausreißern
-bis 0,38 % befindet.
-
-image::file-size_pictograph.png[Dateigrößenunterschiede Pictograph]
-
+Das Diagramm zeigt, dass der Größenunterschied für MobiStego bei 3060 Cover- und Stego-Bildern sich im positiven Bereich zwischen 2 % bis 35 % bewegt.
+Dabei gibt es einige Ausreißer mit einem Unterschied bis zu 50 %, sehr wenige bis 60 % und lediglich ein Unterschied von 70 % vorkommt.
+Bei Passlok wurden 1530 Bildpaare untersucht, wobei sich die Verteilung im Bereich von 0,01 % bis 0,25 % mit Ausreißern bis 0,38 % befindet.
 Für Pictograph standen 4800 Bildpaare bereit, welche einen Unterschied von 16 % bis 50 % mit Ausreißern bis 65 % aufweisen.
-
-image::file-size_pixelknot.png[Dateigrößenunterschiede PixelKnot]
-
-PixelKnot weist als einzige App bei 3060 Bildpaaren eine Verkleinerung der Dateigröße auf,
-weshalb sich der Dateigrößenunterschied um -0,1 % bis -3 % mit Ausreißern bis -4,3 % bewegt.
-
-image::file-size_pocketstego.png[Dateigrößenunterschiede PocketStego]
-
+PixelKnot weist als einzige App bei 3060 Bildpaaren eine Verkleinerung der Dateigröße auf, weshalb sich der Dateigrößenunterschied um -0,01 % bis -3 % mit Ausreißern bis -4,3 % bewegt.
 PocketStego befindet bei 3060 Bildpaaren im Bereich von 3 % bis 20 % mit Ausreißern bis 33 %.
-
-image::file-size_steganographym.png[Dateigrößenunterschiede SteganographyM]
-
 Bei SteganographM sind die größten Unterschiede in der Dateigröße vernehmbar.
 Die Unterschiede fallen in den Bereich von 19 % bis 70 % mit Ausreißern bis zu 130 %.
 
-Im nächsten Diagramm ist die Verteilung der prozentualen Dateigrößenunterschiede der Stego-Apps im Vergleich zueinander
-dargestellt.
+Die Farbgebung ist nach den Werten der Dateigrößendifferenzen auf der Y-Achse gewählt.
+Gleich oder ähnlich farbige Werte liegen daher über alle sechs Diagramme hinweg nahe beieinander.
+So zeigt zum Beispiel der Farbverlauf von Pictograph und SteganographyM, dass beide ihren unteren Wertebereich um 20 % in Türkis haben.
+SteganographyM geht im oberen Wertebereich aus dem Rosafarbenem stark ins Rosarote hinein und verdeutlicht damit dessen höhere Dateigrößendifferenz im oberen Wertebereich im Kontrast zu Pictograph.
+MobiStego weist eine auffällige blaue und türkise Mitte auf, was erkennen lässt, dass MobiStego im mittleren bis oberen Wertebereich mit Pictograph und SteganographyM überlappt.
+Der grüne untere Bereich zeigt auf der anderen Seite, dass es dort keine Überlappung mit Pictograph oder SteganographyM gibt, dafür aber mit PocketStego und womöglich auch mit Passlok.
+PixelKnot verzeichnet als einzige Stego-App eine Verkleinerung des Dateigrößenunterschieds und weist daher auch einen einzigartigen Farbverlauf aus dem Gelben über Orange ins Feuerrote hinein.
 
+Im nächsten Diagramm ist die Verteilung der prozentualen Dateigrößenunterschiede der Stego-Apps im Vergleich zueinander dargestellt.
+Die Violinen des Violinendiagramms werden mit der Kerndichteschätzung berechnet.
+Weitere Informationen dazu sind der Dokumentation in cite:[noauthor_seabornviolinplot_nodate] zu entnehmen.
+
+.Darstellung der Dateigrößenunterschiede mit Ausreißern
 image::file-size_raw.png[Dateigrößenunterschiede mit Ausreißern]
 
-Dabei zeigt sich, dass PixelKnot im negativen Bereich keine Schnittmenge und SteganographyM im positiven Bereich
-ab mindestens 80 % keine Überschneidungen mit anderen Apps aufweist.
+Dabei zeigt sich, dass PixelKnot im negativen Bereich keine Schnittmenge und SteganographyM im positiven Bereich ab mindestens 80 % keine Überschneidungen mit anderen Apps aufweist.
 
-Wie in den Diagrammen zu den einzelnen Apps bereits zu sehen war,
-gibt am unteren und oberen Ende der meisten Apps einige Ausreißer.
-Diese unteren und oberen 5 % wurden im folgenden Schnitt ausgeklammert,
-um Apps mit einer höheren Wahrscheinlichkeit für einen bestimmten Dateigrößenmunterschied eher zu detektieren als
-die Ausreißer weniger wahrscheinlicher Apps. Nach dieser Bereinigung sieht die Verteilung wie folgt aus:
+Wie in den Diagrammen zu den einzelnen Apps bereits zu sehen war, gibt es am unteren und oberen Ende der meisten Apps einige Ausreißer.
+Diese unteren und oberen 5 % wurden im folgenden Schnitt ausgeklammert, um Apps mit einer höheren Wahrscheinlichkeit für einen bestimmten Dateigrößenunterschied eher zu detektieren als die Ausreißer weniger wahrscheinlicher Apps.
+Nach dieser Bereinigung sieht die Verteilung wie folgt aus:
 
+.Darstellung der Dateigrößenunterschiede ohne Ausreißer
 image::file-size_summary.png[Dateigrößenunterschiede ohne Ausreißer]
 
-Daraus ergeben sich die folgenden Bereiche, die über die Erkennung des Dateigrößenunterschieds abgedeckt werden können:
+Ganz links ist PixelKnot in Rot neben Passlok in Orange im Bereich der negativen Dateigrößendifferenzen zu sehen.
+Nach einer Kluft folgen PocketStego in Lila im positiven Bereich mit starken Überlappungen mit MobiStego in Blau.
+MobiStego überschneidet sich zudem mit SteganographyM in Hellorange und Pictograph in Grün.
 
-. -2,63 % bis -0,25% => PixelKnot
-. 0,02 % bis 0,23 % => Passlok
-. 4,09 % bis 5,44 % => PocketStego
-. 5,44 % bis 18,68 % => PocketStego oder MobiStego
-. 18,68 % bis 20,88 % => MobiStego
-. 20,88 % bis 24 % => MobiStego oder SteganographyM
-. 24 % bis 34,6 % => MobiStego oder SteganographyM oder Pictograph
-. 34,6 % bis 47,67 % => SteganographyM oder Pictograph
-. 47,67 % oder mehr => Pictograph
+Die Auswertung der konkreten Werte ergeben die folgenden Wertebereiche:
+
+[#ergebnisse-merkmale-dateigroessenunterschiede]
+.Wertebereiche und abgeleitete Merkmale der Dateigrößenunterschiede
+. -2,63 % bis -0,25 % => Hinweis auf PixelKnot
+. 0,02 % bis 0,23 % => Hinweis auf Passlok
+. 4,09 % bis 5,44 % => Hinweis auf PocketStego
+. 5,44 % bis 18,68 % => Hinweis auf PocketStego oder MobiStego
+. 18,68 % bis 20,88 % => Hinweis auf MobiStego
+. 20,88 % bis 24 % => Hinweis auf MobiStego oder SteganographyM
+. 24 % bis 34,6 % => Hinweis auf MobiStego oder SteganographyM oder Pictograph
+. 34,6 % bis 47,67 % => Hinweis auf SteganographyM oder Pictograph
+. 47,67 % oder mehr => Hinweis auf Pictograph
 
 Durch die fünf Intervalle 1, 2, 3, 5 und 9 lassen sich die betrachteten Stego-Apps basierend auf dem Datensatz eindeutig zu ordnen.
-In den anderen Fällen ist es lediglich eine von zwei oder drei Apps.
+In den anderen Fällen ist es lediglich einer von zwei beziehungsweise drei Apps zuordenbar.
+Diese Wertebereiche werden gleichzeitig als Merkmale angesehen und wurden entsprechend als Regeln umgesetzt.
+
+<<<
 
 [#ergebnisse-lsb-extraktion]
 ==== LSB-Extraktion
 
 Mittels der <<methodik-analysen-lsb-extraktion,LSB-Extraktion>> wurde insbesondere nach Signaturen in der eingebetteten Nachricht gesucht.
 Um dies zu erreichen, wurden zunächst die genauen Einbettungsstrategien ermittelt.
-Dies erfolgte durch Probieren möglicher Konfigurationen mit den ersten 10 Bildern,
-auf die eine Stego-App angewendet wurde.
+Dies erfolgte durch Probieren möglicher Konfigurationen mit den ersten 10 Bilderpaaren, auf die eine Stego-App angewendet wurde, und anschließendem Validieren über alle Bildpaare der zugehörigen App.
 Eine Konfiguration besteht aus:
 
 Einbettungsmethode _method_:: Die verwendete Stego-App zum Einbetten
@@ -389,9 +491,12 @@ Bit-Reihenfolge _endian_:: Die bei der Zusammensetzung der Nachricht zu beachten
 
 Iterationsrichtung _direction_:: Die Richtung, in der über die Pixel iteriert werden soll
 +
-*Optionen*: `row` für die Iteration über die Zeile bzw. Bildweite oder `col[umn]` für die Iteration über die Spalte bzw. Bildhöhe
+*Optionen*: `row` für die Iteration über die Zeile bzw.
+Bildweite oder `col[umn]` für die Iteration über die Spalte bzw.
+Bildhöhe
 
 Der Ablauf wurde wie folgt umgesetzt:
+
 ====
 . Erhalte Konfiguration
 . Für jedes Stego-Bild
@@ -405,147 +510,235 @@ Der Ablauf wurde wie folgt umgesetzt:
 ** Ansonsten, gib Erfolgsrate und `None` zurück
 ====
 
-Mit folgendem Ergebnis:
+Das Ergebnis wird nachfolgend in einer Tabelle dargestellt.
 
+.Konfigurationen für die LSB-Extraktion
 [%header,format=csv]
 |===
-rate,method,channels,bits,endian,direction,index
-1.0,MobiStego,RGB,2,big,row,3
-1.0,PocketStego,B,1,big,column,0
+Rate,Stego-App,Kanäle,Bits,Endianness,Richtung
+1.0,MobiStego,RGB,2,big,zeilenweise
+1.0,PocketStego,B,1,big,spaltenweise
 |===
 
+MobiStego verwendet alle drei RGB-Kanäle bei 2-LSBs in zeilenweiser (oder Weite-orientierter) Iterationsrichtung mit eingebetteter Nachricht in Big-Endianness.
+PocketStego nutzt nur den B-Kanal beim LSB in spaltenweiser (oder Höhe-orientierter) Iterationsrichtung mit eingebetteter Nachricht in Big-Endianness.
 Dies deckt sich mit den Erkenntnissen in cite:[chen_tackling_2018].
-Da PocketStego und MobiStego die einzigen beiden Stego-Apps sind,
-die einen nicht-zufälligen LSB-Einbettungspfad verwenden,
-konnten auch nur diese erkannt werden.
-Steganography_M dagegen nutzt einen pseudo-randomisierten Einbettungspfad und
-Pictograph und PixelKnot setzen Steganografie in der <<theorie-verfahren-frequenz,Frequenz-Domäne>> ein und
-sind daher so nicht detektierbar.
+Da PocketStego und MobiStego die einzigen beiden Stego-Apps sind, die einen nicht-zufälligen LSB-Einbettungspfad verwenden, konnten auch nur diese erkannt werden.
+Steganography_M dagegen nutzt einen pseudo-randomisierten Einbettungspfad und Pictograph und PixelKnot setzen Steganografie in der <<theorie-verfahren-frequenz,Frequenz-Domäne>> ein und sind daher so nicht detektierbar.
 
-Durch Vergleichen der extrahierten Nachrichten basierend auf den erkannten Konfigurationen konnten dann
-die folgenden Signaturen, wie auch in cite:[chen_tackling_2018] beschrieben, entdeckt werden:
+Durch Vergleichen der extrahierten Nachrichten basierend auf den erkannten Konfigurationen konnten dann die folgenden Signaturen, wie auch in cite:[chen_tackling_2018] beschrieben, entdeckt werden:
 
 * *MobiStego*:
 ** `@!#` (ASCII-Zeichen): Markiert den Beginn der Nachricht
 ** `#!@` (ASCII-Zeichen): Markiert das Ende der Nachricht
 
 * *PocketStego*:
-** `b'\x00'` (Byte): Markiert das Ende der Nachricht. Es handelt sich dabei um den Null-Byte.
+** `b'\x00'` (Byte): Markiert das Ende der Nachricht.
+Es handelt sich dabei um den Null-Byte.
 
+Somit lassen sich folgende Merkmale definieren:
+
+[#ergebnisse-merkmale-lsb-extraktion]
+.Abgeleitete Merkmale der LSB-Extraktion
+Signaturen `@!\#` und  `#!@`::
+* Wenn die Signaturen `@!\#` und `#!@` bei der Extraktion der 2-LSB-Ebene spaltenweise aus den RGB-Kanälen der Pixel, und im Big-Endian-Format zusammengesetzt, gefunden werden -> Hinweis auf MobiStego
+Signatur `b'\x00'`::
+* Wenn die Signatur `b'\x00'` bei der Extraktion der 1-LSB-Ebene zeilenweise aus dem B-Kanal der Pixel, und im Big-Endian-Format zusammengesetzt, gefunden wird -> Hinweis auf PocketStego
+
+<<<
+
+[#ergebnisse-detektor-konfig]
 === Konfiguration des Detektors
 
 Aus den vorherigen Ergebnissen lassen sich die Regeln ableiten, welche der Detektor zur Analyse nutzen wird.
 Die dazugehörige Datei ist im <<anhang-regeln,Anhang>> beigefügt.
 
 Die Regeldatei listet zunächst alle Tools auf, die detektiert werden können.
-Es folgt der erste Regelblock, indem die Dateigrößen entsprechend den Intervallen
-aus den <<ergebnisse-dateigroessen,Ergebnissen der Dateigrößenvergleiche>> als Regeln abgebildet sind.
-Nach den Regeln `ISA.MobiStego.File-Size-Diff`, `ISA.PocketStego.File-Size-Diff`, `ISA.PocketStego-MobiStego.File-Size-Diff`,
-`ISA.MobiStego-SteganographyM.File-Size-Diff` und `ISA.MobiStego-SteganographyM-Pictograph.File-Size-Diff`
-wird die <<ergebnisse-lsb-extraktion,LSB-Signatur>> von MobiStego und respektive PocketStego überprüft.
+Dann werden die Regeln definiert.
+Der daraus resultierende Regelbaum wird nachfolgend dargestellt.
 
-Die Namen der Regeln bestehen immer aus dem Kürzel `ISA` für _Image Stego App_, gefolgt von der oder den spezifischen App(s) und
-dem überprüften Merkmal abgekürzt in Englisch. Dadurch werden Namensräume für die Merkmale mit Zuordnung zu den Stego-Apps geschaffen.
+[#ergebnisse-detektor-konfig-regelbaum]
+.Regelbaum in Konfiguration des Detektors
+[d2]
+....
+direction: right
+classes: {
+    app: {
+        style: {
+            stroke-width: 0
+            fill: "#44C7B1"
+            shadow: true
+            border-radius: 5
+        }
+    }
+}
+
+Start: {
+    shape: circle
+    style.fill: lightgray
+}
+
+PixelKnot.class: app
+Passlok.class: app
+SteganographyM.class: app
+MobiStego.class: app
+PocketStego.class: app
+Pictograph.class: app
+
+
+Start -> "ISA.PixelKnot.File-Size-Diff" -> PixelKnot
+Start -> "ISA.Passlok.File-Size-Diff"  -> Passlok
+Start -> "ISA.PocketStego.File-Size-Diff"
+Start -> "ISA.PocketStego-MobiStego.File-Size-Diff"
+Start -> "ISA.MobiStego.File-Size-Diff"
+Start -> "ISA.MobiStego-SteganographyM.File-Size-Diff" -> SteganographyM
+Start -> "ISA.MobiStego-SteganographyM-Pictograph.File-Size-Diff" -> SteganographyM
+Start -> "ISA.SteganographyM-Pictograph.File-Size-Diff" -> SteganographyM
+Start -> "ISA.Pictograph.File-Size-Diff"
+"ISA.PocketStego-MobiStego.File-Size-Diff" -> "ISA.MobiStego.LSB-Signature" -> "ISA.MobiStego.Metadata-Diff" -> MobiStego
+"ISA.MobiStego.File-Size-Diff" -> "ISA.MobiStego.LSB-Signature"
+"ISA.PocketStego.File-Size-Diff" -> "ISA.PocketStego.LSB-Signature" -> PocketStego
+"ISA.PocketStego-MobiStego.File-Size-Diff" -> "ISA.PocketStego.LSB-Signature"
+"ISA.MobiStego-SteganographyM.File-Size-Diff" -> "ISA.MobiStego.LSB-Signature"
+"ISA.MobiStego-SteganographyM-Pictograph.File-Size-Diff" -> "ISA.MobiStego.LSB-Signature"
+"ISA.SteganographyM-Pictograph.File-Size-Diff" -> "ISA.Pictograph.Metadata-Diff" -> Pictograph
+"ISA.Pictograph.File-Size-Diff" -> "ISA.Pictograph.Metadata-Diff"
+"ISA.MobiStego-SteganographyM-Pictograph.File-Size-Diff" -> "ISA.Pictograph.Metadata-Diff"
+....
+
+Im ersten Regelblock werden die <<ergebnisse-merkmale-dateigroessenunterschiede,Merkmale der Dateigrößenunterschiede>> als Regeln  `ISA.MobiStego.File-Size-Diff`, `ISA.PocketStego.File-Size-Diff`, `ISA.PocketStego-MobiStego.File-Size-Diff`,
+`ISA.MobiStego-SteganographyM.File-Size-Diff`, `ISA.MobiStego-SteganographyM-Pictograph.File-Size-Diff`, `ISA.SteganographyM-Pictograph.File-Size-Diff` und `ISA.Pictograph.File-Size-Diff` abgebildet.
+Daraufhin wird die <<#ergebnisse-merkmale-lsb-extraktion,LSB-Signatur>> von MobiStego durch `ISA.MobiStego.LSB-Signature` und respektive PocketStego durch `ISA.PocketStego.LSB-Signature` überprüft.
+Im Fall von MobiStego folgt darauf die Überprüfung der <<ergebnisse-merkmale-metadatenvergleich,_Änderung von PNG:SignificantBits_ sowie der _Änderung von PNG:ColorType_>>
+durch `ISA.MobiStego.Metadata-Diff`.
+Liefert dagegen die Analyse der Dateigrößenunterschiede zu Beginn einen Hinweis auf Pictograph, wird das Merkmal <<ergebnisse-merkmale-metadatenvergleich,_Änderung von PNG:ColorType_>> durch `ISA.Pictograph.Metadata-Diff` vorgenommen.
+
+Die Namen der Regeln bestehen immer aus dem Kürzel `ISA` für _Image Stego App_, gefolgt von der oder den spezifischen App(s) und dem überprüften Merkmal abgekürzt in Englisch.
+Dadurch werden Namensräume für die Merkmale mit Zuordnung zu den Stego-Apps geschaffen.
 Die Benennung ist aber funktional nur als Text abgebildet und könnte beliebig anderweitig vorgenommen werden.
 
-Die Regeln sind im Rahmen dieser Arbeit alle gleich gewichtet,
-da eine statistische Auswertung jeder einzelnen Regel nötig ist und dies den Umfang sprengen würde.
-Ein sinnvoller Ansatz dazu wird im <<_ausblick,Ausblick>> beschrieben.
-
-=== Auswertung des Detektors
-
-Mit den zuvor vorgestellten Regeln wurde jedes der 18570 Cover-Stego-Bildpaare durchlaufen,
-um die verwendete Stego-App zu bestimmen. Die Ergebnisse wurden in Wahrheitsmatrizen dargestellt.
-Dabei ist immer links oben die Anzahl der wahr-positiven (TP), rechts oben der falsch-positiven (FP),
-links unten der falsch-negativen (FN) und rechts unten der wahr-falschen (TN) Detektionen wiederzufinden.
-
-==== Auswertung mit binärer Betrachtung
-
-Es wurde zunächst überprüft, ob eine Erkennung stattfand oder nicht.
-Jede Detektion mit einer Gewichtung größer als 0 wurde somit als positiv eingestuft.
-
-image::eval-detect_bool_mobistego.png[pdfwidth=80%]
-
-Es zeigt sich, dass mehr Stego-Bilder falsch MobiStego zugeordnet wurden als korrekte.
-Die Rate der korrekt erkannten Negativen ist dagegen mit 9899 zu 309 sehr gut.
-
-image::eval-detect_bool_passlok.png[pdfwidth=80%]
-
-Die meisten Bilder wurden korrekt Passlok zugeteilt oder als andere Stego-App identifiziert.
-Bemerkenswert ist, dass es dabei keine falsche Negativ-Zuordnung gab.
-
-image::eval-detect_bool_pictograph.png[pdfwidth=80%]
-
-Für Pictograph wurden beinahe ebenso viele Pictograph falsch wie richtig zugeordnet.
-
-image::eval-detect_bool_pixelknot.png[pdfwidth=80%]
-
-Auch im Fall von PixelKnot wurde beinahe 1500 Bilder falsch dieser App zugeordnet.
-Die Anzahl an fälschlich als nicht von Passlok erstellte Bilder ist allerdings sehr niedrig.
-
-image::eval-detect_bool_pocketstego.png[pdfwidth=80%]
-
-PocketStego weist sehr ähnliche Ergebnisse wie PixelKnot auf.
-
-image::eval-detect_bool_steganographym.png[pdfwidth=80%]
-
-SteganographyM schließt am schlechtesten ab.
-Mehr als doppelt so viele Bilder werden falsch der App zugeordnet als richtigerweise.
-Ebenso ist die Anzahl an Falschnegativen sehr hoch.
+Die Regeln sind im Rahmen dieser Arbeit alle gleich gewichtet, da eine statistische Auswertung jeder einzelnen Regel nötig ist.
+Dies ist aus Gründen der Übersichtlichkeit zukünftigen Arbeiten überlassen.
+Ein sinnvoller Ansatz dazu wird im <<ausblick,Ausblick>> beschrieben.
 
 <<<
 
-Die folgende Tabelle stellt die Ergebnisse mit den Metriken der Genauigkeit (_Accuracy_),
-Präzision (_Precision_), Sensitivität (_Recall_) und dem F1-Score dar.
+[#ergebnisse-detektor-auswertung]
+=== Auswertung des Detektors
 
-[format=csv]
+Mit den zuvor vorgestellten Regeln wurde jedes der 18570 Cover-Stego-Bildpaare durchlaufen, um die verwendete Stego-App zu bestimmen.
+Die Ergebnisse wurden in Wahrheitsmatrizen dargestellt.
+Dabei ist immer links oben die Anzahl der wahr-positiven (TP), rechts oben der falsch-positiven (FP), links unten der falsch-negativen (FN) und rechts unten der wahr-falschen (TN) Detektionen wiederzufinden.
+
+[#ergebnisse-detektor-binaer]
+==== Auswertung mit binärer Betrachtung
+
+Es wurde zunächst überprüft, ob eine Erkennung stattfand oder nicht.
+Jede Detektion mit einer Gewichtung größer als 0 wurde somit als positiv oder andernfalls als negativ eingestuft.
+
+.Ergebnisse der Detektion von Stego-Apps unter binärer Betrachtung
+image::eval-detect_bool_facet.png[]
+
+Es zeigt sich, dass mehr Stego-Bilder falsch MobiStego zugeordnet wurden als richtige.
+Die Rate der korrekt erkannten Negativen ist dagegen mit 9899 zu 309 sehr gut.
+Im Fall von PixelKnot wurde beinahe 1500 Bilder falsch dieser App zugeordnet.
+PocketStego weist sehr ähnliche Ergebnisse wie PixelKnot auf.
+Für Pictograph wurden beinahe ebenso viele falsch wie richtig zugeordnet.
+SteganographyM schließt am schlechtesten ab.
+Mehr als doppelt so viele Bilder werden falsch der App zugeordnet als richtigerweise.
+Ebenso ist die Anzahl an Falschnegativen im Vergleich zu allen anderen Apps sehr hoch.
+Passlok wurden die meisten Bilder passend zugeteilt oder als andere Stego-App identifiziert.
+Bemerkenswert ist, dass es dabei keine falsche Negativ-Zuordnung gab.
+Insgesamt lässt sich feststellen, dass die Rate der Falschzuordnung bei allen Stego-Apps außer SteganographyM sehr niedrig ist, was sich auch in den nachfolgenden Metriken widerspiegelt.
+
+<<<
+
+Die folgende Tabelle stellt die Ergebnisse mit den Metriken der Genauigkeit (_Accuracy_), Präzision (_Precision_) und Sensitivität (_Recall_) wie in <<theorie-metriken>> beschrieben in Prozent dar.
+
+.Metriken der Detektion von Stego-Apps unter binärer Betrachtung
+[#ergebnisse-detektor-binaer-metriken%header,cols="1h,3*",format=csv,separator=;]
 |===
 include::../assets/tables/eval-detect_bool.csv[]
 |===
 
-Unter der Bedingung, dass eine Detektion immer gewertet wird,
-weisen SteganographyM und MobiStego mit 59,55 % un 68,12 % die schlechteste Genauigkeit auf,
-während Passlok, PixelKnot und PocketStego mit 98,86 % und 91,18 % und 90,36 % am besten abschneiden.
+Im Durchschnitt ergeben sich die folgenden Werte:
 
-Die Präzision ist bei allen Stego-Apps mit Ausnahme von Passlok und StegnographyM relativ niedrig,
-sodass eine positive Erkennung nur mit einer Wahrscheinlichkeit um die 50 % richtig ist.
-Bei Passlok dagegen wird jedes Bild korrekt der App zugeordnet,
-während bei SteganographyM mit 19,67 % nur jedes fünfte Bild richtigerweise der App zugewiesen wird.
+.Durchschnittswerte der Metriken der Detektion von Stego-Apps unter binärer Betrachtung
+[%header,format=csv,separator=;]
+|===
+Genauigkeit;Präzision;Sensitivität
+82,38;62,20;82,96
+|===
+
+Unter der Bedingung, dass eine Detektion immer gewertet wird, weisen SteganographyM und MobiStego mit 59,55 % un 68,12 % die schlechteste Genauigkeit auf, während Passlok, PixelKnot und PocketStego mit 98,86 % und 91,18 % und 90,36 % am besten abschneiden.
+
+Die Präzision ist bei allen Stego-Apps mit Ausnahme von Passlok und PixelKnot relativ niedrig, sodass eine positive Erkennung nur mit einer Wahrscheinlichkeit zwischen ca. 20 bis 65 % richtig ist.
+Bei Passlok und PixelKnot dagegen wird jedes Bild korrekt der App zugeordnet, während bei SteganographyM mit 19,67 % nur jedes fünfte Bild richtigerweise der App zugewiesen wird.
 
 Die Sensitivität ist bei allen Apps bis auf SteganograpyM um die 90 % hoch.
 Es werden also die meisten Bilder, die von der jeweiligen App erstellt wurden, auch erkannt.
 
-==== Auswertung unter Bezugnahme auf Gewichtung
+<<<
 
-In der zweiten Auswertung wurden ausschließlich Detektionen als positiv eingestuft,
-wenn sie unter allen Detektionen für ein bestimmtes Cover-Stego-Paar die höchste Gewichtung vorweisen konnten.
-Bei gleicher Gewichtung wurde die Detektion aufgrund mangelnder Eindeutig als negativ eingestuft.
+[#ergebnisse-detektor-max]
+==== Auswertung unter Bezugnahme von Gewichtung
 
-image::eval-detect_max_mobistego.png[]
+In der zweiten Auswertung wurden ausschließlich Detektionen als positiv eingestuft, wenn sie unter allen Detektionen für ein bestimmtes Cover-Stego-Paar die höchste Gewichtung vorweisen konnten.
+Bei gleicher Gewichtung wurde die Detektion aufgrund mangelnder Eindeutigkeit als negativ eingestuft.
 
-image::eval-detect_max_passlok.png[]
+.Ergebnisse der Detektion von Stego-Apps unter Bezugnahme von Gewichtung
+image::eval-detect_max_facet.png[]
 
-image::eval-detect_max_pictograph.png[]
+Unter Bezugnahme der Gewichtung stellt sich heraus, dass nun mehr Stego-Bilder richtig MobiStego zugeordnet wurden.
+Ebenso wurde bei PixelKnot weitaus seltener falsch zugeordnet, als es bei der vorherigen Auswertung geschehen ist.
+Dagegen schließt PocketStego deutlich schlechter ab, da die meisten echten Positivzuordnungen jetzt als Negative gewertet werden.
+Pictograph profitiert bei dieser Betrachtungsweise mit ca. 2000 weniger falschen Positivzuordnungen.
+SteganographyM schließt wieder am schlechtesten ab.
+Es wurden diesmal keine positiven Detektionen vermerkt, weshalb die Anzahl der Falsch-Negativen genau der Anzahl der Cover-Stego-Bildpaare der App entspricht.
+Somit ist die Rate der Falschzuordnung bei den Stego-Apps PocketStego und SteganographyM schlechter.
 
-image::eval-detect_max_pixelknot.png[]
+Die folgenden Werte zeigen diese Zusammenhänge wie bei <<ergebnisse-detektor-binaer-metriken>> in Prozent.
 
-image::eval-detect_max_pocketstego.png[]
-
-image::eval-detect_max_steganographym.png[]
-
-Hierbei ergaben sich die folgenden statistischen Werte.
-
-[format=csv]
+.Metriken der Detektion von Stego-Apps unter Bezugnahme von Gewichtung
+[#ergebnisse-detektor-max-metrike%header,cols="1h,3*",format=csv,separator=;]
 |===
 include::../assets/tables/eval-detect_max.csv[]
 |===
 
-'''
+Im Durchschnitt wurden die folgenden Werte erzielt:
+
+.Durchschnittswerte der Metriken der Detektion von Stego-Apps unter Bezugnahme von Gewichtung
+[%header,format=csv,separator=;]
+|===
+Genauigkeit;Präzision;Sensitivität
+92,23;74,31;62.31
+|===
+
+Wenn ausschließlich Detektionen mit der höchsten Gewichtung als positiv gewertet werden, zeigen sich bei allen Apps sehr gute Genauigkeitswerte mit 83,52 % bei SteganographyM als schlechtes und 98,29 % bei PixelKnot als bestes Ergebnis.
+Dies scheint auf eine merkliche Verbesserung im Vergleich zur <<ergebnisse-detektor-binaer,Auswertung mit binärer Betrachtung>> hinzudeuten.
+
+Bei der Präzision zeigt sich zunächst ein ebenfalls besseres Bild.
+Insbesondere MobiStego schneidet mit einer Verbesserung um fast 60 % deutlich besser ab.
+Auch PocketStego und Pictograph konnten 15 bis 30 % zulegen.
+Die Werte von SteganographyM dagegen liegen bei 0 %.
+PixelKnot und Passlok verzeichnen erneut eine Präzision von 100 %.
+
+Die Sensitivität blieb bei MobiStego, PixelKnot und Pictograph im Vergleich zur <<ergebnisse-detektor-binaer,Auswertung mit binärer Betrachtung>>
+unverändert.
+Bei PocketStego sank diese um mehr als 70 % ab, während sich die Werte von SteganographyM wieder bei 0 % befinden.
+
+==== Fazit zu den zwei Auswertungen
 
 Es zeigt sich ein relevanter Unterschied in der Betrachtungsweise.
-Zählen ausschließlich die höchstgewichteten Detektionen, können sehr gute Ergebnisse erzielt werden.
-...
+Bei der <<ergebnisse-detektor-binaer,Auswertung unter binärer Betrachtung>> ist die Sensitivität mit 82,96 % um 20 % höher als im Fall der <<ergebnisse-detektor-max,Auswertung unter Bezugnahme von Gewichtung>>.
+Dagegen ist sowohl die Genauigkeit als auch die Präzision bei letzterem um mehr als 10 % höher.
+Eine mögliche Erklärung ist der Aufbau des Regelbaums.
+Da zunächst die Dateigrößenunterschiede verglichen werden, kommt es hier frühzeitig zur Erkennung mehrerer Stego-Apps, die bei der Betrachtung mit höchster Gewichtung jedoch ignoriert werden.
 
-==== Vergleich der Auswertungen
+Im Allgemeinen ist die <<ergebnisse-detektor-max,Auswertung unter Bezugnahme von Gewichtung>> von beiden vorzuziehen, da sie im Durchschnitt bessere Ergebnisse erzielt, wenn die Korrektheit der Ergebnisse sehr wichtig ist.
+Geht es dagegen darum, alle möglichen Stego-Apps zu detektieren, sollte auf die <<ergebnisse-detektor-binaer,Auswertung unter binärer Betrachtung>> zurückgegriffen werden.
 
-...
+Abschließend ist zu erwähnen, dass durch eine richtige Gewichtung der möglichen Tools in jeder Regel noch bessere Ergebnisse möglich werden könnten.
+Ideen werden dazu im <<ausblick-detektor>> vorgestellt.
+Außerdem könnte eine Umstrukturierung des Regelbaums Verbesserungen bringen, indem beispielsweise erst die Metadaten untersucht werden.
+

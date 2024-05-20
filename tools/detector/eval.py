@@ -33,7 +33,10 @@ class Evaluator:
         self.matched_rules = []
         self.cover = ImageFile(cover_path)
         self.stego = ImageFile(stego_path)
-        return [self._eval_rule(rule) for rule in self.config.rules]
+        results = [self._eval_rule(rule) for rule in self.config.rules]
+        self.cover.image.close()
+        self.stego.image.close()
+        return results
 
     def _eval_rule(self, rule, /, level=0):
         """Evaluate a rule and its sub-rules."""

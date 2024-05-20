@@ -1,11 +1,9 @@
 :doctype: book
 :imagesdir: assets/images
-:figure-caption: Abbildung
 //:stylesheet: paper.css
+:docinfo: shared,private-footer
 // Disable generating an update label at the bottom of the doc.
 :last-update-label!:
-// Enable rendering math equations
-:stem:
 // Generate a table of contents at the toc macro
 // Also disabling section numbers for now, as we only start numbering after the toc. See the macros there
 :toc: macro
@@ -28,35 +26,58 @@ endif::env-vscode[]
 :bibtex-style: ieee
 :bibtex-locale: de-DE
 :bibtex-throw: true
+// Enable rendering math equations
 :stem: asciimath
-:appendix-caption: Anhang
 :source-highlighter: rouge
 :icons: font
+:d2: /opt/homebrew/bin/d2
+:autofit-option:
 
-image::logo.svg[role=logo]
+include::locale/attributes.adoc[]
 
-[.university.text-center]
-Technische Hochschule Brandenburg
+image::logo.svg[role=logo,pdfwidth=3in,align=left]
 
-[.faculty.text-center]
-Faculty of Computer Science
-
-[discrete#main-title]
+[discrete#main-title.main-title]
 = Fingerprinting-Merkmale für Bilddaten unter Einfluss von Information Hiding
+:title-page:
+
+{empty} +
+{empty} +
 
 [.description.text-center]
-Submitted in partial fulfillment of the requirements for the degree of +
-*Master of Science (M.Sc.)*
+*Masterarbeit* +
+zur Erlangung des Grades *Master of Science (M.Sc.)* +
+des Fachbereichs Informatik und Medien der +
+Technischen Hochschule Brandenburg
+
+
+{empty} +
+{empty} +
 
 [.presented-by.text-center]
-by +
-*Fabian Loewe* +
-[small]+Matrikelnummer: 20202415+ +
+vorgelegt von +
+*Fabian W. E. Loewe*
 
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
 
-[.other-people]
-First Examiner:: Prof. Dr. Claus Vielhauer
-Second Examiner:: Benedict Michaelis, M.Sc.
+[horizontal.other-people]
+Betreuer:: Prof. Dr. Claus Vielhauer
+Zweitgutachter:: Benedikt Michaelis, M.Sc.
+
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+
+[.location-and-date]
+Potsdam, 20. Mai 2024
 
 [%always]
 <<<
@@ -68,10 +89,7 @@ include::sections/0_preface.adoc[]
 
 toc::[]
 
-[%always]
-<<<
 :sectnums:
-
 include::sections/1_einleitung.adoc[]
 
 [%always]
@@ -92,7 +110,7 @@ include::sections/4_ergebnisse.adoc[]
 [%always]
 <<<
 
-include::sections/5_zusammenfassung.adoc[]
+include::sections/5_schlussfolgerung.adoc[]
 
 [%always]
 <<<

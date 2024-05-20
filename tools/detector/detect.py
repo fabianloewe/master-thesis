@@ -1,16 +1,18 @@
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Tuple, Generator, Optional, Callable
 
 import click
+from dataclasses_json import dataclass_json
 import yaml
 
 from eval import Evaluator
 from config import Config
 
 
-@dataclass
+@dataclass(frozen=True)
+@dataclass_json
 class Detection:
     cover: Path
     stego: Path
@@ -86,12 +88,19 @@ def detect(cover_image: Path, stego_image: Path, from_stdin: bool, config: Path,
         click.echo()
 
 
-def detect_tools(pairs: List[Tuple[Path, Path]], config: Path, *, debug=False) -> List[Exception]:
+def detect_tools(
+        pairs: List[Tuple[Path, Path]],
+        config: Path,
+        *,
+        debug=False,
+        handle_errors: Optional[Callable[[List[Exception]], None]] = None
+) -> Generator[Detection, None, List[Exception]]:
     """Detects the used stego tool to hide data in the image.
 
     :param pairs: List of pairs of cover and stego images
     :param config: Path to the config file in YAML format
     :param debug: Whether to print debug information
+    :param handle_errors: Function to handle errors
     """
 
     config = _load_config(config)
@@ -108,6 +117,8 @@ def detect_tools(pairs: List[Tuple[Path, Path]], config: Path, *, debug=False) -
             )
         except Exception as e:
             errors.append(e)
+    if errors and handle_errors:
+        handle_errors(errors)
     return errors
 
 
@@ -130,7 +141,7 @@ def _check_image(image_path: Path):
 
 
 def _load_config(config_path: Path) -> Config:
-    return Config.from_dict(yaml.safe_load(config_path.open("rb")))
+    return Config.from_dict(yaml.safe_load(config_path.read_text()))
 
 
 if __name__ == '__main__':

@@ -1,0 +1,41 @@
+[#schlussfolgerung]
+== Schlussfolgerung
+
+Für diese Arbeit wurden <<zielsetzung,vier Ziele>> formuliert, welche als *Z.1* bis *Z.4* definiert wurden.
+
+Für *Z.1* sollte eine Liste aus Malware-Vorkommnissen erstellt werden, in denen Information Hiding Techniken wie Steganografie verwendet wurde, um die Relevanz des Themas sowie die konkrete Verwendung außerhalb des akademischen Umfelds zu untersuchen.
+Dies wurde im <<ergebnisse-malware>> durchgeführt.
+Es zeigten sich einige Fälle mit Struktureinbettungsverfahren, bei denen beispielsweise an das Ende der Bilddatei angehangen oder in die Metadaten eingebettet wurde.
+Am meisten wurden LSB- und XOR-Verfahren zur Einbettung in die Raum-Domäne verzeichnet, deren Fallzahl in der jüngeren Zeit zunahm.
+Die Frequenz-Domäne wurde durch Malware nicht ein Mal verwendet.
+
+Aus den gewonnenen Erkenntnissen wurde für *Z.2* (Erstellung einer Auswahlliste an Stego- und Wasserzeichen-Software) in <<ergebnisse-software>> eine List von Information Hiding Tools zusammengestellt, die auf unterschiedlichen Plattformen wie Windows oder macOS sowie Android und iOS lauffähig sind.
+Außerdem wurden Tools zur Erstellung von Wasserzeichen untersucht.
+Es zeigte sich, dass Wasserzeichen hauptsächlich in der Frequenz-Domäne arbeiten, da ihr Fokus auf eine hohe Robustheit im Kontrast zu einer hohen Kapazität steht.
+Stego-Tools und -Apps dagegen sind verstärkt in der räumlichen Domäne aktiv, was den Trend von Malware widerspiegelt.
+
+Bei der Untersuchung der Tools stellte sich heraus, dass für die Studie von Stego-Apps eine umfangreiche Bilddatenbank mit Cover-Stego-Bildpaaren erstellt wurde und diese öffentlich zugänglich ist.
+Somit war die Nutzung dieser zum Erreichen von *Z.3* (Recherche und Aufbau von Forschungsdaten) naheliegend.
+
+Schließlich wurde zur Erfüllung von *Z.4* (Entwicklung eines Detektor-Prototyps) anhand der Forschungsdaten Möglichkeiten untersucht, die Stego-Apps nur mittels der Cover- und Stego-Bilder zu erkennen.
+Dazu wurden zum einen die Metadaten untersucht.
+Es zeigte sich, dass zwei Apps PNG-Metadaten änderten.
+Zum anderen wurden die Differenzen in den Dateigrößen der Stego- zu ihren Cover-Bildern analysiert.
+Daraus konnten Intervalle bei den prozentualen Unterschieden identifiziert werden, die Hinweise auf bestimmte Stego-Apps lieferten.
+Schließlich konnte bei zwei Stego-Apps, die mittels LSB-Verfahren in die Raum-Domäne einbetten, Signaturen bei der Extraktion der Least Significant Bits festgestellt werden, welche im Fall von MobiStego ein eindeutiges Fingerprinting der App zulassen.
+
+'''
+
+Nach Abarbeitung der Ziele können nun die <<forschungsfragen-hypthosen,Forschungsfragen *F.1* bis *F.3*>> beantwortet werden.
+
+Es bestätigt sich die Hypothese zu *F.1*, wobei lediglich im Fall von MobiStego mit der Signatur auf der LSB-Ebene ein voll belastbares Merkmal gefunden werden konnte.
+In allen anderen Fällen konnte lediglich aus dem Zusammenspiel mehrerer Merkmale auf die mögliche Verwendung einer bestimmten Stego-App geschlossen werden.
+
+Für *F.2* konnte eine Schnittmenge an Merkmalen zwischen Malware und Steganografie-Tools entdeckt werden, welche insbesondere durch die Verwendung von LSB-Verfahren gebildet werden.
+Nach aktuellem Stand sind Wasserzeichen-Tools im Frequenz-Bereich oder mittels neuronalen Netzen aktiv, während Malware noch keine derartigen Steganografie-Techniken nutzen und es somit keine Gemeinsamkeiten von Malware und Wasserzeichen-Tools diesbezüglich gibt.
+
+Aus diesen Erkenntnissen zeigt sich, dass die Hypothese zu *F.3* eingetreten ist.
+Die meisten böswilligen Programme sind auf Performance und Kapazität bei mäßiger Detektierbarkeit fokussiert, während Wasserzeichen robust gegen Angriffe auf ihr Verfahren sein müssen.
+Mit LSB-Verfahren sind einige Malware-Vorkommnisse schwerer detektierbar, allerdings bei geringerer Kapazität.
+Dieser Ausgleich wird auch bei den meisten Stego-Tools in Kauf genommen.
+

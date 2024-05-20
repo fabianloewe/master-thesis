@@ -1,19 +1,22 @@
-[appendix]
-== Tabellen
+:sectnums!:
 
-[#tabellen_malware]
-#[format=csv,separator=;,options="header,breakable",caption="Umfängliche Malware-Daten"]
-#|===
-#include::../notebooks/data/malware-full-data.csv[]
-#|===
+== Tabellenverzeichnis
+
+list-of::table[]
 
 [%always]
 <<<
 
-[appendix]
-== Abbildungen
+== Abbildungsverzeichnis
 
-figures::[]
+list-of::image[]
+
+[%always]
+<<<
+
+== Code-Ausschnittsverzeichnis
+
+list-of::listing[]
 
 [%always]
 <<<
@@ -21,7 +24,7 @@ figures::[]
 [appendix]
 == Quellcode
 
-.Auszug aus `notebooks/detect-algo.ipynb`, Code-Zelle 6
+.Code-Ausschnitt 15: Auszug aus `notebooks/detect-algo.ipynb`, Code-Zelle 6
 [,python#anhang-detect-algo]
 ----
 MESSAGE_DIR = Path('../datasets/StegoAppDB_stegos_20240309-030352/message_dictionary')
@@ -79,7 +82,7 @@ detected_used_method_and_bits = [
 ]
 ----
 
-.Abgeleitete Regeln
+.Code-Ausschnitt 16: Abgeleitete Regeln
 [#anhang-regeln,yaml]
 ----
 include::../tools/detector/rules/stegoapps.yaml[]

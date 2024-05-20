@@ -94,6 +94,8 @@ class MatchedTool:
         if 'weight' not in tech_dict:
             raise ValueError('Missing "weight" field (the weight of this match for the evidence of this tool '
                              'being used in the image)')
+        elif not isinstance(tech_dict['weight'], int):
+            raise ValueError('The "weight" field must be an integer')
         else:
             weight = _check_is_type(tech_dict, 'weight', int)
 
@@ -154,7 +156,7 @@ class Rule:
         else:
             tools = [MatchedTool.from_dict(t) for t in rule_dict['tools']]
 
-        _next = Rule.from_dict(rule_dict['next']) if 'next' in rule_dict else None
+        _next = Rule.from_dict(rule_dict['next']) if rule_dict.get('next') is not None else None
 
         return Rule(name, desc, tags, match, tools, _next)
 
@@ -194,8 +196,10 @@ class CompoundRule:
 
         if 'operator' not in rule_dict:
             raise ValueError('Missing "operator" field (one of "any", "all", "none" or "each")')
+        elif rule_dict['operator'] not in ['any', 'all', 'none', 'each']:
+            raise ValueError('The "operator" field must be one of "any", "all", "none" or "each"')
         else:
-            operator = rule_dict['operator'] if rule_dict['operator'] in ['any', 'all', 'none', 'each'] else None
+            operator = rule_dict['operator']
 
         if 'rules' not in rule_dict:
             raise ValueError('Missing "rules" field (the sub-rules of this rule)')

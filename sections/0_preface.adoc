@@ -1,25 +1,126 @@
 [abstract]
 == Abstract
 
-In dieser Masterarbeit wird zunächst ein Überblick zum Information Hiding mithilfe von Bilddateien verschafft.
-Der Fokus wird auf die Verwendung der beschriebenen Techniken im öffentlichen Raum durch Einbettungswerkzeuge und Malware gesetzt.
-Eine Untersuchung aktueller Malware-Vorkommnisse zeigt die Relevanz der Thematik und verschafft eine kategorisierte Übersicht für weitere Untersuchungen.
-Anhand der Funde werden Einbettungswerkzeug, die algorithmisch verwandte Verfahren zu den untersuchten Malwares anwenden, und Forschungsdaten mit Cover- und Stego-Bild-Paaren ausgewählt. 
-Die Bildpaare werden daraufhin mit einem Werkzeug verglichen und aus den Ergebnissen steganografische Merkmale extrahiert, welche Hinweise auf die Anwendung bestimmter Algorithmen,
-Bildverarbeitungsbibliotheken und weitere Informationen liefern. 
-Schließlich werden im Ausblick weitere Forschungsrichtungen im Bereich des Information Hiding vorgestellt.
+In this master thesis, an overview of the topic of information hiding within image files will be created.
+Techniques used by embedding tools and malware will be focused on.
+Research of current malware occasions will be conducted to show the relevancy of the topic and to provide a starting point for further investigations.
+Embedding tools that use algorithms comparable to those found in malware, and a dataset of cover stego image pairs will be selected.
+The image pairs will be examined with the help of analysis tools and the results will be used to extract fingerprinting features that provide hints about the usage of certain algorithms.
+Based on these findings, a detector prototype will be implemented and evaluated.
+Finally, the outlook will show further research areas related to information hiding based on the discussed results of this work.
+
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty}
+
+*Keywords* +
+information hiding, image steganography, steganografic malware, information hiding detection
+
+[abstract]
+== Zusammenfassung
+
+In dieser Masterarbeit wird zunächst ein Überblick zum Information Hiding in Bilddateien verschafft.
+Der Fokus wird auf durch Einbettungswerkzeuge und Malware eingesetzte Information Hiding-Techniken gelegt.
+Eine Untersuchung aktueller Malware-Vorkommnisse wird durchgeführt, um die Relevanz der Thematik aufzuzeigen und einen Ausgangspunkt für weitere Untersuchungen zu erstellen.
+Anhand der Funde werden Tools, die algorithmisch verwandte Verfahren zu den untersuchten Malware-Vorkommnissen anwenden, und Forschungsdaten mit Cover- und Stego-Bild-Paaren ausgewählt.
+Die Bildpaare werden daraufhin mithilfe von Analyse-Werkzeugen untersucht und aus den Ergebnissen steganografische Merkmale extrahiert, welche zum Fingerprinting bestimmter Algorithmen genutzt werden können.
+Basierend auf diesen Merkmalen wird ein Detektor-Prototyp entwickelt, welcher mit den Forschungsdaten evaluiert wird.
+Schließlich werden im Ausblick weitere Forschungsrichtungen im Bereich des Information Hiding basierend auf den Ergebnissen dieser Arbeit vorgestellt.
+
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty} +
+{empty}
+
+*Schlüsselwörter* +
+Information Hiding, Bild-Steganografie, Steganografische Malware, Detektion von Information Hiding
 
 [%always]
 <<<
 
 [discrete]
-== Declaration
+== Eidesstattliche Erklärung
 
-Suppose you are writing a thesis; you probably need this bit to confirm that you wrote it all by yourself. This template adds the `signature-required` CSS class, which adds a nice line where you can write your name.
+Hiermit erkläre ich, dass ich, Fabian W. E. Loewe, die vorliegende Arbeit selbstständig verfasst habe, dass ich sie zuvor an keiner anderen Hochschule als Prüfungsleistung eingereicht habe und dass ich keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe.
+Alle Stellen der Arbeit, die wörtlich oder sinngemäß aus Veröffentlichungen oder aus anderweitigen fremden Äußerungen entnommen wurden, sind als solche kenntlich gemacht.
 
-If you are not writing a thesis, just delete this whole section.
+{empty} +
+{empty} +
+{empty} +
+{empty}
 
-_Potsdam_, 1.1.2024_
+&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
+&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95;&#95; +
+Ort, Datum{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
+Unterschrift
 
-[.signature-required]
-Fabian Loewe
+[%always]
+<<<
+
+[acknowledgments]
+== Danksagungen
+
+Das Thema dieser Arbeit ist aus dem Projekt ATTRIBUT heraus motiviert.
+Die Untersuchungen und Ergebnisse in dieser Arbeit wurden im Wintersemester 23/24 an der Technischen Hochschule Brandenburg erstellt und werden im Projekt weiterverwendet.
+Das Projekt ist durch die Agentur für Innovation in der Cybersicherheit GmbH: Forschung zu „Existenzbedrohenden Risiken aus dem Cyber- und Informationsraum – Hochsicherheit in sicherheitskritischen und verteidigungsrelevanten Szenarien“ (HSK) beauftragt. (siehe https://www.cyberagentur.de/tag/hsk/, auch in https://attribut.cs.uni-magdeburg.de/)
+
+Ich möchte mich bei meinen Betreuern Prof. Dr. Claus Vielhauer und M.Sc.
+Benedikt Michaelis für ihre Unterstützung bedanken.
+
+Ebenso bedanke ich mich bei der Kommilitonin, die sich im Vorfeld im Rahmen einer Projektarbeit auch mit dem Thema Fingerprinting im Bild-Bereich beschäftigt hat, und für mich sehr wertvolle Vorarbeit geleistet hat.

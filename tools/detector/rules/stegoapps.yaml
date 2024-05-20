@@ -20,7 +20,7 @@ rules:
         weight: 1
     match:
       value: attacks.size_diff([(cover.path, stego.path)])[0][3]
-      cond: -2.63 <= value <= 0.25
+      cond: -2.63 <= value <= -0.25
   ###
   - name: ISA.Passlok.File-Size-Diff
     desc: Check if the file size difference is 0,02 % to 0,23 %.
@@ -70,6 +70,15 @@ rules:
           match:
             value: attacks.lsb_extract(stego.path, bits=2, endian='big').tobytes()
             cond: value[:3] == b'@!#' and b'#!@' in value[3:]
+          next:
+            name: ISA.MobiStego.Metadata-Diff
+            desc: Check if the significant bits of the PNG file and the color type are modified.
+            tools:
+              - name: MobiStego
+                weight: 1
+            match:
+              value: attacks.metadata_diff(cover.path, stego.path)
+              cond: value['PNG:SignificantBits'][0] == '8 8 8' and value['PNG:SignificantBits'][1] == '8 8 8 8' and value['PNG:ColorType'][0] == 2 and value['PNG:ColorType'][1] == 6
         - name: ISA.PocketStego.LSB-Signature
           desc: Check if data extracted from the LSBs contains a signature.
           tools:
@@ -96,6 +105,15 @@ rules:
       match:
         value: attacks.lsb_extract(stego.path, bits=2, endian='big').tobytes()
         cond: value[:3] == b'@!#' and b'#!@' in value[3:]
+      next:
+        name: ISA.MobiStego.Metadata-Diff
+        desc: Check if the significant bits of the PNG file and the color type are modified.
+        tools:
+          - name: MobiStego
+            weight: 1
+        match:
+          value: attacks.metadata_diff(cover.path, stego.path)
+          cond: value['PNG:SignificantBits'][0] == '8 8 8' and value['PNG:SignificantBits'][1] == '8 8 8 8' and value['PNG:ColorType'][0] == 2 and value['PNG:ColorType'][1] == 6
   ###
   - name: ISA.MobiStego-SteganographyM.File-Size-Diff
     desc: Check if the file size difference is 20,88 % to 24 %.
@@ -116,6 +134,15 @@ rules:
       match:
         value: attacks.lsb_extract(stego.path, bits=2, endian='big').tobytes()
         cond: value[:3] == b'@!#' and b'#!@' in value[3:]
+      next:
+        name: ISA.MobiStego.Metadata-Diff
+        desc: Check if the significant bits of the PNG file and the color type are modified.
+        tools:
+          - name: MobiStego
+            weight: 1
+        match:
+          value: attacks.metadata_diff(cover.path, stego.path)
+          cond: value['PNG:SignificantBits'][0] == '8 8 8' and value['PNG:SignificantBits'][1] == '8 8 8 8' and value['PNG:ColorType'][0] == 2 and value['PNG:ColorType'][1] == 6
   ###
   - name: ISA.MobiStego-SteganographyM-Pictograph.File-Size-Diff
     desc: Check if the file size difference is 24 % to 34,6 %.
@@ -130,14 +157,33 @@ rules:
       value: attacks.size_diff([(cover.path, stego.path)])[0][3]
       cond: 24 <= value < 34.6
     next:
-      name: ISA.MobiStego.LSB-Signature
-      desc: Check if data extracted from the LSBs contains a signature.
-      tools:
-        - name: MobiStego
-          weight: 1
-      match:
-        value: attacks.lsb_extract(stego.path, bits=2, endian='big').tobytes()
-        cond: value[:3] == b'@!#' and b'#!@' in value[3:]
+      operator: any
+      rules:
+      - name: ISA.Pictograph.Metadata-Diff
+        desc: Check if the color type is modified.
+        tools:
+          - name: Pictograph
+            weight: 1
+        match:
+          value: attacks.metadata_diff(cover.path, stego.path)
+          cond: value['PNG:ColorType'][0] == 0 and value['PNG:ColorType'][1] == 2
+      - name: ISA.MobiStego.LSB-Signature
+        desc: Check if data extracted from the LSBs contains a signature.
+        tools:
+          - name: MobiStego
+            weight: 1
+        match:
+          value: attacks.lsb_extract(stego.path, bits=2, endian='big').tobytes()
+          cond: value[:3] == b'@!#' and b'#!@' in value[3:]
+        next:
+          name: ISA.MobiStego.Metadata-Diff
+          desc: Check if the significant bits of the PNG file and the color type are modified.
+          tools:
+            - name: MobiStego
+              weight: 1
+          match:
+            value: attacks.metadata_diff(cover.path, stego.path)
+            cond: value['PNG:SignificantBits'][0] == '8 8 8' and value['PNG:SignificantBits'][1] == '8 8 8 8' and value['PNG:ColorType'][0] == 2 and value['PNG:ColorType'][1] == 6
   ###
   - name: ISA.SteganographyM-Pictograph.File-Size-Diff
     desc: Check if the file size difference is in the range of 34,6 % to 47,67 %.
@@ -149,6 +195,15 @@ rules:
     match:
       value: attacks.size_diff([(cover.path, stego.path)])[0][3]
       cond: 34.6 <= value < 47.67
+    next:
+      name: ISA.Pictograph.Metadata-Diff
+      desc: Check if the color type is modified.
+      tools:
+        - name: Pictograph
+          weight: 1
+      match:
+        value: attacks.metadata_diff(cover.path, stego.path)
+        cond: value['PNG:ColorType'][0] == 0 and value['PNG:ColorType'][1] == 2
   ###
   - name: ISA.Pictograph.File-Size-Diff
     desc: Check if the file size difference is of 47,67 % or more.
@@ -158,3 +213,12 @@ rules:
     match:
       value: attacks.size_diff([(cover.path, stego.path)])[0][3]
       cond: 47.67 <= value
+    next:
+      name: ISA.Pictograph.Metadata-Diff
+      desc: Check if the color type is modified.
+      tools:
+        - name: Pictograph
+          weight: 1
+      match:
+        value: attacks.metadata_diff(cover.path, stego.path)
+        cond: value['PNG:ColorType'][0] == 0 and value['PNG:ColorType'][1] == 2

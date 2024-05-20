@@ -1,93 +1,100 @@
 :d2: /opt/homebrew/bin/d2
 
+[#methodik]
 == Methodik
 
-Die folgenden Methoden wurden zum Erreichen der <<_zielsetzung,Zielsetzung>> durchgeführt:
+Die folgenden Methoden wurden zum Erreichen der <<zielsetzung,Zielsetzung>> durchgeführt:
 
 * _Literaturrecherche_: Um die Ziele **Z.1**, **Z.2** und **Z.3** zu erfüllen, wurde diese Methodik genutzt.
-Hauptsächlich wurden bei den Literaturrecherchen neben wissenschaftlichen Papern besonders auf technische Berichte von
-renomierten Akteuren im Bereich der IT-Sicherheit und speziell der IT-Forensik zurückgegriffen. 
+Hauptsächlich wurden bei den Literaturrecherchen neben wissenschaftlichen Papern besonders auf technische Berichte von renommierten Akteuren im Bereich der IT-Sicherheit und speziell der IT-Forensik zurückgegriffen.
 Die Analyse von Online-Datenbanken für Malware erfolgte teilautomatisiert.
-Für die Suche nach geeigneter Software wurde aus den zuvor genannten Quellen weitere Verweise verfolgt sowie Suchen auf bekannten Software-
-Entwicklungsplattformen wie GitHub duruchgeführt. 
+Für die Suche nach geeigneter Software wurde aus den zuvor genannten Quellen weitere Verweise verfolgt, sowie Suchen auf bekannten Software-Entwicklungsplattformen wie GitHub durchgeführt.
 
 * _Software-Entwicklung_: Zur Erfüllung von **Z.4** wurde diese Methodik gewählt, da keine der gefundenen Tools entsprechende Funktionen bietet.
-Die Entwicklung fand nach dem Top-Down-Prinzip mit dem Test-Driven-Prinzip statt. Die Tests wurden direkt auf die Forschungsdaten angewendet und
-lassen sich automatisiert mit diesen ausführen.
+Die Entwicklung fand nach dem Top-Down-Prinzip mit dem Test-Driven-Prinzip statt.
+Die Tests wurden direkt auf die Forschungsdaten angewendet und lassen sich automatisiert mit diesen ausführen.
 
-* _Experimentelle Validierung_:
+* _Experimentelle Validierung_: Des Weiteren wurde durch experimentelle Validierung die Funktion des Detektor-Prototyps für *Z.4* nachgewiesen.
+Dabei wurde der Detektor auf alle Forschungsdaten angewendet und die Ergebnisse stichprobenartig manuell gegengeprüft.
 
+In den nachfolgenden Unterkapiteln werden die verwendeten Suchmaschinen benannt, das manuelle und automatisierte Vorgehen bei der Literaturrecherche zu Malware-Vorkommnissen, das Vorgehen zur Recherche der Stego- und Wasserzeichen-Tools sowie der Forschungsdaten beschrieben und schließlich auf die Entwicklung des Detektor-Prototyps eingegangen.
+
+Alle folgenden Code-Ausschnitt können unter https://github.com/fabianloewe/master-thesis/releases/tag/v1 heruntergeladen und ausprobiert werden.
+
+[#suchmaschinen]
 === Suchmaschinen
 
-Die manuellen Recherchen wurde über die folgenden Suchmaschinen durchgeführt, falls nicht anders beschrieben:
+Die manuellen Recherchen wurden über die folgenden Suchmaschinen durchgeführt, insofern nicht anders beschrieben:
 
 * _scibo_: Die interne Suchmaschine der Technischen Hochschule Brandenburg, welche den sogenannten EBSCO Discovery Service nutzt
-* _Springer Link_: Eine Suchmaschine des Springer Verlags für wissenschaftliche Publikationen ihres Verlags
-* _Springer Professional_: Weitere Suchmaschine des Springer Verlags für wissenschaftliche Publikationen ihres Verlags
-* _IEEE Xplore_: Bietet renomierten Zugang zu wissenschaftlichen Inhalten, die durch das Institut veröffentlicht wurden
+* _Springer Link_: Eine Suchmaschine des Springer-Verlags für wissenschaftliche Publikationen ihres Verlags
+* _Springer Professional_: Weitere Suchmaschine des Springer-Verlags für wissenschaftliche Publikationen ihres Verlags
+* _IEEE Xplore_: Bietet renommierten Zugang zu wissenschaftlichen Inhalten, die durch das Institut veröffentlicht wurden
 * _arxiv_: Ein freier Verteilungsdienst für wissenschaftliche Artikel, der jedoch selbst keine Peer-Reviews durchführt
-* _Google_: Die Suchmaschine der gleichnamigen Firma zur Ausweitung der Suche über wissenschaftliche Publikationen hinaus
+* _Google Scholar_ und _Google_: Suchmaschine der gleichnamigen Firma zur Ausweitung der Suche über wissenschaftliche Publikationen hinaus
 
-[#literaturrecherche_malware]
+[#literaturrecherche-malware]
 === Literaturrecherche zu Malware-Vorkommnissen im Zusammenhang mit Bild-Steganografie
 
 Die Recherche erfolgte in zwei Schritten:
 
-* Schaffen einer Übersicht zu Malware-Vorkommnissen aus wissenschaftlichen Publikationen und technischen Berichten
-* Automatisierte Sammlung von Malware-Vorkommnissen aus öffentlichen Datenbanken (ohne Malware-Samples zu analysieren)
+. Aufbau einer Übersicht zu Malware-Vorkommnissen aus wissenschaftlichen Publikationen und technischen Berichten
+. Automatisierte Sammlung von Malware-Vorkommnissen aus öffentlichen Datenbanken (ohne Analyse von Malware-Samples)
 
 ==== Manuelle Recherche
 
-Die folgenden Suchbegriffe wurden in den zuvor genannten <<_suchmaschinen,Suchmaschinen>> verwendet: __"Malware steganography"__, __"stego malware report"__, __"steganography malware analysis report 2023"__,
-__"stego malware"__, __"steganography malware report"__, __"steganography malware analysis"__, __"steganography malware survey"__ und __"steganography malware database"__
-Die Suchanfragen wurde so gewählt, um gezielt nach Berichten zu suchen, die allgemeine Analysen liefern, statt auf einzelne Malware fokussiert zu sein.
-Im wissenschaftlichen Bereich wurden hauptsächlich Artikel zur Analyse von Bild-Steganografie mittels Künstlicher Intelligenz,
-im Bereich von Blockchains oder der Prävention im IT-Sicherheitsmanagement gefunden.
+Die folgenden Suchbegriffe wurden in den zuvor genannten <<suchmaschinen,Suchmaschinen>> verwendet: __"Malware steganography"__, __"stego malware report"__, __"steganography malware analysis report 2023"__,
+__"stego malware"__, __"steganography malware report"__, __"steganography malware analysis"__, __"steganography malware survey"__ und __"steganography malware database"__.
 
-Jedoch gerade aus den letzten drei Jahren ließen sich zwei Paper finden, die eine Urhebung oder Sammlung an Malware-Vorkommnissen mit Bild-Steganografie vorstellen.
-Da kaum wissenschaftliche Artikel in den Jahren zuvor zu diesem Thema publiziert wurden, lässt sich ein Trend bei Malware-Autoren und auch Forschung hin zu
-Steganografie-Malware erkennen. In cite:[caviglione_never_2022] werden 10 Malware, die Steganografie oder Information Hiding verwenden, vorgestellt. 
-Der Artikel verweist zudem auf ein Repository namens _steg-in-the-wild_ von einem der Autoren des Artikels, in dem eine aktualisierte Liste der Malware geführt wird,
-welche im weiteren Verlauf der Recherche genutzt wurde. cite:[l_lucacavsteg---wild_2024]
+Die Suchanfragen wurden so gewählt, um gezielt nach Berichten mit allgemeinen Analysen zu suchen.
+Diese boten zu Beginn eine fundierte Übersicht, während Analysen einzelner Malware im späteren Verlauf relevant wurden.
+Im wissenschaftlichen Bereich wurden hauptsächlich Artikel zur Analyse von Bild-Steganografie mittels Künstlicher Intelligenz, im Bereich von Blockchains oder der Prävention im IT-Sicherheitsmanagement gefunden.
 
-Des Weiteren wurde in cite:[chaganti_stegomalware_2021] 16 Malware benannt, die sich zum Teil mit der Arbeit von Caviglione und Wojciech decken.
+Jedoch gerade aus den letzten drei Jahren ließen sich zwei Paper finden, die eine Sammlung an Malware-Vorkommnissen mit Bild-Steganografie vorstellen.
+Da kaum wissenschaftliche Artikel in den Jahren zuvor zu diesem Thema publiziert wurden, lässt sich ein Trend bei Malware-Autoren sowie Forschung hin zu Stego-Malware erkennen.
+In cite:[caviglione_never_2022] werden 10 Schadprogramme vorgestellt, die Steganografie oder Information Hiding verwenden.
+Der Artikel verweist zudem auf ein Repository namens _steg-in-the-wild_ von einem der Autoren des Artikels, in dem eine aktualisierte Liste der Malware geführt wird, welche im Verlauf der Recherche weiterverwertet wurde. cite:[l_lucacavsteg---wild_2024]
 
-Im technischen Bericht cite:[cybleinc_stegomalware_2022] werden sechs Malware und die konkrete Funktionsweise jener an einem Beispiel beschrieben.
-Darin wie auch in cite:[noauthor_alibaba_2022] wird die __MITRE Att&ck__-Wissenbasis referenziert, in der eine systematische Zuordnung von sogennanten Techniken und Taktiken, die von Malware 
-eingesetzt werden, zu Malware-Vorkommnissen durchgefürt wird. So wird unter den Techniken __T1001.002: Data Obfuscation: Steganography__ und __T1027.003: Obfuscated Files or Information: Steganography__ 
-der Einsatz von Steganografie bei Malware-Vorkommnissen dokumentiert. cite:[noauthor_mitre_nodate]
+Des Weiteren wurde in cite:[chaganti_stegomalware_2021] 16 Schadprogramme benannt, die sich zum Teil mit der Arbeit von Caviglione und Wojciech decken.
 
-Eine weitere Datenbank für Malware-Vorkommnisse führt das Frauenhofer FKIE mit malpedia, 
-die eine Suchmaschine zum Finden von Malware nach Suchbegriffen im Namen oder der Beschreibung bietet. cite:[noauthor_malpedia_nodate]
+Im technischen Bericht cite:[cybleinc_stegomalware_2022] werden sechs Schadprogramme mit ihrer konkreten Funktionsweise an einem Beispiel beschrieben.
+Darin wird wie auch in cite:[noauthor_alibaba_2022] die __MITRE Att&ck__-Wissensbasis referenziert.
+In jener wird eine systematische Zuordnung von sogenannten Techniken und Taktiken, die von Malware eingesetzt werden, zu Malware-Vorkommnissen durchgeführt.
+Unter den Techniken __T1001.002: Data Obfuscation: Steganography__ und __T1027.003: Obfuscated Files or Information: Steganography__
+ist der Einsatz von Steganografie bei Malware-Vorkommnissen dokumentiert. cite:[noauthor_mitre_nodate]
+
+Eine weitere Datenbank für Malware-Vorkommnisse führt das Frauenhofer FKIE mit malpedia, die eine Suchmaschine zum Finden von Malware nach Suchbegriffen im Namen oder der Beschreibung bereitstellt. cite:[noauthor_malpedia_nodate]
 
 ==== Automatisierte Sammlung aus Datenbanken
 
-Um eine umfängliche Übersicht zu schaffen, wurden daraufhin die Datenbanken von MITRE und Malpedia sowie die Artikelsammlung in steg-in-the-wild ausgewählt.
-Nach der manuellen Recherche sollte eine Übersicht geschaffen werden, die auch weniger beachtete Malware-Vorkommnisse einbezieht, 
-um so eine höhere statistische Auswertbarkeit für die Ergebnisseliste zu erzielen.
+Um eine umfängliche Übersicht zu schaffen, wurden daraufhin die Datenbanken von MITRE, Malpedia sowie die Artikelsammlung in steg-in-the-wild ausgewählt.
+Nach der manuellen Recherche sollte eine Übersicht geschaffen werden, die auch weniger beachtete Malware-Vorkommnisse einbezieht, um so eine höhere statistische Auswertbarkeit für die Ergebnisliste zu erzielen.
 
-Die Automatisierung wurde mit Hilfe eines Jupyter Notebooks durchgeführt. Dabei handelt es sich um eine interaktive, lokal ausführbare Plattform, 
-die es erlaubt, Datenanalysen und -visualisierung mit direktem Feedback mittels Python oder anderen Programmiersprachen durchzuführen.
+Die Automatisierung wurde mithilfe eines Jupyter Notebooks durchgeführt.
+Dabei handelt es sich um eine interaktive, lokal ausführbare Plattform, mit welcher Datenanalysen und -visualisierung mit direktem Feedback mittels Python oder anderen Programmiersprachen umgesetzt werden können.
 Die folgenden Python-Bibliotheken wurden neben der Standard-Bibliothek zusätzlich verwendet:
 
-* __Selenium__: Ermöglicht das automatische Öffnen von und Interagieren mit Webseiten über einen lokalen Webbrowser
-* __Pandas__: Ermöglicht eine verbesserte Datenverarbeitung von tabularischen Daten
-* __requests__: Bietet ein einfaches Interface zum Herunterladen von Daten
-* __bibtexparser__: Ermöglicht das Parsen von BibTex-Dateien
+* __Selenium__: Ermöglicht das automatische Öffnen von und Interagieren mit Webseiten über einen lokalen Webbrowser cite:[noauthor_selenium_nodate]
+* __Pandas__: Ermöglicht eine verbesserte Datenverarbeitung von tabellarischen Daten cite:[noauthor_pandas_nodate]
+* __requests__: Bietet eine einfache Schnittstelle zum Herunterladen von Daten cite:[noauthor_requests_nodate]
+* __bibtexparser__: Ermöglicht das Parsen von BibTex-Dateien cite:[noauthor_welcome_nodate]
 
-Außerdem wurde die Erweiterung `jupyter-ai` für Jupyter genutzt, um generative Text-KI für die initiale Generierung eines sogenannten Web-Scrapers zu nutzen.
-Die Aufgabe des Web-Scrapers ist das Sammeln (oder Schürfen) von Informationen aus Webdaten, vornehmlich HTML-Dateien. 
+Außerdem wurde die Erweiterung `jupyter-ai` cite:[noauthor_jupyter_nodate] für Jupyter genutzt, um mit generativer Text-KI der Firma OpenAI einen ersten Entwurf eines Web-Scrapers zu generieren.
+Die Aufgabe eines Web-Scrapers ist das Sammeln (oder Schürfen) von Informationen aus Webdaten, vornehmlich HTML-Dateien.
+Der Web-Scraper wurde dann vom Author individualisiert und zu großen Teilen angepasst.
 
 ===== MITRE-Datenbank
 
-In Abbildung 1 sind Teile der Software-Tabelle der MITRE-Datenbank zu sehen, deren Links nun gesammelt und nach Steganografie-Malware gefiltert werden soll.
+In <<literaturrecherche-malware-mitre-software>> sind Teile der Software-Tabelle der MITRE-Datenbank zu sehen, deren Links nun gesammelt und nach Steganografie-Malware gefiltert werden sollen.
 
+[#literaturrecherche-malware-mitre-software]
 .Software-Tabelle der MITRE-Datenbank cite:[noauthor_software_nodate]
 image::abbildung_1.png["Software-Tabelle der MITRE-Datenbank"]
 
-Im Folgenden wird ein Code-Block dargestellt, in dem ein Web-Scraper automatisiert die zuvor genannte Tabelle nach den relevanten Daten durchforstet. 
+Im Folgenden wird ein Code-Ausschnitt dargestellt, in dem ein Web-Scraper automatisiert die benannte Tabelle nach den relevanten Daten absucht.
 
-[source,python,linenums,caption="asd"]
+.Code-Ausschnitt 1: Web-Scraper für Software-Tabelle der MITRE-Datenbank
+[source,python,linenums]
 ----
 import os
 from selenium import webdriver
@@ -146,24 +153,34 @@ def search_mitre_attack(mitre_attack_url='https://attack.mitre.org/software/'):
             driver.quit()
     return found_links
 ----
+
 <1> Initialisierung des Chrome-Webdrivers
 <2> Selektion der Tabelle mit `table` -> `tr` (Tabellenzeilen) -> `td:nth-child(1)` (aus den Tabellendaten jeweils die erste Zelle) -> `a` (das HTML-Element für Links)
 <3> Wartet, bis die Seite geladen wurde
 <4> Sucht im Text der Webseite in Kleinbuchstaben nach `steganography`
 
-Die Zeilen 12 bis 17 initialisieren den Chrome-Webdriver, der für die Kommunikation mit dem lokalen Chrome-Browser genutzt wird. Chrome wird _headless_ (ohne Benutzeroberfläche), ohne Erweiterungen und mit der Option, Arbeitsspeicher auf die Festplatte auszulagern, gestartet. 
+Die Zeilen 12 bis 17 initialisieren den Chrome-Webdriver, der für die Kommunikation mit dem lokalen Chrome-Browser genutzt wird.
+Chrome wird _headless_ (ohne Benutzeroberfläche), ohne Erweiterungen und mit der Option, Arbeitsspeicher auf die Festplatte auszulagern, gestartet.
 
-Der Block von Zeile 22 bis 56 definiert eine neue Funktion `search_mitre_attack(mitre_attack_url)`. Darin wird zunächst mittels des Webrivers der Link zur Software-Seite von MITRE Att&ck geöffnet, dann in den beiden Zeilen 28 und 29 die Tabelle mit den allen gelisteten Softwares über einen CSS-Selektor ausgewählt und die gesammelten Links aus den `href`-HTML-Attributen extrahiert. 
+Der Block von Zeile 22 bis 56 definiert eine neue Funktion `search_mitre_attack(...)`.
+Darin wird zunächst mittels des Webrivers der Link zur Software-Seite von MITRE Att&ck geöffnet.
+Über einen CSS-Selektor wird in den beiden Zeilen 28 und 29 die Tabelle mit den allen gelisteten Softwares ausgewählt und die gesammelten Links aus den `href`-HTML-Attributen extrahiert.
 
-Es wird über die Links iteriert, gewartet, bis der Hauptteil der Seite im Browser geladen wurde, und der Seiteninhalt nach dem Begriff _steganography_ durchsucht. Konnte der Begriff gefunden werden, wird der Link einer Ergebnisliste hinzugefügt. Der Webdriver wird bei jedem Durchlauf neu geöffnet, da es sonst zu massiven Speicher-Leaks kommt und der Chrome-Prozess bis zu einem Crash Speicher konsumiert.
+Es wird über die Links iteriert und gewartet, bis der Hauptteil der Seite im Browser geladen wurde.
+Dann wird der Seiteninhalt nach dem Begriff _steganography_ durchsucht.
+Konnte der Begriff gefunden werden, wird der Link einer Ergebnisliste hinzugefügt.
+Der Webdriver wird bei jedem Durchlauf neu geöffnet, da es sonst zu massiven Speicher-Leaks kommt und der Chrome-Prozess bis zu einem Absturz Speicher konsumiert.
 
-Abbildung 2 zeigt ausschnittsweise, wie Software auf der MITRE-Webseite angezeigt wird. Markiert sind die Datenpunkte,
-die extrahiert werden sollen.
+<<literaturrecherche-malware-mitre-one-software>> zeigt ausschnittsweise, wie Software auf der MITRE-Webseite angezeigt wird.
+Markiert sind die Datenpunkte, die extrahiert werden sollen.
 
+[#literaturrecherche-malware-mitre-one-software]
 .Beispiel einer Software auf der MITRE-Webseite cite:[noauthor_sliver_nodate]
 image::abbildung_2.png["Beispiel einer Software auf der MITRE Webseite"]
 
-Im nächste Code-Block wird der dazu verwendete Web-Scraper vorgestellt.
+Im nächsten Code-Block wird der dazu verwendete Web-Scraper vorgestellt.
+
+.Code-Ausschnitt 2: Web-Scraper für einzelne Software-Seiten der MITRE-Datenbank
 [source,python,linenums]
 ----
 def scrape_mitre_attack_software(link):
@@ -199,7 +216,7 @@ def scrape_mitre_attack_software(link):
         for header in techniques_rows[0].find_elements(By.TAG_NAME, 'th')
     ]
     techniques = []
-    for row in techniques_rows[1:]: #<7>
+    for row in techniques_rows[1:]: # <7>
         row_classes = row.get_attribute('class')
         technique_dict = {}
 
@@ -228,7 +245,7 @@ def scrape_mitre_attack_software(link):
 
     driver.quit()
 
-    card_data_dict['MITRE ID'] = card_data_dict['ID'] #<8>
+    card_data_dict['MITRE ID'] = card_data_dict['ID'] # <8>
     del card_data_dict['ID']
 
     return {
@@ -236,7 +253,8 @@ def scrape_mitre_attack_software(link):
         'Techniques Used': techniques,
     }
 ----
-<1> Suche nach HTML-Element `h1` für den Name der Technik
+
+<1> Suche nach HTML-Element `h1` nach dem Namen der Technik
 <2> Suche nach HTML-Element mit der CSS-Klasse `description-body`, welches die Beschreibung der Technik beinhaltet
 <3> Sammle im HTML-Element mit der CSS-Klasse `card-body` alle Unterelemente mit der Klasse `card-data` ein
 <4> Extrahiere aus den Kartenelementen jeweils ein HTML-Element mit der Klasse `col-md-11`, welches einen Schlüssel und Wert (Variable `key` und `value`), separiert von `:`, beinhaltet
@@ -245,49 +263,51 @@ def scrape_mitre_attack_software(link):
 <7> Iteriere über die verbleibenden Tabellenzeilen und extrahiere die Informationen zur jeweiligen Technik nach Bedingungen (genau beschrieben im Text)
 <8> Ersetze `ID`-Schlüssel mit `MITRE ID`, um die Herkunft der ID im Datensatz zu signalisieren
 
-Wie im Web-Scraper zuvor wird in diesem die Webdriver bei jedem Durchlauf in der zweiten Zeile reinitialisiert. 
+Wie im Web-Scraper zuvor wird in diesem der Webdriver bei jedem Durchlauf in der zweiten Zeile reinitialisiert.
 Daraufhin wird der Name und die Beschreibung der MITRE Software in den Zeilen 6 und 8 extrahiert, in dem nach der Überschrift der Seite (`h1`) und einem HTML-Element mit der CSS-Klasse `description-body` gesucht wird.
-Als nächstes wird die Karte, wie in Abbildung 2 zu sehen, herausgesucht und die einzelnen Schlüssel-Wert-Paare extrahiert. 
-Die Paare werden beim Doppelpunkt getrennt und als Schlüssel und Wert im `card_data_dict`-Dictionary gespeichert. 
-Es folgt die Extraktion der genutzten Techniken aus der Tabelle _Techniques Used_. 
+Als Nächstes wird die Karte, wie in <<literaturrecherche-malware-mitre-one-software>> zu sehen, herausgesucht und die einzelnen Schlüssel-Wert-Paare extrahiert.
+Die Paare werden beim Doppelpunkt getrennt und als Schlüssel und Wert im `card_data_dict`-Dictionary gespeichert.
+Es folgt die Extraktion der genutzten Techniken aus der Tabelle _Techniques Used_.
 Dazu wird die Tabelle mit der CSS-Klasse `techniques-used` selektiert, der Tabellenkopf aus der ersten Zeile entnommen und die restlichen Zeilen iteriert.
 
-Die Abbildung 3 zeigt in einem Auszug, wie die Tabellen aussehen können. 
+Die <<literaturrecherche-malware-mitre-techniques-used>> zeigt in einem Auszug, wie die Tabellen aussehen können.
 
+[#literaturrecherche-malware-mitre-techniques-used]
 .Beispiel einer _Techniques Used_-Tabelle cite:[noauthor_sliver_nodate]
 image::abbildung_3.png["Beispiel einer _Techniques Used_-Tabelle"]
 
 Die _ID_-Spalte ist teilweise in zwei Unterspalten unterteilt.
-Dies ist bei der Datensammlung in den Zeilen 41 bis 58 berücksichtigt. Daraus ergeben sich die folgenden Bedingungen und Abarbeitungen:
+Dies ist bei der Datensammlung in den Zeilen 41 bis 58 berücksichtigt.
+Daraus ergeben sich die folgenden Bedingungen und Abarbeitungen:
 
-. Es sind insgesamt 4 Spalten => Übernehme die Zellen entsprechend des Tabellenkopfs
+. Es sind insgesamt 4 Spalten => Übernehme die Zellen entsprechend dem Tabellenkopf
 . Die Zeile hat die CSS-Klasse `noparent` und es sind 4 Spalten mit einer geteilt in zwei => Füge die zweite und dritte Zelle zusammen als zweite Zelle, übernehme die restlichen Zellen
 . Die Zeile beinhaltet die CSS-Klasse `sub` und die ersten beiden Spalten sind leer => Übernehme die Daten der ersten beiden Zellen aus der vorherigen Zeile, übernehme die restlichen Zellen
 
-Abschließend wird die `ID` in `MITRE ID` umbenannt, um die Herkunft im Datensatz klarzustellen und das Dictionary mit den Techniken zusammengeführt.
+Abschließend wird die `ID` in `MITRE ID` umbenannt, um das Dictionary mit den Techniken zusammenzuführen.
 
-Anzumerken ist dabei, dass die beiden Web-Scraper in einer optimierten Version zusammengefasst werden sollten,
-sodass die Software-Seiten nicht zwei Mal geöffnet und nach relevanten Informationen durchsucht werden müssen.
+Anzumerken ist dabei, dass die beiden Web-Scraper in einer optimierten Version zusammengefasst werden sollten, sodass die Software-Seiten nicht zweimal geöffnet und nach relevanten Informationen durchsucht werden müssen.
 Bei der iterativen Arbeit mit dem Jupyter Notebook war die geteilte Vorgehensweise allerdings leichter zu testen.
 
 ===== Malpedia-Datenbank
 
-Im folgenden Code-Block wird ein weitere Funktion vorgestellt, die einen allgemeinen Ansatz zum Web-Scraping verfolgt und nicht speziell auf eine Webseite zugeschnitten ist. 
-Dies wurde unter anderem genutzt, um nach Steganografie-Malware im Bildbereich in der Malware-Datenbank _Malpedia_ des Frauenhofer FKIE zu suchen.
+Im folgenden Code-Block wird eine weitere Funktion vorgestellt, die einen allgemeinen Ansatz zum Web-Scraping verfolgt und nicht speziell auf eine Webseite zugeschnitten ist.
+Dies wurde unter anderem genutzt, um nach Stego-Malware im Bildbereich in der Malware-Datenbank _Malpedia_ des Frauenhofer FKIE zu suchen.
 
+.Code-Ausschnitt 3: Web-Scraper für Malpedia-Datenbank
 [source,python,linenums]
 ----
 def scrape_malware_data(url, name=None, description=None, created_at=None):
     data = None
 
-    driver = webdriver.Chrome(service=service, options=options) #<1>
+    driver = webdriver.Chrome(service=service, options=options) # <1>
     try:
         driver.get(url)
 
         # Wait for the page to fully load
         driver.implicitly_wait(10)
 
-        page_content = driver.page_source.lower() #<2>
+        page_content = driver.page_source.lower() # <2>
         if 'steganography' in page_content:
             return data
 
@@ -316,7 +336,7 @@ def scrape_malware_data(url, name=None, description=None, created_at=None):
         except NoSuchElementException:
             pass
 
-        platforms = [platform for platform in PLATFORMS if platform.lower() in page_content] #<6>
+        platforms = [platform for platform in PLATFORMS if platform.lower() in page_content] # <6>
         data = {
             'Name': name,
             'Description': description,
@@ -333,28 +353,34 @@ def scrape_malware_data(url, name=None, description=None, created_at=None):
 
     return data
 ----
+
 <1> Initialisiere des Webdriver bei jedem Aufruf (wie in vorherigen Web-Scrapern)
-<2> Sucht nach dem Wort `steganography` im Text der Webseite in Kleinbuchstaben
-<3> Sucht nach einem `meta`-HTML-Element mit dem Attribut `name` gesetzt auf `title` **oder** dem Attribut `property` gesetzt auf `og:title`
-<4> Sucht nach einem `meta`-HTML-Element mit dem Attribut `name` gesetzt auf `description` **oder** dem Attribut `property`, dessen Wert `description` enthält
-<5> Sucht nach einem `meta`-HTML-Element mit dem Attribut `name`, dessen Wert `created` oder `published` enthält, **oder** dem Attribut `property`, dessen Wert `created` oder `published` enthält
-<6> Sucht nach den Namen von Plattformen, die in der Konstante `PLATFORMS` definiert sind, die als Ziele der auf der Webseite beschriebenen Malware gewählt worden sein könnten
+<2> Suche nach dem Wort `steganography` im Text der Webseite in Kleinbuchstaben
+<3> Suche nach einem `meta`-HTML-Element mit dem Attribut `name` gesetzt auf `title` **oder**
+dem Attribut `property` gesetzt auf `og:title`
+<4> Suche nach einem `meta`-HTML-Element mit dem Attribut `name` gesetzt auf `description` **oder**
+dem Attribut `property`, dessen Wert `description` enthält
+<5> Suche nach einem `meta`-HTML-Element mit dem Attribut `name`, dessen Wert `created` oder `published` enthält, **oder**
+dem Attribut `property`, dessen Wert `created` oder `published` enthält
+<6> Suche nach den Namen von Plattformen, die in der Konstante `PLATFORMS` definiert sind, welche als Ziele der auf der Webseite beschriebenen Malware gewählt worden sein könnten
 
-Der Ablauf des generischen Web-Scrapers ist ähnlich zu den vorherigen. Der Webdriver wird immer neu initialisiert.
-Es wird nach dem Wort `steganography` im Text der Webseite in Kleinbuchstaben gesucht. 
-Danach wird versucht, Meta-Informationen aus der Webseite wie den Namen des Artikels, eine Beschreibung dazu, das Erstellungs- und Änderungsdatum zu extrahieren. Dabei werden XPath-Selektoren verwendet, da diese sehr flexibel 
-mit XML- bzw. HTML-Elementen und deren Attributen arebeiten können.
-Außerdem wird versucht, durch die in dem Artikel beschriebene Malware angegriffene Plattformen zu finden.
+Der Ablauf des generischen Web-Scrapers ist ähnlich zu den vorherigen.
+Der Webdriver wird immer neu initialisiert.
+Es wird nach dem Wort `steganography` im Text der Webseite in Kleinbuchstaben gesucht.
+Danach wird versucht, Meta-Informationen aus der Webseite wie den Namen des Artikels, eine Beschreibung dazu und das Erstellungs- und Änderungsdatum zu extrahieren.
+Dabei werden XPath-Selektoren verwendet, da diese sehr flexibel mit XML- bzw.
+HTML-Elementen und deren Attributen arbeiten können.
+Außerdem wird versucht, die angegriffenen Plattformen der im Artikel beschriebenen Malware zu finden.
 
-Die gesammelten Daten werden in einem Dictionary zusammengeführt, das in der Struktur den MITRE-Daten gleicht,
-um eine einfache Zusammenführung und Weiterverarbeitung zu ermöglichen.
+Die gesammelten Daten werden in einem Dictionary zusammengeführt, das in der Struktur den MITRE-Daten gleicht, um eine einfache Zusammenführung und Weiterverarbeitung zu ermöglichen.
 
-Im Fall der Malpedia-Datenbank können alle Referenzen zu den dort enthaltenen Einträgen als BibTex-Datei unter 
-https://malpedia.caad.fkie.fraunhofer.de/library/download heruntergeladen werden. 
-Der nächste Code-Block zeigt die Sammlung der Links aus den BibTex-Einträgen, wobei in den Titeln 
-nach `steganography` gesucht wird. Dies ist nicht die umfassendste Methode, ermöglicht aber einen Überblick in 
-kürzerer Zeit zu gewinnen, als jeden einzelnen der 15069 Einträge (zum Zeitpunkt der letzten Ausführung am 23.02.24) mit dem Web-Scraper durchzugehen.
+Im Fall der Malpedia-Datenbank können alle Referenzen zu den dort enthaltenen Einträgen als BibTex-Datei unter
+https://malpedia.caad.fkie.fraunhofer.de/library/download heruntergeladen werden.
+Der nächste Code-Block zeigt die Sammlung der Links aus den BibTex-Einträgen, wobei in den Titeln nach `steganography` gesucht wird.
+Dies ist nicht die umfassendste Methode, ermöglicht aber einen Überblick in kürzerer Zeit zu gewinnen.
+Ein anderer Ansatz wäre jeden einzelnen der mehr als 10000 Einträge mit dem Web-Scraper durchzugehen, wobei mit einer sehr hohen Laufzeit zu rechnen ist.
 
+.Code-Ausschnitt 4: Auslesen der Malpedia-Bibliografie-Datei
 [source,python,linenums]
 ----
 import bibtexparser
@@ -367,13 +393,13 @@ for entry in bibliography.entries:
         stego_malware_entries.append(entry)
 ----
 
-Die so vorgefilterten Einträge wurden dann mit dem Webscraper `scrape_malware_data` weiter untersucht.
+Die vorgefilterten Einträge wurden dann mit dem Webscraper `scrape_malware_data` weiter untersucht.
 
 ===== stego-in-the-wild
 
-Als letzte Datenquelle wurde das Repository https://github.com/lucacav/steg-in-the-wild von Luca Caviglione verwendet und
-die relevanten Daten aus der `README.md`-Datei gesammelt, im folgenden Code-Block zu sehen.
+Als letzte Datenquelle wurde das Repository https://github.com/lucacav/steg-in-the-wild von Luca Caviglione verwendet und die relevanten Daten aus der `README.md`-Datei gesammelt, wie im folgenden Code-Block zu sehen ist.
 
+.Code-Ausschnitt 5: Extraktion der Links von stego-in-the-wild
 [source,python,linenums]
 ----
 def extract_links_from_list(text):
@@ -393,16 +419,18 @@ def extract_links_from_list(text):
         links.append((name, url, description.strip()))
     return links
 ----
-<1> Sammle die erste Stichpunktliste ein und ignoriere alle weiteren
-<2> Zerlege die Eintrage am Doppelpunkt, um den Namen, den Link und zugehörige Beschreibung zu extrahieren
 
-Die Ergebnisliste aus Tupeln mit dem Namen des Artikels, dem zugehörigen Link und der Beschreibung des Repository-Autorens wurde wiederum elementweise als Parameter an den Webscraper `scrape_malware_data` übergeben.
+<1> Sammle die erste Stichpunktliste ein und ignoriere alle weiteren
+<2> Zerlege die Einträge am Doppelpunkt, um den Namen, den Link und zugehörige Beschreibung zu extrahieren
+
+Die Ergebnisliste aus Tupeln mit dem Namen des Artikels, dem zugehörigen Link und der Beschreibung vom Repository-Autoren wurde wiederum elementweise als Parameter an den Webscraper `scrape_malware_data` übergeben.
 
 ===== Automatisierte Datenzusammenführung und -säuberung
 
 Im letzten Schritt wurden die Ergebnislisten zusammengeführt und bereinigt.
 Dabei wurden die Daten aus der MITRE-Datenbank als Ausgangspunkt genommen.
 
+.Code-Ausschnitt 6: Zusammenführung und Bereinigung der gesammelten Malware-Vorkommnisse
 [source,python,linenums]
 ----
 malpedia_malware_data = [malware for malware in malpedia_malware_data if malware is not None]
@@ -448,12 +476,12 @@ for entry in processed_malware_data: ## <2>
 # Convert the list of dictionaries to a DataFrame and clean the data
 malware_data = pd.DataFrame(processed_malware_data + malpedia_malware_data + sitw_data)
 
-malware_data = malware_data[malware_data['Name'].str.contains('404') == False] #<3>
+malware_data = malware_data[malware_data['Name'].str.contains('404') == False] # <3>
 malware_data = malware_data[malware_data['Description'].str.contains('404') == False]
 malware_data = malware_data[malware_data['Name'].str.contains('Not Found', case=False) == False]
 malware_data = malware_data[malware_data['Description'].str.contains('Not Found', case=False) == False]
 
-malware_data['Created'] = pd.to_datetime(malware_data['Created'], errors='coerce', format='mixed', utc=True).dt.date #<4>
+malware_data['Created'] = pd.to_datetime(malware_data['Created'], errors='coerce', format='mixed', utc=True).dt.date # <4>
 
 malware_data['Last Modified'] = pd.to_datetime(
     malware_data['Last Modified'],
@@ -464,7 +492,7 @@ malware_data['Last Modified'] = pd.to_datetime(
 malware_data['Platforms'] = malware_data['Platforms'].apply(
     lambda platforms: ', '.join(platforms)
     if isinstance(platforms, list) else platforms
-) #<5>
+) # <5>
 
 malware_data['Techniques Used'] = malware_data['Techniques Used'].apply(
     lambda techniques: ', '.join(
@@ -472,124 +500,121 @@ malware_data['Techniques Used'] = malware_data['Techniques Used'].apply(
         for technique in techniques
         if 'Steganography' in technique['Name']
     ) if techniques is not np.nan else None
-) #<6>
+) # <6>
 
 malware_data['References'] = malware_data['References'].apply(
     lambda refs: ', '.join(refs)
     if refs is not np.nan else None
-) #<7>
+) # <7>
 
-malware_data = malware_data.drop_duplicates(subset=['Name'], keep='first') #<8>
+malware_data = malware_data.drop_duplicates(subset=['Name'], keep='first') # <8>
 ----
-<1> Versucht, einen Malware-Namen aus einem Artikel-Namen zu extrahieren, indem alles vor einem Doppelpunkt als Malware-Name angenommt wird
+
+<1> Versuche, einen Malware-Namen aus einem Artikel-Namen zu extrahieren, indem alles vor einem Doppelpunkt als Malware-Name angenommen wird
 <2> Fügt Einträge aus _Malpedia_ und _steg-in-the-wild_ als Referenzen zu MITRE-Einträgen hinzu, wenn der Artikel-Name den Malware-Namen beinhaltet
-<3> Entfernt alle Einträge, die `404` und `Not Found` im Namen oder der Beschreibung beinhaltet, da diese nicht valide sind
-<4> Säubert die Datumswerte
-<5> Fügt die Plattformen als Text, mit Kommata getrennt, zusammen
-<6> Fügt die Techniken als Text zusammen, die mit Steganografie zutun haben
-<7> Fügt die Referenzen als Text, mit Kommata getrennt, zusammen
-<8> Entfernte Duplikate
+<3> Entferne alle Einträge, die `404` und `Not Found` im Namen oder der Beschreibung beinhaltet, da diese nicht valide sind
+<4> Säubere die Datumswerte
+<5> Füge die Plattformen als Text mit Kommata getrennt zusammen
+<6> Füge die Techniken als Text zusammen, die mit Steganografie zutun haben
+<7> Füge die Referenzen als Text mit Kommata getrennt zusammen
+<8> Entferne Duplikate
 
-Es wird zunächst versucht, einen Malware-Namen aus den Artikel-Namen zu extrahieren, indem alles vor einem Doppelpunkt als Malware-Name angenommt wird. Dann werden die Einträge durchgegangen und Einträge mit Malware-Namen im Artikel-Namen werden dem Malware-Eintrag als Referenz beigefügt. Anschließend findet die Datenbereinigung statt.
+Es wird zunächst versucht, einen Malware-Namen aus den Artikel-Namen zu extrahieren, indem alles vor einem Doppelpunkt als Malware-Name angenommen wird.
+Dann werden die Einträge mit Malware-Namen im Artikel-Namen durchgegangen und dem Malware-Eintrag als Referenz beigefügt.
+Anschließend findet die Datenbereinigung statt.
 
-Das finale Ergebnis wird im Abschnitt <<malware_vorkommnisse,Malware-Vorkommnisse im Zusammenhang mit Steganografie>> ausgewertet, woraus die Anforderungen an den folgende Literaturrecherche abgeleitet wurden.
+Das finale Ergebnis wird im <<ergebnisse-malware>> ausgewertet, woraus die Anforderungen an die folgende Literaturrecherche abgeleitet wurden.
 
-[#literaturrecherche_tools]
+[#literaturrecherche-tools]
 === Literaturrecherche zu Steganografie- und Wasserzeichen-Tools
 
-Basierend auf der zuvor erfolgten Sammlung an Malwares, welche Information Hiding Techniken mit Bilddaten nutzen, wurde die Recherche mit den nachfolgenden Kriterien durchgeführt.
+Basierend auf der zuvor erfolgten Sammlung an Malware wurde die Recherche mit den nachfolgenden Anforderungen durchgeführt.
 
 . *Bekanntheit*: Die Software muss in wissenschaftlichen Publikationen verwendet worden sein oder auf gängigen Software-Plattformen wie Github mindestens 1000 Bewertungen oder Downloads vorweisen können.
-. *Funktionsweise*: Der in der Software implementierte Algorithmus zum Information Hiding muss zumindest in einem Überblick dokumentiert sein oder zumindest der Quellcode muss verfügbar sein, damit die Software einer Kategorie entsprechend den <<_theoretische_grundlagen,Theoretische Grundlagen>> zugeordnet werden kann.
-. *noch was*: das 
+. *Funktionsweise*: Der in der Software implementierte Algorithmus zum Information Hiding muss zumindest in einem Überblick dokumentiert sein oder der Quellcode muss verfügbar sein, damit die Software einer Kategorie entsprechend den <<theoretische-grundlagen,theoretischen Grundlagen>> zugeordnet werden kann.
+. *Benutzbarkeit*: Die Software muss nach heutigem Stand in maximal drei Schritten (zum Beispiel drei Kommandozeilenbefehle) nutzbar sein.
+Zu veraltete oder zu kompliziert anzuwendende Programme werden als nicht mehr relevant betrachtet werden.
+
+Des Weiteren muss die Software eine Form des Information Hidings implementieren, das sich bei den Malware-Vorkommnissen wiederfinden lässt oder als erwartbare Weiterentwicklung jener angesehen werden kann.
 
 ==== Steganografie-Software
 
 Die Recherche wurde mit den folgenden Suchbegriffen durchgeführt: _"information hiding"_, _"information hiding tools"_, _"Steganography Detection"_, _"Steganography Techniques"_, _"steganography overview"_, _"steganography survey"_, _"steganography tools"_ und _"steganography apps"_.
 
-Die Suche im wissenschaftlichen Umfeld ergab insbesondere die Arbeiten von Pilania at al. in cite:[pilania_roadmap_2021] und cite:[pilania_steganography_2023] sowie von Virma at al. in cite:[verma_detecting_2022]. Es zeigen sich darin Überschneidungen in den gängigen Tools, die zur Evaluierung und Detektion von Steganografie in Bildern genutzt werden. Diese Tools sind nur auf den Desktop-Plattformen ausführbar. 
-Breuer cite:[noauthor_dominicbreukerstego-toolkit_nodate] hat eine Software-Sammlung an Steganografie-Tools zusammengestellt,
-die sich ebenfalls vielfältig mit den in den Publikationen verwendeten Programmen deckt. 
+Die Suche im wissenschaftlichen Umfeld ergab insbesondere die Arbeiten von Pilania at al. in cite:[pilania_roadmap_2021] und cite:[pilania_steganography_2023] sowie von Virma at al. in cite:[verma_detecting_2022].
+Es zeigen sich darin Überschneidungen in den gängigen Tools, die zur Evaluierung und Detektion von Steganografie in Bildern genutzt werden.
+Diese Tools sind nur auf den Desktop-Plattformen ausführbar.
+Breuer cite:[noauthor_dominicbreukerstego-toolkit_nodate] hat eine Software-Sammlung an Steganografie-Tools zusammengestellt, die sich ebenfalls vielfältig mit den in den Publikationen verwendeten Programmen deckt.
 
-Im Bereich der mobilen Applikationen existieren ebenfalls Steganografie-Programme, welche im Folgenden als Steganografie-Apps bezeichnet werden, wie die Arbeiten von Chen at al. cite:[chen_forensic_2018] und cite:[chen_tackling_2018] sowie von Newman at al. cite:[newman_stegoappdb_2019] zeigen.
+Im Bereich der mobilen Applikationen existieren ebenfalls Steganografie-Programme, welche im Folgenden als Stego-Apps bezeichnet werden, wie die Arbeiten von Chen at al. cite:[chen_forensic_2018] und cite:[chen_tackling_2018] sowie von Newman at al. cite:[newman_stegoappdb_2019] zeigen.
 
-Aus der Recherche ging hervor, dass insbesondere Steganografie und zugehörige Desktop-Tools wie auch mobile Apps sowohl in der Wissenschaft als auch in der technischen Umsetzung Beachtung finden,
-während weitere Techniken des Information Hidings wie das Einbetten in Metadata oder andere selten betrachtet werden.
+Aus der Recherche ging hervor, dass insbesondere Steganografie und zugehörige Desktop-Tools wie auch mobile Apps sowohl in der Wissenschaft als auch in der technischen Umsetzung Beachtung finden, während weitere Techniken des Information Hidings wie das Einbetten in Metadata oder andere selten betrachtet werden.
 
-Die gefundenen Progrmame wurden zusammengetragen und in zwei Tabellen aufgeteilt, 
-welche jeweils die Desktop-Tools und die mobilen Apps vorstellen.
-Diese sind in den Ergebnissen zu finden.
+Die gefundenen Progrmame wurden zusammengetragen und in zwei Tabellen aufgeteilt, welche jeweils die Desktop-Tools und die mobilen Apps vorstellen.
+Diese sind in <<ergebnisse_softwares_stego>> zu finden.
 
 ==== Wasserzeichen-Software
 
-Wie in den <<theorie_wasserzeichen,theoretischen Grundlagen zu Wasserzeichen>> beschrieben werden Wasserzeichen entweder sichtbar oder unsichtbar eingebettet,
-wobei nur die unsichtbaren eine relevanten Schutz vor Entfernung liefern können. Somit lag der Fokus dieses Rechercheteils auf den unsichtbaren Algorithmen.
+Wie in den <<theorie-verfahren,theoretischen Grundlagen zu Verfahren des Information Hiding>> beschrieben werden Wasserzeichen entweder sichtbar oder unsichtbar eingebettet, wobei nur die unsichtbaren einen relevanten Schutz vor Entfernung liefern können.
+Somit lag der Fokus dieses Rechercheteils auf den unsichtbaren Algorithmen.
 
-Die Recherche wurde mit den folgenden Suchbegriffen durchgeführt: _"watermarking survey"_, _"invisble watermarking"_, _"watermarking attack"_.
+Die Recherche wurde mit den folgenden Suchbegriffen durchgeführt: _"watermarking survey"_, _"invisible watermarking"_, _"watermarking attack"_.
 
-Dies führte bereits zu einer Vielzahlen an aktuellen wissenschaftlichen Artikeln zu diesem Thema. Der Fokus lag dabei auf Publikationen,
-die einen Überblick über die existierenden Algorithmen verschaffen oder solche Algorithmen attackieren, da für diese im Allgemeinen auf bekannte, öffentlich zugängliche Tools zurückgegriffen wird. Dabei zeigte sich, dass wie in <<theorie_wasserzeichen,theoretischen Grundlagen zu Wasserzeichen>>
-beschrieben, 
+Dies führte bereits zu einer Vielzahl an aktuellen wissenschaftlichen Artikeln zu diesem Thema.
+Fokussiert wurden Publikationen, die einen Überblick über die existierenden Algorithmen verschaffen oder solche Algorithmen attackieren.
+Für diese wird im Allgemeinen auf bekannte, öffentlich zugängliche Tools zurückgegriffen.
 
-Im Abschnitt <<ergebnisse_softwares_wz, Übersicht zu Wasserzeichen-Software>> werden die in den Publikationen cite:[an_benchmarking_2024,mareen_blind_2024,zhao_invisible_2023] verwendeten Implementierungen kurz vorgestellt und in diese Arbeit eingeordnet.
+Im <<ergebnisse_softwares_wz>> werden die in den Publikationen
+cite:[an_benchmarking_2024,mareen_blind_2024,zhao_invisible_2023] verwendeten Implementierungen kurz vorgestellt und in diese Arbeit eingeordnet.
 
-[#literaturrecherche_daten]
+[#literaturrecherche-datensatz]
 === Literaturrecherche zu Forschungsdaten für Bild-Steganografie
 
-Für die Arbeit mit den mobilen Steganografie-Anwendungen haben Newman at al. eine Bild-Datenbank aufgebaut,
-die öffentlich über eine Webseite zugänglich ist. Zunächst kann ausgewählt werden, 
-ob Stego- oder nur Cover-Bilder selektiert werden sollen.
-Danach ermöglicht eine Eingabe-Formular das weitere Konfigurieren des gewünschten Datensatzes.
+Für die Arbeit mit den mobilen Steganografie-Anwendungen haben Newman at al. eine Bild-Datenbank aufgebaut, die öffentlich über eine Webseite zugänglich ist.
+Zunächst kann ausgewählt werden, ob Stego- oder nur Cover-Bilder selektiert werden sollen.
+Danach ermöglicht ein Eingabe-Formular das weitere Konfigurieren des gewünschten Datensatzes.
 
-Für den Android-Bereich stehen fünf und für den iOS-Bereich sechs verschiedene Modelle zur Verfügung,
-auf denen Bilder aufgenommen wurden, während es für Android fünf und für iOS lediglich eine Stegangrafie-App zur Auswahl gibt.
+Für den Android-Bereich stehen fünf und für den iOS-Bereich sechs verschiedene Smartphone-Modelle zur Verfügung, auf denen Bilder aufgenommen wurden.
+Für Android gibt es fünf und für iOS lediglich eine Stegangrafie-App zur Auswahl.
 Des Weiteren können zwischen drei Einbettungsraten gewählt werden:
 
-* Zwischen 0% und 10% 
-* Zwischen 10% und 20% 
-* Zwischen 20% und 40% 
+* Zwischen 0% und 10%
+* Zwischen 10% und 20%
+* Zwischen 20% und 40%
 
 Schließlich kann die Belichtung auf _automatisch_ und/oder _manuell_ im Bereich von 10 bis 7000 ISO und einer Belichtungszeit zwischen stem:[1/11000] und stem:[1/2] gestellt werden.
 
-Zwar wird auf der Webseite nicht die Anzahl der Bilder nach der gewünschten Einstellung benannt,
-Experimente mit den heruntergeladenen Daten zeigten jedoch, dass für die meisten Konfigurationskombinationen
-mehrere tausend Bilder zur Verfügung stehen, was der statistischen Auswertbarkeit der Daten Genüge tut.
-Zudem besticht die Verwendung der StegoAppDB damit, dass für die Steganografie-Apps keine Cover-Stego-Bildpaare mehr
-generiert werden müssen und so der Prototyp direkt auf diesen Daten angewendet werden kann.
-Die in den Stego-Apps verwendeten Algorithmen basieren größtenteils auf LSB-Verfahren und
-sind damit mit dem aktuellen Stand der Malwares vergleichbar, die ebenfalls tendenziell mehr auf LSB-Verfahren setzen.
+Zwar wird auf der Webseite nicht die Anzahl der Bilder nach der gewünschten Einstellung benannt, Experimente mit den heruntergeladenen Daten zeigten jedoch, dass für die meisten Konfigurationskombinationen mehrere tausend Bilder zur Verfügung stehen.
+Damit ist der statistischen Auswertbarkeit der Daten Genüge getan.
+Zudem besticht die Verwendung der StegoAppDB damit, dass für die Steganografie-Apps keine Cover-Stego-Bildpaare mehr generiert werden müssen und so der Detektor-Prototyp direkt auf diesen Daten angewendet werden kann.
+Die in den Stego-Apps verwendeten Algorithmen basieren größtenteils auf LSB-Verfahren und sind damit mit dem aktuellen Stand und Zukunftstrend der Malware vergleichbar, die ebenfalls tendenziell mehr auf LSB-Verfahren setzen.
 
-Die konkret verwendete Konfiguration zum Herunterladen der StegoAppDB-Datensatzes für diese Arbeit 
-wird im Abschnitt <<ergebnisse_bilddatensatz,Verwendeter Bild-Datensatz>> beschrieben.
+Die konkret verwendete Konfiguration zum Herunterladen des StegoAppDB-Datensatzes für diese Arbeit wird im Abschnitt <<ergebnisse-datensatz,_Verwendeter Bild-Datensatz_>> beschrieben.
 
 [#implementierung_merkmal]
-=== Implementierung eines Prototyps zur Merkmalsfindung steganografischer Bilddaten
+=== Implementierung eines Prototyps zum Fingerprinting steganografischer Verfahren in Bilddaten
 
-Zur Umsetzung eines prototypischen Detektors für die Identifikation bestimmter Steganografie-Werkzeuge wurde
-in grundsätzlich zwei Schritten vorgegangen.
+Zur Umsetzung eines prototypischen Detektors für die Identifikation bestimmter Steganografie-Werkzeuge wurde grundsätzlich in drei Schritten vorgegangen.
 
 . Bestimmung möglicher Merkmalskategorien
 . Recherche und Nutzung von Dateianalyse- und Steganalyse-Tools zur Findung der Merkmale, die auf die Verwendung bestimmter Stego-Tools hinweisen
-. Entwicklung des Detektors basierend auf gefundenen Merkmalen
+. Entwicklung des Detektors und Ableitung von Regeln basierend auf gefundenen Merkmalen zur Abarbeitung für den Detektor
 
 ==== Merkmalskategorien
 
-Aus den vorgestellten <<theorie-verfahren,Verfahren zur Einbettung>> lassen sich Merkmalskategorien ableiten,
-den den Domänen der Einbettungsverfahren entsprechen.
+Aus den vorgestellten <<theorie-verfahren,Verfahren zur Einbettung>> lassen sich Merkmalskategorien ableiten, welche den Domänen der Einbettungsverfahren entsprechen.
 
 * Merkmale der Raum-Domäne: Dabei werden die Pixel der Bilder nach Auffälligkeiten untersucht.
 Dazu gehören statistischen Analysen von Pixel-Änderungen wie auch Analysen der LSBs der Pixel.
-* Merkmale der Frequenz-Domäne: Entprechend der Raum-Domäne werden statistischen Analysen oder LSB-Analysen
-auf den Koeffizienten von komprimierten Bildern durchgeführt.
+* Merkmale der Frequenz-Domäne: Entsprechend der Raum-Domäne werden statistischen Analysen oder LSB-Analysen auf den Koeffizienten von komprimierten Bildern durchgeführt.
 * Merkmale der Struktur: Es werden Dateigrößen und weitere Metadaten der Cover- und Stego-Bilder verglichen.
 
 ==== Analyse-Tools
 
-Zur Recherche wurde hauptsächlich die Google-Suchmaschine verwendet,
-da die meisten Analyse-Tools nicht im akademischen Umfeld entwickelt werden.
+Zur Recherche wurde hauptsächlich die Google-Suchmaschine verwendet, da die meisten Analyse-Tools nicht im akademischen Umfeld entwickelt werden.
 Die nachfolgenden Tools wurden als potenziell nützlich identifiziert und aktiv verwendet.
 
-.Verwendete Analyse-Tools
+.Verwendete Analyse-Tools zur Implementierung des Detektor-Prototyps
 |===
 |Name|Domäne(n)|Benutzeroberfläche|Kommentar
 
@@ -603,47 +628,43 @@ Kann bei JPEGs auch grundlegende Informationen zu Koeffizienten liefern.
 |Struktur, Raum
 |Grafisch
 |Ermöglicht Darstellung von Metadaten (mittels _exiftool_ im Hintergrund).
-Kann verschiedene Filter auf Bilder legen und weiteres.
+Kann verschiedene Filter auf Bilder legen und Weiteres.
 
 |*aletheia*
 |Struktur, Raum, Frequenz
 |Kommandozeile
 |Bietet Ausgabe von Metadaten, statistische Analysen in der Raum-Domäne,
-Simulationen von Stego-Tools, Angriffe auf Steganografie mittels maschinellem Lernen
+Simulationen von Stego-Tools sowie Angriffe auf Steganografie mittels maschinellen Lernen
 
 |===
 
+Insbesondere das Analyse-Tool _aletheia_ stellte sich durch die Vielzahl an Funktionen als sehr nützlich heraus, da es in Python geschrieben, quelloffen und daher denkbar einfach zu erweitern oder in Python-Skripte oder Jupyter Notebooks als Bibliothek einzubinden ist.
+
+Die in dieser Arbeit verwendete Version von _aletheia_ wurde vom Autor angepasst, um den aktuellen Stand von Python nutzen zu können sowie die Erweiterung der Kommandozeilen-Befehle des Tools zu vereinfachen.
+Zudem wurden die nachfolgend beschriebenen Analyseverfahren als Kommandos ergänzt.
+
 [NOTE]
 ====
-Weitere aus dem Linux-Umfeld sind zum Beispiel _binwalk_ und _foremost_, die jedoch
-in dieser Arbeit nicht verwendet wurden.
+Weitere nützliche Tools aus dem Linux-Umfeld sind zum Beispiel _binwalk_ und _foremost_, die jedoch in dieser Arbeit nicht verwendet wurden.
 
 Sämtliche Analysen wurden auf einem Macbook Pro M1 durchgeführt.
 ====
 
-Insbesondere das Analyse-Tool _aletheia_ stellte sich durch die Vielzahl an Funktionen als sehr nützlich heraus,
-da es in Python geschrieben, quelloffen und daher denkbar einfach zu erweitern oder
-in Python-Skripte oder Jupyter Notebooks als Bibliothek einzubinden ist.
-
-Die in dieser Arbeit verwendete Version von _aletheia_ wurde vom Autor angepasst,
-um den aktuellen Stand von Python nutzen zu können sowie
-die Erweiterung der Kommandozeilen-Befehle des Tools zu vereinfachen.
-
+[#methodik-analysen]
 ==== Vorstellung der Analysen
 
-Es wurden drei Analysen aufgrund des <<ergebnisse_bilddatensatz,verwendeten Datensatzes>> ausgewählt.
-Die Auswahl wurde so vorgenommen, da die meisten Stego-Apps LSB-Verfahren implementieren,
-weshalb Änderungen im Stego-Bild in der _Raum-Domäne_ *höchstwahrscheinlich*,
-in der _Struktur_ *wahrscheinlich* und in der _Frequenz-Domäne_ *unwahrscheinlich* zu finden sind.
+Es wurden drei Analysen aufgrund des <<ergebnisse-datensatz,verwendeten Datensatzes>> ausgewählt.
+Die Auswahl wurde so vorgenommen, da die meisten Stego-Apps LSB-Verfahren implementieren, weshalb Änderungen im Stego-Bild in der _Raum-Domäne_ *höchstwahrscheinlich*, in der _Struktur_ *wahrscheinlich* und in der _Frequenz-Domäne_ *unwahrscheinlich* zu finden sind.
+Die folgende Tabelle zeigt diese Analyseverfahren.
 
-.Ausgewählte Analysen
+.Ausgewählte Analyseverfahren zur Implementierung des Detektor-Prototyps
 |===
 |Name|Domäne|Blind? (Genügt Stego-Bild)|Ziele
 
 |Metadatenvergleich
 |Struktur
 |Nein
-|
+a|
 
 * Herausarbeiten von Veränderungen der Metadaten im Stego-Bild im Vergleich zum Cover-Bild.
 * Vergleich nicht nur innerhalb der Paare, sondern auch über alle Paare mit der gleichen eingebetteten Nachricht hinweg
@@ -651,43 +672,46 @@ in der _Struktur_ *wahrscheinlich* und in der _Frequenz-Domäne_ *unwahrscheinli
 |Dateigrößenunterschied
 |Struktur
 |Nein
-|
+a|
 
 * Analyse der Veränderung der Dateigröße zwischen Cover- und Stego-Bild
 * Herausarbeiten möglicher Zusammenhänge oder identifizierbarer Intervalle in der prozentualen Veränderung
 
 |LSB-Extraktion
 |Raum
-|
+a|
 
 * Bei _Analyse_: *Nein*, da nach der eingebetteten Nachricht gesucht wird, die bekannt sein muss.
 * Bei _Detektion_: *Ja*, da nur im Stego-Bild nach Signaturen, etc. gesucht wird.
 
-|
+a|
 
 * Identifikation der verwendeten Parameter zur LSB-Einbettung.
 * Identifikation möglicher eingebetteter Signaturen, Längenangaben der Nachricht, etc.
 
 |===
 
-Zu jeder der in der Tabelle vorgestellten Analysen wurden die folgenden algorithmischen Vorgehensweisen gewählt.
+Für die in der Tabelle vorgestellten Analysen wurden die folgenden algorithmischen Vorgehensweisen gewählt.
 
 [#methodik-analysen-metadaten]
 .Metadatenvergleich
 ****
 Pro Stego-App:
 
-. Lese Metadaten von erstem Cover- und Stego-Bild-Paar als Zuordnungstabellen _c_ und _s_ aus.
+. Lese Metadaten von Cover- und Stego-Bild-Paar als Zuordnungstabellen _c_ und _s_ aus.
 . Vergleiche _c_ und _s_ auf Unterschiede und schreibe diese in neue Zuordnungstabelle _u_.
 . Für jedes weitere Paar: Wiederhole 1. und 2. und kombiniere _u_ mit vorherigem _u_ mittels Schnittmenge.
 
-.Implementierung
+.Code-Ausschnitt 7: Implementierung des Metadatenvergleichs
 [,python]
 ----
-include::../tools/aletheia/aletheialib/attacks.py[%lineno,lines="104..129"]
+include::../tools/aletheia/aletheialib/attacks.py[%lineno,lines="35..53"]
 ----
+
 Schritt 1 ist in `metadata()`  und Schritt 2 in `metadata_diff()` implementiert.
-Schritt 3 wurde in der Python-Konsole bzw. Jupyter Notebook umgesetzt.
+Dabei entspricht `cover_data` _c_, `stego_data` _s_ und `diff` _u_.
+Schritt 3 wurde in der Python-Konsole bzw.
+Jupyter Notebook umgesetzt.
 ****
 
 [#methodik-analysen-dateigroesse]
@@ -699,12 +723,14 @@ Für jedes Cover-Stego-Paar pro Stego-App:
 . Berechne Differenz stem:[d=s-c] und prozentualer Unterschied stem:[p=d/c*100]
 . Erstelle gemeinsame Übersicht (bspw. als Grafik) aller prozentualen Unterschiede.
 
-.Implementierung
+.Code-Ausschnitt 8: Implementierung des Dateigrößenunterschieds
 [,python]
 ----
-include::../tools/aletheia/aletheialib/attacks.py[%lineno,lines="749..771"]
+include::../tools/aletheia/aletheialib/attacks.py[%lineno,lines="684..706"]
 ----
+
 Schritt 1 und 2 ist in `size_diff()` implementiert.
+Dabei ist _c_ als `cover_size`, _s_ als `stego_size` und _d_ als `diff` eingesetzt.
 Schritt 3 wurde im Jupyter Notebook umgesetzt, in die `results`-Liste zur Visualisierung genutzt wurde.
 ****
 
@@ -713,32 +739,31 @@ Schritt 3 wurde im Jupyter Notebook umgesetzt, in die `results`-Liste zur Visual
 ****
 Für jedes Cover-Stego-Paar pro Stego-App:
 
-. Extrahiere die Least _n_ Significant Bits aus den Farbkanälen _R_, _G_, _B_ oder _A_ pro Pixel pro Stego-Bild aus und
-füge diese im Big-Endian- oder Little-Endian-Format aneinander.
+. Extrahiere die Least _n_ Significant Bits aus den Farbkanälen _R_, _G_, _B_ oder _A_ pro Pixel pro Stego-Bild aus und füge diese im Big-Endian- oder Little-Endian-Format aneinander.
 Zudem kann bestimmt werden, ob die Pixel zeilen- oder spaltenweise durchgegangen werden sollen.
 Daraus ergeben sich die Parameter Anzahl der LSBs **n** als _bits_, verwendete Farbkanäle _channels_, das Endian-Format _endian_ und die Iterationsrichtung _direction_.
 . Suche nach der eingebetteten Nachricht.
-. Suche nach wiederkehrenden Mustern in allen extrahierten Nachrichten ohne Zusammenhang mit der Nachricht (_Signatur_) oder
-im mit Zusammenhang mit der Nachricht (bspw. _Nachrichtenlänge_ in den ersten 4 Bytes).
+. Suche nach wiederkehrenden Mustern in allen extrahierten Nachrichten ohne Zusammenhang mit der Nachricht (_Signatur_) oder im mit Zusammenhang mit der Nachricht (bspw. _Nachrichtenlänge_ in den ersten 4 Bytes).
 . Vergleiche Ergebnisse aller Extraktionen zur Validierung.
 
-.Implementierung der Extraktion
+.Code-Ausschnitt 9: Implementierung der LSB-Extraktion
 [,python]
 ----
-include::../tools/aletheia/aletheialib/attacks.py[%lineno,lines="667..713"]
+include::../tools/aletheia/aletheialib/attacks.py[%lineno,lines="588..677"]
 ----
-Schritt 1 ist mittels der `\_extract_bits_*()`-Funktionen umgesetzt. Es existiert eine optimierte Version
-jeweils für das Little- und Big-Endian-Format, wenn die Least _n_ Significant Bits 1 oder ein Vielfaches von 2 sind.
-Ansonsten werden allgemeine Versionen zur Extraktion verwendet. `np.zeros()` sowie `np.array()` stammt aus der `numpy`-Bibliothek.
 
-Die Umsetzung der Schritte 2 bis 4 wurde in dieser Arbeit mittels Regeln für den <<_implementierung_eines_prototypischen_detektors,Detektor>> umgesetzt.
+Schritt 1 ist mittels der `\_extract_bits_*()`-Funktionen umgesetzt.
+Es existiert eine optimierte Version jeweils für das Little- und Big-Endian-Format, wenn die Least _n_ Significant Bits 1 oder ein Vielfaches von 2 sind.
+Ansonsten werden allgemeine Versionen zur Extraktion verwendet. `np.zeros()` sowie `np.array()` stammt aus der `numpy`-Bibliothek cite:[noauthor_numpy_nodate].
+
+Die Umsetzung der Schritte 2 bis 4 erfolgte in dieser Arbeit mittels Regeln für den <<methodik-implementierung-detektor,Detektor>>.
 ****
 
-Weitere potenziell relevante Analysen für den Datensatz wie die R/S-Analyse wurden aus Gründen des Umfangs dieser Arbeit
-nicht durchgeführt. Die dazu nötigen Algorithmen sind ebenfalls im Analyse-Tool _aletheia_ implementiert und
-sollten für eine nächste Ausbaustufe des Detektors in Betracht gezogen werden.
+Weitere potenziell relevante Analysen für den Datensatz wie die R/S-Analyse wurden aus Gründen des Umfangs dieser Arbeit nicht durchgeführt.
+Die dazu nötigen Algorithmen sind ebenfalls im Analyse-Tool _aletheia_ implementiert und können in Regeln für den Detektor, wie im nächsten Abschnitt beschrieben, aufgerufen werden.
 
-==== Implementierung eines prototypischen Detektors
+[#methodik-implementierung-detektor]
+==== Implementierung des Detektor-Prototyps
 
 Die konkreten Ziele des prototypischen Detektors sind:
 
@@ -748,15 +773,13 @@ Die konkreten Ziele des prototypischen Detektors sind:
 4. Deterministische Ergebnisse (vorerst Verzicht auf maschinelles Lernen zur Erkennung von Merkmalen)
 
 Basierend auf diesen Zielen wurden mögliche bestehende Lösungen untersucht.
-Neben den vielen proprietären Malware-Scanner fiel die quelloffene Lösung YARA des Malware-Analyse-Portals VirusTotal
-als möglicher Detektor für diese Arbeit auf.
+Neben den vielen proprietären Malware-Scannern fiel die quelloffene Lösung YARA des Malware-Analyse-Portals VirusTotal als möglicher Detektor für diese Arbeit auf. cite:[noauthor_yara_nodate]
 
 YARA ermöglicht die Analyse von Dateien (mit dem Fokus auf Malware) anhand selbst definierter Regeln.
-Diese Regeln werden in einer domänen spezifischen Sprache geschrieben und
-an YARA gemeinsam mit der zu analysierenden Datei übergeben.
+Diese Regeln werden in einer domänenspezifischen Sprache geschrieben und an YARA gemeinsam mit der zu analysierenden Datei übergeben.
 Die Webseite des Tools zeigt das folgende Beispiel einer Regel:
 
-.Beispiel-Regel von der YARA-Webseite
+.Code-Ausschnitt 10: Beispiel-Regel von der YARA-Webseite
 [,yara]
 ----
 rule silent_banker : banker
@@ -776,30 +799,24 @@ rule silent_banker : banker
 }
 ----
 
-Die Regel heißt _silent_banker_, weist unter anderem eine Beschreibung und eine Gefahrenniveau _threat_level_ sowie
-mehrere Strings und eine Bedingung auf. In der Sektion _strings_ werden die Strings Variablen zugeordnet,
-welche in der Bedingung eine nach der anderen mit der Eingabedatei verglichen werden,
-bis eine Übereinstimmung gefunden wurde. Mittels Modulen erlaubt YARA den Zugriff auf verschiedene weitere Daten
-der Eingabedatei, sodass auch dynamische Werte untersucht werden können.
+Die Regel heißt _silent_banker_, weist unter anderem eine Beschreibung und ein Gefahrenniveau _threat_level_ sowie mehrere Strings und eine Bedingung auf.
+In der Sektion _strings_ werden die Strings Variablen zugeordnet, welche in der Bedingung eine nach der anderen mit der Eingabedatei verglichen werden, bis eine Übereinstimmung gefunden wurde.
+Mittels Modulen erlaubt YARA den Zugriff auf verschiedene weitere Daten der Eingabedatei, sodass auch dynamische Werte untersucht werden können.
 
-Damit YARA jedoch nutzbar zur Umsetzung der zuvor vorgestellten Analysen ist,
-muss insbesondere das erste Ziel möglich sein. YARA erlaubt jedoch nur eine Eingabedatei,
-wodurch alle nicht-blinden Analysen nicht mehr direkt möglich sind.
+Damit YARA jedoch zur Umsetzung der zuvor vorgestellten Analysen einsetzbar ist, muss insbesondere das erste Ziel möglich sein.
+YARA erlaubt jedoch nur eine Eingabedatei, wodurch alle nicht-blinden Analysen nicht mehr direkt möglich sind.
 Wäre diese Bedingung erfüllt, ließe sich zumindest die Dateigrößenanalyse als Regel definieren.
-Damit auch der Metadatenvergleich und die LSB-Extraktion möglich werden, müsste YARA die entsprechenden Daten bereitstellen,
-sodass von Regeln daraufzugegriffen werden kann.
-Diese Funktion ist über selbst entwickelte Module in der Programmiersprache C zwar möglich,
-wurde aber aufgrund der Komplexität der Sprache selbst sowie des Build-Systems an dieser Stelle nicht weiterverfolgt.
+Damit auch der Metadatenvergleich und die LSB-Extraktion möglich werden, müsste YARA die entsprechenden Daten bereitstellen, sodass von Regeln darauf zugegriffen werden kann.
+Diese Funktion ist über selbst entwickelte Module in der Programmiersprache C zwar möglich, wurde aber aufgrund der Komplexität der Programmiersprache selbst sowie des Build-Systems an dieser Stelle nicht weiterverfolgt.
 
-Dennoch diente YARA als Inspiration eines selbst-entwickelten Tools in Python,
-dass auch direkt auf _alethiea_ zur Detektion zurückgreift. Wie in YARA werden Regeln definiert,
-die auf die Eingabe-Bildpaare angewendeten werden.
-Die Regeln sind im YAML-Format in einer Konfigurationsdatei definiert, sodass kein eigener Parser
-wie bei einer domänenspezifischen Sprache entwickelt werden musste.
+Dennoch diente YARA als Inspiration eines selbst-entwickelten Tools in Python, dass auch direkt auf _alethiea_ zur Detektion zurückgreift.
+Wie in YARA werden Regeln definiert, die auf die Eingabe-Bildpaare angewendeten werden.
+Die Regeln sind im YAML-Format in einer Konfigurationsdatei definiert, sodass kein eigener Parser wie bei einer domänenspezifischen Sprache entwickelt werden musste.
 
 Der Aufbau der Konfigurationsdatei ist wie folgt:
 
-.Konfigurationsdatei des Detektors
+[#methodik-implementierung-detektor-yara-beispiel]
+.Code-Ausschnitt 11: Beispiel einer Konfigurationsdatei des Detektors
 [source,yaml]
 ----
 isd: "1" # <1>
@@ -816,6 +833,7 @@ rules: # <5>
       value: attacks.size_diff([(cover.path, stego.path)])[0][3] # <12>
       cond: -3 <= value < 0 # <13>
 ----
+
 <1> Versionsnummer (aktuell nur "1", "1.0" oder "1.0.0") und Marker, dass diese Konfigurationsdatei für den Detektor bestimmt ist
 <2> Tools, die durch die nachfolgend definierten Regeln detektiert werden können
 <3> Name eines Stego-Tools
@@ -830,13 +848,75 @@ rules: # <5>
 <12> Der zu vergleichende Wert
 <13> Eine Bedingung, die wahr (`True`) oder falsch (`False`) zurückgeben muss
 
-In jeder Regel kann der `match` auch direkt ein Python-Ausdruck sein.
-Ansonsten können wie im Beispiel `value` und `cond` verwendet werden,
-um den zu vergleichenden Wert ausgeben zu lassen. Sowohl `value` als auch `cond` sind Python-Ausdrücke.
+Die Konfigurationsdatei muss den Schlüssel `isd` mit einem der Werte `"1"`, `"1.0"`, `"1.0.0"` enthalten, um als legitime Konfiguration für den Detektor akzeptiert zu werden.
+Danach sollten alle zu erkennenden Tools als Liste unter dem Schlüssel `tools` definiert werden.
+Die Liste besteht aus Objekten mit den folgenden Schlüsseln:
 
-Im Beispiel wird die Dateigröße von Cover- und Stego-Bild ausgewertet und aus dem ersten Element der Ergebnisliste (`[0]`)
-das vierte Element (`[3]`) ausgelesen, welches den prozentualen Unterschied beinhaltet.
+.Beschreibung von Stego-Tool-Objekten in der Konfigurationsdatei des Detektor-Prototyps
+* `name`: Name des Stego-Tools
+* `desc` (optional): Kurze Beschreibung zum Stego-Tool
+* `tags` (optional): Tags zur Zuordnung zu frei wählbaren Kategorien.
+(Die Nutzung dieser Tags zur Sortierung wurde angedacht, aber nicht mehr umgesetzt.
+Für weitere Ausbaustufen mit komplexeren Darstellungen der Ergebnisse des Detektors sollten die Tags jedoch in Betracht gezogen werden.)
+* `version` (optional): Version des Stego-Tools zu Dokumentationszwecken
+
+Der Regelbaum kann einen oder mehrere Einstiegspunkte haben, die unter dem Schlüssel `rules` als Liste definiert werden.
+Ein Regel-Objekt weist die folgenden Schlüssel auf:
+
+.Beschreibung von Regel-Objekten in der Konfigurationsdatei des Detektor-Prototyps
+* `name`: Name der Regel
+* `desc`: Kurze Beschreibung der Regel
+* `tags` (optional): Tags zur Zuordnung zu frei wählbaren Kategorien. (siehe vorheriger Beschreibung von Stego-Tool-Objekten)
+* `tools`: List von Objekten mit den Schlüsseln `name` und `weight`:
+** `name`: Name entsprechend einem Stego-Tool aus der obersten `tools`-Liste
+** `weight`: Gibt als eine Zahl größer 0 an, wie gewichtig der Erfolg dieser Regel zum Erkennen des Stego-Tools ist.
+Die Gewichtung eines Stego-Tools wird beim Durchlaufen des Regelbaums bei jeder erfolgreichen Regel dem vorherigen Wert aufaddiert.
+* `match`: Ein Python-Ausdruck als `str` oder ein Objekt mit den Schlüsseln `value` und `cond`.
+Wird `value` und `cond` verwendet, kann der zu vergleichende Wert im Debug-Modus ausgegeben werden.
+Sowohl `value` als auch `cond` sind ebenfalls Python-Ausdrücke.
+* `next` (optional): Definition der nachfolgenden Regel, die geprüft werden soll, wenn diese erfolgreich war
+
+Schließlich kann eine Regel auch aus mehreren anderen zusammengesetzt sein, was als `CompoundRule` bezeichnet wurde.
+Diese dienen dem Kontrollfluss beim Durchlaufen des Regelbaums.
+`CompundRule` s haben die folgenden Schlüssel:
+
+.Beschreibung von zusammengesetzten Regel-Objekten in der Konfigurationsdatei des Detektor-Prototyps
+* `name`: Name der Regel
+* `desc`: Kurze Beschreibung der Regel
+* `tags` (optional): Tags zur Zuordnung zu frei wählbaren Kategorien. (siehe vorheriger Beschreibung von Stego-Tool-Objekten)
+* `operator`: Legt fest, wie vorgegangen werden soll, wenn Unterregeln erfolgreich waren.
+Die folgenden Werte sind erlaubt:
+** `any`: Sobald eine Unterregel in der Reihenfolge ihrer Definition erfolgreich war, gilt diese `CompoundRule` als erfolgreich und der weitere Abarbeitung der Unterregeln wird beendet
+** `all`: Alle Unterregeln müssen erfolgreich sein
+** `none`: Keine Unterregel darf erfolgreich sein
+** `each`: Jede Unterregel wird abgearbeitet.
+Dabei ist egal, ob die vorherige erfolgreich war oder nicht.
+* `rules`: Die Unterregeln dieser zusammengesetzten Regel
+
+Der Detektor stellt zu dem das Python-Modul `attacks` des Tools alethiea und das `os`-Modul cite:[noauthor_os_nodate] aus der Standardbibliothek von Python für die Ausdrücke im `match`-Teil der Regeln bereit.
+Neben den genannten Modulen sind die Variablen `cover` und `stego` verfügbar, welche den Zugang zum Cover- und Stego-Bild erlauben.
+Beide haben die Felder:
+
+* `path`: Dateipfad zum Bild als Instanz der Klasse `pathlib.Path` cite:[noauthor_pathlib_nodate]
+* `image`: Instanz der Klasse `Image` der Bildverarbeitungsbibliothek `Pillow` cite:[noauthor_image_nodate]
+
+Die in dieser Arbeit vorgestellten Analyseverfahren sind wie folgt nutzbar:
+
+* <<methodik-analysen-metadaten,Metadatenvergleich>> -> `attacks.metadata_diff(cover, stego)`
+* <<methodik-analysen-dateigroesse,Dateigrößendifferenz>> -> `attacks.size_diff(list_of_image_pairs)`
+* <<methodik-analysen-lsb-extraktion,LSB-Extraktion>> -> `attacks.lsb_extract(image, bits, channels, endian, direction)`
+
+[NOTE]
+--
+Weitere Informationen zu den Parametern sind den verlinkten Erklärungen der Implementierungen zu entnehmen.
+--
+
+Auf diese Weise sind alle weiteren Funktionen wie beispielsweise `spa` des `attacks`-Modul aufrufbar und können in Regeln zur Auswertung herangezogen werden.
+
+Im <<methodik-implementierung-detektor-yara-beispiel,Beispiel>> wird mit diesen Bausteinen die Dateigröße von Cover- und Stego-Bild ausgewertet und aus dem ersten Element der Ergebnisliste (`[0]`) das vierte Element (`[3]`) ausgelesen, welches den prozentualen Unterschied beinhaltet.
 Wenn der Unterschied zwischen -3 % und 0 % liegt, könnte PixelKnot für die Einbettung verwendet worden sein.
+
+<<<
 
 Der Detektor besteht aus drei Python-Dateien:
 
@@ -846,9 +926,15 @@ Der Detektor besteht aus drei Python-Dateien:
 die Regeln aus der Konfiguration evaluiert werden.
 `eval.py`: :: Beinhaltet die `Evaluator`-Klasse, welche die Abarbeitung der Regeln vornimmt.
 
-Mittels `cd tools/detector && python detect.py --help` kann der Detektor aus dem Ordner `tools/detector` heraus ausgeführt werden, insofern alle Abhängigkeiten installiert sind.
-Der Befehl gibt dann die möglichen Kommandozeilenparameter aus, was dem Folgenden entsprechen sollte.
+Zur Ausführung sollte Python 3.10 oder höher genutzt werden.
+Es sollten zunächst die Abhängigkeiten aus der Datei `requirements.txt` installiert werden.
+Dafür kann der Befehl `pip install -r requirements.txt` im Verzeichnis `tools/detector` benutzt werden.
+Außerdem müssen die Abhängigkeiten von aletheia entsprechend der zugehörigen Dokumentation erfüllt werden.
+Mittels `python detect.py --help` kann dann der Detektor in `tools/detector` ausgeführt werden.
 
+Der Befehl gibt die möglichen Kommandozeilenparameter aus, was dem Folgenden entsprechen sollte.
+
+.Code-Ausschnitt 12: Ausgabe der Kommandozeilenparameter des Detektors
 ----
 Usage: detect.py [OPTIONS]
 
@@ -870,8 +956,104 @@ Options:
   --help                  Show this message and exit.
 ----
 
-Die Ausführung des Programms beginnt, indem das Cover- und das Stego-Bild aus den Kommandozeilenparametern überprüft werden,
-ob es sich dabei um Bilddateien handelt. Alternativ können auch Cover-Stego-Paare durch ein Komma separiert aus
-dem Standardinput ausgelesen werden. Daraufhin wird die Konfigurationsdatei eingelesen und die Daten in Python-Klassen
-zur weiteren Verarbeitung geladen. Schließlich beginnt der `Evaluator` mit der Überprüfung des oder der Cover-Stego-Paare
-anhand der Regeln aus der Konfigurationsdatei. Nachdem alle Paare geprüft wurden, werden die Ergebnisse ausgegeben.
+Mit den Optionen `-i` und `-s` werden die Pfade zum Cover- und zum Stego-Bild angegeben, auf die der Detektor angewendet werden soll.
+Außerdem ist es mit `--from-stdin` möglich, Komma-separierte Cover-Stego-Bildpaare aus dem Standardinput einlesen zu lassen.
+Dies kann nützlich sein, um beispielsweise Paare aus einer Datei auszulesen und über die Kommandozeile an den Detektor weiterzuleiten.
+Mittels `-c` wird die Konfigurationsdatei übergeben.
+Die Option `--aletheia` muss angegeben werden, wenn sich das gleichnamige Tool nicht im Verzeichnis unter `../tools/aletheia` befindet.
+Andernfalls schlägt der Import des zuvor benannten `attacks`-Modul fehl.
+
+Die Ausführung des Programms beginnt, indem geprüft wird, ob die Pfade aus `-i` und `-s` beziehungsweise der Paare aus `--from-stdin` auf Bilddateien zeigen.
+Daraufhin wird die Konfigurationsdatei eingelesen und die Daten in Python-Klassen zur weiteren Verarbeitung geladen.
+Schließlich beginnt der `Evaluator` mit der Überprüfung des oder der Cover-Stego-Paar/e anhand der Regeln aus der Konfigurationsdatei.
+Nachdem alle Paare geprüft wurden, werden die Ergebnisse ausgegeben.
+
+==== Auswertung des Detektors
+
+Die Auswertung des Detektors wurde mit dem in <<ergebnisse-detektor-konfig>> vorgestellten Regeln durchgeführt.
+Betrachtet wurden zwei Möglichkeiten, Detektionen zu werten:
+
+* Binäre Betrachtung: Jede Detektion mit einer Gewichtung größer als 0 wird als positiv oder andernfalls als negativ eingestuft.
+* Einbeziehung von Gewichtung: Nur die höchste Gewichtung unter allen Detektionen für ein bestimmtes Cover-Stego-Paar wird als positiv eingestuft.
+Bei gleicher Gewichtung wird die Detektion aufgrund mangelnder Eindeutigkeit als negativ angesehen.
+
+Der folgende Code-Ausschnitt zeigt die Berechnung der <<theorie-metriken,Metriken>> für die binäre Betrachtung in Python.
+
+.Code-Ausschnitt 13: Evaluierung des Detektors unter binärer Betrachtung
+[,python]
+----
+all_detections = [(m, d) for m, detections in data.items() for d in detections]
+stats = {}
+for method, detections in data.items():
+    stats[method] = {
+        'true_positives': sum(m == method and d.weights.get(method, 0) > 0 for m, d in all_detections),
+        'false_positives': sum(m != method and d.weights.get(method, 0) > 0 for m, d in all_detections),
+        'false_negatives': sum(m == method and d.weights.get(method, 0) == 0 for m, d in all_detections),
+        'true_negatives': sum(m != method and d.weights.get(method, 0) == 0 for m, d in all_detections)
+    }
+----
+
+Die folgenden Variablen sind definiert:
+
+[#methodik-auswertung-variablen]
+.Definierte Variablen zur Auswertung des Detektors
+[horizontal]
+`data`:: ist ein Dictionary, indem für jede Stego-App eine Liste von Detektionen gespeichert ist.
+Diese Liste wurde für alle Cover-Stego-Bildpaare der tatsächlich zugehörigen Stego-App erstellt.
+Eine Detektion ist ein Objekt, das der Detektor erstellt hat, wenn eine Regel im Regelbaum erfolgreich war.
+`Detection`-Objekte beinhalten unter anderem die Gewichtungen der detektierten Stego-Apps im Feld `weights`, was ein Dictionary aus App-Namen und Gewichtung als Zahl ist.
+`all_detections`:: ist eine Liste der gesamten Detektionen.
+Darin besteht jedes Element paarweise aus der tatsächlichen Stego-App und einer Detektion.
+`stats`:: ist ein Dictionary, indem für jede Stego-App die Metriken gespeichert werden.
+
+Nach Definition der Variablen wird über alle Stego-Apps und ihrer Detektionen aus `data` iteriert.
+Die Variable `method` beinhaltet den Namen der aktuellen Stego-App und `detections` die dazugehörigen Detektionen.
+Zur Berechnung der Werte wird jeweils `all_detections` durchlaufen, wobei `m` die tatsächliche Stego-App und `d` die aktuell zu untersuchende Detektion beinhaltet.
+
+<<<
+
+Die Werte werden wie folgt berechnet:
+
+[#metriken-auswertung-berechnung-binaer]
+.Berechnung der TP, FP, FN und TN bei binärer Betrachtung zur Auswertung des Detektors
+* `true_positives` (TP): Summiere alle Gewichtungen auf, bei denen die zu untersuchende Stego-App `method` _gleich_ der tatsächlichen Stego-App `m` ist und die Gewichtung der Stego-App in `method` _größer als_  0 ist.
+* `false_positives` (FP): Summiere alle Gewichtungen auf, bei denen die zu untersuchende Stego-App `method` _ungleich_ der tatsächlichen Stego-App `m` ist und die Gewichtung der Stego-App in `method` _größer als_ 0 ist.
+* `false_negatives` (FN): Summiere alle Gewichtungen auf, bei denen die zu untersuchende Stego-App `method` _gleich_ der tatsächlichen Stego-App `m` ist und die Gewichtung der Stego-App in `method` _gleich_ 0 ist.
+* `true_negatives` (TN): Summiere alle Gewichtungen auf, bei denen die zu untersuchende Stego-App `method` _ungleich_ der tatsächlichen Stego-App `m` ist und die Gewichtung der Stego-App in `method` _gleich_ 0 ist.
+
+Analog dazu zeigt der nächste Code-Ausschnitt die Auswertung unter Einbeziehung der Gewichtung.
+
+.Code-Ausschnitt 14: Evaluierung des Detektors mit Einbeziehung der Gewichtung
+[,python]
+----
+def get_max_weight(detection):
+    max_weight = max(detection.weights.values() or [0])
+    if list(detection.weights.values()).count(max_weight) > 1:
+        return None
+    return max_weight if max_weight > 0 else None
+
+all_detections = [(m, d) for m, detections in data.items() for d in detections]
+stats = {}
+for method, detections in data.items():
+    stats[method] = {
+        'true_positives': sum(
+            m == method and d.weights.get(method, 0) == get_max_weight(d) for m, d in all_detections),
+        'false_positives': sum(
+            m != method and d.weights.get(method, 0) == get_max_weight(d) for m, d in all_detections),
+        'false_negatives': sum(
+            m == method and d.weights.get(method, 0) != get_max_weight(d) for m, d in all_detections),
+        'true_negatives': sum(
+            m != method and d.weights.get(method, 0) != get_max_weight(d) for m, d in all_detections)
+    }
+----
+
+Die <<methodik-auswertung-variablen,vordefinierten Variablen>> sind hierbei unverändert.
+Die Berechnung von TP, FP, FN und TN geht grundsätzlich genauso wie bei der <<metriken-auswertung-berechnung-binaer,binären Betrachtung>> vonstatten.
+Neu ist lediglich die Funktion `get_max_weight(...)`.
+In dieser wird die höchste Gewichtung von allen in einer Detektion bestimmt.
+Konnte keine Stego-App erkannt werden, wird `max_weight` auf 0 gesetzt.
+Kommt die höchste Gewichtung mehrfach vor oder ist die höchste Gewichtung 0, gibt die Funktion `None` zurück.
+Andernfalls wird `max_weight` zurückgegeben.
+Mithilfe von `get_max_weight(...)` wird in den Berechnungen geprüft, ob die zu untersuchende Stego-App `method` die höchste Gewichtung in der Detektion `d` erhalten hat.
+
+Die Ergebnisse dieser Auswertungen werden in <<ergebnisse-detektor-auswertung>> vorgestellt.
